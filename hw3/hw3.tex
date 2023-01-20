@@ -66,7 +66,7 @@ hist(screen, main = 'Number of Screens per US Household', xlab = 'Number of Scre
 
 I would expect the average U.S. household to have 7 screens. Most households in the data have seven screens, and the data appears more or less normally distributed. \\
 
-(3) Create a frequency table of the screen data using the table () command in R/RStudio. Paste your frequency table below. (5 points) \\
+(3) Create a frequency table of the screen data using the table () command in R/RStudio. Paste your frequency table below. (5 points)
 
 \begin{center}
 \begin{lstlisting}
@@ -78,6 +78,10 @@ screen
 \end{center}
 (4) Use your frequency table from (3) to calculate the probability, Px, for each category of the number of screen devices per U.S. household. Input your individual probabilities below. Round your probabilities to three decimal places. Note: this is something you can set up in Microsoft excel (8 points)\\
 
+Sample space $s$ is the total number of homes, or the length of the list ``screen''. Each entry $f$ is the number of screens $n$ in the home. The probability $P$ of having $n$ screens is 
+\[
+P_n = (f / s)
+\]
 \begin{center}
 \begin{lstlisting}
 > P_1 <- (1/sample_space) = 0.031
@@ -95,10 +99,7 @@ screen
 \end{lstlisting}
 \end{center}
 
-Sample space $s$ is the total number of homes, or the length of the list ``screen''. Each entry $f$ is the number of screens $n$ in the home. The probability $P$ of having $n$ screens is 
-\[
-P_n = (f / s)
-\]
+
 
 (5) Use the information from (4) to estimate the expected value, or mean, of the number of screen devices per U.S. household from the random sample of 32 households. Consider the number of screen devices in the sample as a discrete random variable. Hint: calculate xP(x) first. Round your answer to three decimal places. Is your estimated mean consistent with your visual observation from the histogram and your answer in (2)? Justify your answer (10 points)\\
 
@@ -127,7 +128,7 @@ dgeom(x, prob)
 \end{center}
 in which "x" is the number of the trials prior to the event (i.e., the x-1 from the formula from lecture), and "prob" is the probability of the event.\\
 
-As an example, consider the career free throw percentage of basketball player Stephen Curry, which is $90.8\%$. Using the geometric probability distribution, we can calculate that the probability that Stephen Curry makes his first free throw on the third free throw attempt in a game; in other words, he misses his first two attempts and makes his third attempt. Using R/RStudio, we can do this by inputting:\\
+As an example, consider the career free throw percentage of basketball player Stephen Curry, which is $90.8\%$. Using the geometric probability distribution, we can calculate that the probability that Stephen Curry makes his first free throw on the third free throw attempt in a game; in other words, he misses his first two attempts and makes his third attempt. Using R/RStudio, we can do this by inputting:
 \begin{center}
 \begin{lstlisting}
 dgeom(2, 0.908)
@@ -148,7 +149,7 @@ Pd_8 <- dgeom(7, (3/86)) = 0.027
 \end{lstlisting}
 \end{center}
 
-(6b) The probability that the first defective item is the 1st, 2nd, or 3rd item produced. (3 points)\\
+(6b) The probability that the first defective item is the 1st, 2nd, or 3rd item produced. (3 points)
 
 \begin{center}
 \begin{lstlisting}
@@ -175,11 +176,11 @@ In other words, the probability that the first 4 items are good. Sum probabiliti
 
 (6d) The probability that when inspecting a batch of 30 items, that the first defective item is found after the 3rd item is inspected. (3 points)\\
 
-In other words: What is the probability the fourth item is defective out of a batch of 30? Using the failure rate of $3/86$, we can expect 1 item to be defective from a batch of 30 $(30 * (3/86))$. The chances of this 1 defect is found after the third item is inspected is:
+What we care about is only if the first defective item is detected after the third item is inspected, batch size is irrelevant. So, what is the probability that the fourth item is defective?
 
 \begin{center}
 \begin{lstlisting}
-P_4th_defect <- dgeom(3, (1/30)) = 0.030	
+P_4th_defect <- dgeom(3, (3/86)) = 0.031
 \end{lstlisting}
 \end{center}
 
@@ -202,17 +203,53 @@ dbinom(2, size=3, prob=0.42) = 0.3069
 
 Use the dbinom () command in R/RStudio to complete the following:\\
 
-(7) Among U.S. adults, 32\% say that strawberry is their favorite flavor of ice cream. You randomly select 25 adults and ask them to name their favorite flavor of ice cream. Use this information to calculate the following. Round your answers to three decimal places.\\
+(7) Among U.S. adults, 32\% say that strawberry is their favorite flavor of ice cream. You randomly select 25 adults and ask them to name their favorite flavor of ice cream. Use this information to calculate the following. Round your answers to three decimal places.
 
+\begin{center}
+\begin{lstlisting}
+stb_fav_rate <- .32
+n <- 25
+\end{lstlisting}
+\end{center}
 
-
-(7a) Find the probability that the number of adults from the random sample who say strawberry is their favorite flavor of ice cream is exactly 8. (3 points)\\
+(7a) Find the probability that the number of adults from the random sample who say strawberry is their favorite flavor of ice cream is exactly 8. (3 points)
+\begin{center}
+\begin{lstlisting}
+freq <- 8
+dbinom(freq, n, stb_fav_rate) = 0.169
+\end{lstlisting}
+\end{center}
 
 (7b) Find the probability that the number of adults from the random sample who say strawberry is their favorite flavor of ice cream is 4 or less. (3 points)\\
 
-(7c) Find the probability that the number of adults from the random sample who say strawberry is their favorite flavor of ice cream is 5 or more. (3 points)\\
+In other words: 4 or 3 or 2 or 1. So, what is P4 + P3 + P2 + P1?
+\begin{center}
+\begin{lstlisting}
+dbinom(4, n, stb_fav_rate) + dbinom(3, n, stb_fav_rate) + dbinom(2, n, stb_fav_rate) + dbinom(1, n, stb_fav_rate) = 0.061
+\end{lstlisting}
+\end{center}
 
+(7c) Find the probability that the number of adults from the random sample who say strawberry is their favorite flavor of ice cream is 5 or more. (3 points)
+\begin{center}
+\begin{lstlisting}
+1 - dbinom(4, n, stb_fav_rate) + dbinom(3, n, stb_fav_rate) + dbinom(2, n, stb_fav_rate) + dbinom(1, n, stb_fav_rate) = 0.939
+\end{lstlisting}
+\end{center}
 (7d) From the random sample of 25 adults, what is the mean, variance, and standard deviation of the number of adults that say strawberry is their favorite flavor of ice cream? (3 points)\\
+
+When we know the probability P = 32/100 and our variables, x, take either 0 = not favorite, or 1 = favorite. 
+\[
+\mu = \Sigma x P\left( x \right); \quad Variance = \Sigma \left( x - \mu \right)^{2} P \left( x \right); \quad STD = \sqrt{Variance}
+\]
+
+\begin{center}
+\begin{lstlisting}
+mu <- sum(1 * 32/100) = 0.32
+variance <- sum(1 - mu)^2 * 0.32 = 0.147
+std <- sqrt(variance) = 0.385
+\end{lstlisting}
+\end{center}
+
 
  
 
@@ -244,19 +281,21 @@ dpois(0, lambda = 2.86) = 0.057
 \end{lstlisting}
 \end{center}
 
-(8b) What is probability that the airline company will lose 3 or fewer checked bags next Monday? (3 points)\\
+(8b) What is probability that the airline company will lose 3 or fewer checked bags next Monday? (3 points)
 \begin{center}
 \begin{lstlisting}
-dpois(0, 2.86) + dpois(2, 2.86) + dpois(2, 2.86) + dpois(3, 2.86) = 0.749
+dpois(0, 2.86) + dpois(1, 2.86) + dpois(2, 2.86) + dpois(3, 2.86) = 0.679
 \end{lstlisting}
 \end{center}
-(8c) What is probability that the airline company will lose 2 or more checked bags next Monday? (3 points)
+(8c) What is probability that the airline company will lose 2 or more checked bags next Monday? (3 points)\\
+
+In other words, at least two bags are lost.
 \begin{center}
 \begin{lstlisting}
-dpois(0, 2.86) + dpois(1, 2.86) + dpois(2, 2.86) = 0.679
+dpois(2, 2.86) = 0.234
 \end{lstlisting}
 \end{center}
-(8d) What would be an unusually high number of checked bags lost by the airline company on a given weekday? Justify your answer. (3 points)\\
+(8d) What would be an unusually high number of checked bags lost by the airline company on a given weekday? Justify your answer. (3 points)
 \begin{center}
 \begin{lstlisting}
 dpois(2,2.86) = 0.2342178
