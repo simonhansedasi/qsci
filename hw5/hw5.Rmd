@@ -1,0 +1,97 @@
+---
+title: 'QSCI 381 Lab 5 Simon Hans Edasi 02/10/2023'
+output: html_notebook
+---
+
+
+## Part 1. Chi-squared Goodness-of-Fit Test
+
+A private landowner has contracted with a logging company to harvest trees from their property. A condition of the contract is that following the harvest, the remaining trees on the property must be composed of the following percentages:
+
+ 
+
+12% big leaf maple
+
+40% Douglas-fir
+
+8% red alder
+
+28% western hemlock
+
+12% western redcedar
+
+ 
+
+Following the harvest, the private landowner claims that the logging company has violated the terms of the contract. The private landowner conducts a survey on the trees remaining after harvest; these data are in the treesoil.csv dataset under the column Tree.
+
+ 
+
+**(1a) What is Ho and Ha in a test of the claim? Is this a left-tailed, right-tailed, or two-tailed test? (6 points)**
+
+Two tail test due to the inequality of the alternative hypothesis.\
+$H_{o} \rightarrow blm = 0.12, df = 0.40, ra = 0.08, wh = 0.28, wrc = 0.12$\
+$H_{a} \rightarrow blm \neq 0.12, df \neq 0.40, ra \neq 0.08, wh \neq 0.28, wrc \neq 0.12$\
+ 
+
+**(1b) Determine how many trees of each species were observed in the survey. To do this, create a frequency table of the tree species data using the table() command. Paste in your frequency table below. (6 points)**
+
+```{r}
+tree.data <- read.csv('treesoil.csv')
+tree_table = table(tree.data$Tree)
+tree_table
+```
+
+**(1c) Use your observed frequencies for each tree species from (1b) to test Ho from (1a) using a Chi-squared goodness-of-fit test:**
+
+```{r echo = T}
+exp_freq = c(.12, .4, .08, .28, .12)
+chisq.test(tree_table, p = exp_freq)
+```
+ 
+
+**(1d) Based on your output from (1c), what is your statistical conclusion and interpretation at alpha = 0.05? (10 points)**
+
+The p-value is lower than the chosen alpha, so we reject the null hypothesis that the trees occur at the correct rates.
+
+## Part 2. Chi-squared Test of Independence
+
+In the survey, the private landowner also collected information on the type of soil in which each tree was growing; these data are in the treesoil.csv dataset under the column Soil.
+
+**(2a) What is Ho and Ha in a Chi-squared test of independence for the relationship between tree species and soil type? (4 points)**
+
+$H_{o} \rightarrow$ Tree and soil are independent of each other\
+$H_{a} \rightarrow$ Tree and soil are not independent of each other\
+
+**2b) Use R/RStudio to create a contingency table of tree species by soil type using the following command in R/RStudio:**
+
+treesoiltab <- table(tree.data) 
+
+Paste your table below. (6 points)
+```{r}
+treesoiltab <- table(tree.data) 
+treesoiltab
+
+```
+ 
+
+**(2c) Create a mosaic plot in R/RStudio from your contingency table using mosaicplot(). Add an appropriate title, and appropriate labels for the x-axis and y-axis. Use different colors in your plot using col = c(“color1”, “color2”…); you will need a different color for each soil type from the data in the contingency table. Recall that contingency tables are described as r x c; for example, a 2 x 3 contingency table has 2 rows and 3 columns. Paste your mosaic plot below. (15 points)**
+
+```{r}
+mosaicplot(treesoiltab, title <- 'Trees / Soil Mosaic', col = c('red', 'orange', 'green', 'blue'))
+```
+
+
+**(2d) Based on the mosaic plot from (2c), do you think there is an association between tree species and soil type? Justify your answer. (6 points)**
+
+Not really, nothing jumps out immediately. There are no clear indication that any tree does better in one soil than another, or any trade-off between trees and soils. More importantly, trees do not seem to have a favorite soil.
+
+**(2e) Conduct a Chi-squared test of independence to test your hypotheses in (2a). Paste your code and output below. (6 points)**
+
+```{r}
+chisq.test(treesoiltab)
+```
+
+
+**(2f) Based on your output from (2e), what is your statistical conclusion and interpretation at alpha = 0.05? (10 points)**
+
+The test statistic is greater than 0.05 so we can not reject the null hypothesis that the trees and soil are independent. 
