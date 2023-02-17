@@ -1,0 +1,147 @@
+---
+title: "QSCI 381 Lab 6 Simon Hans Edasi 2/17/2023"
+output: html_notebook
+---
+
+$\textbf{Part 1: One sample t-tests}$
+
+In this part of Lab 6, we will use one of the datasets already available in R/RStudio. One of these datasets is called "precip," and it contains the average amount of rainfall, in inches, for 70 cities from the U.S. and Puerto Rico. Assume the data in precip are normally distributed.
+
+Load the dataset by entering the following command:
+
+```{r}
+data(precip)
+```
+
+To see the data contained in precip, enter:
+
+```{r}
+precip
+```
+
+Recall you can learn even more about this dataset (or any preloaded dataset in R/RStudio) by entering a question mark before the name of the dataset in R/RStudio:
+
+```{r}
+?precip
+```
+
+After loading in the precip dataset, you are now ready to complete Part 1 of the lab.
+
+ 
+
+$\textbf{(1a)}$ In the continental U.S., the mean annual rainfall is 30.2 inches. Consider the following claim: Annual rainfall from the 70 cities in the precip dataset is at least 30.2 inches. Construct null and alternative hypotheses given this claim, and state whether this is a right, left, or two-tailed test. (3 points)
+
+$H_{o} \rightarrow$  annual rainfall >= 30.2 in\
+$H_{a} \rightarrow$  annual rainfall < 30.2 in
+
+The alternative contains a less than sign, so this is a left-tailed test.
+
+$\textbf{(1b)}$ Test your hypothesis from (1a) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
+
+```{r}
+t.test(precip, mu = 30.2, alternative = c('less'))
+```
+
+$\textbf{(1c)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)\
+
+The p-value is greater than our alpha, so we fail to reject the null hypothesis that mean annual rainfall is greater than 30.2 in.
+
+$\textbf{(1d)}$ Now, consider this claim: Annual rainfall from the 70 cities in the precip dataset is greater than 30.2 inches. Construct null and alternative hypotheses given this claim, and state whether this is a right, left, or two-tailed test. (3 points)
+
+$H_{a} \rightarrow$  annual rainfall > 30.2 in\
+$H_{o} \rightarrow$  annual rainfall <= 30.2 in
+
+In this claim, the alternative contains a greater sign making this a right-tail test.
+
+$\textbf{(1e)}$ Test your hypothesis from (1d) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
+
+```{r}
+t.test(precip, mu = 30.2, alternative = c('greater'))
+```
+
+$\textbf{(1f)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)
+Our p-value is less than alpha, so we reject the null hypothesis that annual rainfall is at most 30.2 in.
+ 
+
+$\textbf{Part 2. Paired t-tests}$
+A sleep disorder specialist claims that herbal medicines will increase the number of hours of REM sleep per night. The specialist randomly selects 23 patients, and records the number of hours of REM sleep per night before and after taking the herbal medicines. Below are the data, ordered by patient. Assume the data are normally distributed.
+
+Hours of REM sleep before taking the herbal medicines:
+
+```{r}
+pre <- c(3.7, 3.5, 3.5, 4.3, 4.5, 3.3, 3.9, 3.6, 5.6, 3.5, 3.9, 4.6, 3.0, 3.9, 4.1, 5.3, 3.5, 3.0, 4.4, 5.2, 4.1, 2.9, 2.3)
+```
+Hours of REM sleep after taking the herbal medicines:
+
+```{r}
+post <- c(4.2, 4.3, 3.5, 4.1, 3.2, 4.7, 4.3, 4.4, 4.7, 4.8, 4.4, 5.5, 4.7, 3.5, 4.7, 4.5, 3.2, 3.8, 2.4, 4.2, 4.3, 5.0, 5.1)
+```
+$\textbf{(2a)}$ Write the null and alternative hypotheses given the claim and with respect to D-bar and when considering pre-post. State whether this is a right-, left-, or two-tailed test. (3 points)
+
+$H_{a} \rightarrow$ $\bar{d}$  > 0 hrs change\
+$H_{o} \rightarrow$ $\bar{d}$  <= 0 hrs change\
+The alternative contains a greater than symbol making this a right-tailed test.
+
+$\textbf{(2b)}$ Test your hypothesis from (2a) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
+
+```{r}
+t.test(pre, post, alternative = c('greater'))
+```
+
+$\textbf{(2c)}$ When using alpha = 0.1 and 0.05, what are the statistical decisions and interpretations? (12 points)\
+
+The p-value is greater than both $\alpha$ = 0.1 and $\alpha$ = 0.05, so in both instances we fail to reject the null hypothesis that herbal supplements do nothing.
+
+ 
+
+$\textbf{Part 3. Two-sample t-tests}$
+
+ A research group is investigating phytoremediation, which involves the use of plants to clean-up pollutants from the environment. Some species of plants have an ability to tolerate and accumulate heavy metals in their tissues, which consequently removes the pollutants from the environment. One toxin of major concern is arsenic due it is toxicity at very low concentrations and the fact that it does not biodegrade.
+
+This research group claims that a newly developed variety of willow accumulates higher levels of arsenic (measured as mg of arsenic per kg of plant dry weight) than a local species of poplar that is currently used in phytoremediation efforts. The research group conducts an experiment using 21 randomly selected trees from each species that are growing in arsenic contaminated soils. At the end of the experiment, the amount of arsenic (mg/kg) in each tree was measured. Below are the data; assume the data are normally distributed.
+
+Measurements taken from the willow trees:
+
+```{r}
+willow <- c(56.20, 55.89, 53.32, 54.57, 55.50, 56.11, 54.88, 56.62, 54.35, 56.71, 53.00, 54.39, 57.75, 53.84, 58.34, 55.77, 53.76, 56.54, 54.99, 53.15, 53.67)
+```
+
+Measurements taken from the poplar trees:
+```{r}
+poplar <- c(54.60, 54.53, 54.93, 54.61, 54.43, 56.03, 53.90, 54.48, 54.38, 54.40, 56.04, 56.17, 55.22, 53.51, 53.94, 53.18, 55.09, 54.29, 56.05, 54.51, 55.31)
+```
+
+ 
+
+$\textbf{(3a)}$ Write the null and alternative hypotheses for a test of variance equality between willow and poplar, and state whether this is a right-, left-, or two-tailed test. (3 points)
+
+$H_{a} \rightarrow$ var(willow) $\neq$ var(poplar)\
+$H_{o} \rightarrow$ var(willow) = var(poplar)\
+Due to the inequality of the alt hypothesis, this is a two-tailed test.
+
+
+$\textbf{(3b)}$ Use R/RStudio to find the variance of the levels of arsenic accumulated in the willow and poplar trees. (2 points)
+
+```{r}
+wil_var <- var(willow)
+pop_var <- var(poplar)
+```
+
+$\textbf{(3c)}$ Conduct a test of variance equality using var.test() in R/RStudio. Paste your code and output below. (4 points)
+
+```{r}
+var.test(willow, poplar, alternative=c('two.sided'))
+```
+
+$\textbf{(3d)}$ Using alpha = 0.05, state the statistical decision and interpretation for the test of variance equality? (4 points)
+
+With $\alpha$ = 0.05, we reject the null hypothesis that the variances are equal.
+
+$\textbf{(3e)}$ Given your results in (3c) and (3d), conduct the appropriate two-sample t-test to test the claim from the research group that a newly developed variety of willow accumulates higher levels of arsenic than a local species of poplar that is currently used in phytoremediation efforts. Paste your code and output below (5 points)
+```{r}
+t.test(poplar, willow, alternative = c('two.sided'), var.equal = FALSE)
+```
+
+$\textbf{(3f)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)
+
+ With $\alpha$ = 0.05 we fail to reject the null that the newly developed variety of willow trees accumulate higher levels of arsenic.
