@@ -1763,446 +1763,307 @@ distributed.</p>
 <p>Load the dataset by entering the following command:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGF0YShwcmVjaXApXG5gYGBcbmBgYCJ9 -->
-<pre class="r"><code>```r
-data(precip)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YShwcmVjaXApXG5gYGAifQ== -->
+<pre class="r"><code>data(precip)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To see the data contained in precip, enter:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJlY2lwXG5gYGAifQ== -->
+<pre class="r"><code>precip</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgIE1vYmlsZSAgICAgICAgICAgICAgSnVuZWF1ICAgICAgICAgICAgIFBob2VuaXggICAgICAgICBMaXR0bGUgUm9jayAgICAgICAgIExvcyBBbmdlbGVzIFxuICAgICAgICAgICAgICAgNjcuMCAgICAgICAgICAgICAgICA1NC43ICAgICAgICAgICAgICAgICA3LjAgICAgICAgICAgICAgICAgNDguNSAgICAgICAgICAgICAgICAxNC4wIFxuICAgICAgICAgU2FjcmFtZW50byAgICAgICBTYW4gRnJhbmNpc2NvICAgICAgICAgICAgICBEZW52ZXIgICAgICAgICAgICBIYXJ0Zm9yZCAgICAgICAgICBXaWxtaW5ndG9uIFxuICAgICAgICAgICAgICAgMTcuMiAgICAgICAgICAgICAgICAyMC43ICAgICAgICAgICAgICAgIDEzLjAgICAgICAgICAgICAgICAgNDMuNCAgICAgICAgICAgICAgICA0MC4yIFxuICAgICAgICAgV2FzaGluZ3RvbiAgICAgICAgSmFja3NvbnZpbGxlICAgICAgICAgICAgICAgTWlhbWkgICAgICAgICAgICAgQXRsYW50YSAgICAgICAgICAgIEhvbm9sdWx1IFxuICAgICAgICAgICAgICAgMzguOSAgICAgICAgICAgICAgICA1NC41ICAgICAgICAgICAgICAgIDU5LjggICAgICAgICAgICAgICAgNDguMyAgICAgICAgICAgICAgICAyMi45IFxuICAgICAgICAgICAgICBCb2lzZSAgICAgICAgICAgICBDaGljYWdvICAgICAgICAgICAgICBQZW9yaWEgICAgICAgIEluZGlhbmFwb2xpcyAgICAgICAgICBEZXMgTW9pbmVzIFxuICAgICAgICAgICAgICAgMTEuNSAgICAgICAgICAgICAgICAzNC40ICAgICAgICAgICAgICAgIDM1LjEgICAgICAgICAgICAgICAgMzguNyAgICAgICAgICAgICAgICAzMC44IFxuICAgICAgICAgICAgV2ljaGl0YSAgICAgICAgICBMb3Vpc3ZpbGxlICAgICAgICAgTmV3IE9ybGVhbnMgICAgICAgICAgICBQb3J0bGFuZCAgICAgICAgICAgQmFsdGltb3JlIFxuICAgICAgICAgICAgICAgMzAuNiAgICAgICAgICAgICAgICA0My4xICAgICAgICAgICAgICAgIDU2LjggICAgICAgICAgICAgICAgNDAuOCAgICAgICAgICAgICAgICA0MS44IFxuICAgICAgICAgICAgIEJvc3RvbiAgICAgICAgICAgICBEZXRyb2l0ICAgIFNhdWx0IFN0ZS4gTWFyaWUgICAgICAgICAgICAgIER1bHV0aCBNaW5uZWFwb2xpcy9TdCBQYXVsIFxuICAgICAgICAgICAgICAgNDIuNSAgICAgICAgICAgICAgICAzMS4wICAgICAgICAgICAgICAgIDMxLjcgICAgICAgICAgICAgICAgMzAuMiAgICAgICAgICAgICAgICAyNS45IFxuICAgICAgICAgICAgSmFja3NvbiAgICAgICAgIEthbnNhcyBDaXR5ICAgICAgICAgICAgU3QgTG91aXMgICAgICAgICBHcmVhdCBGYWxscyAgICAgICAgICAgICAgIE9tYWhhIFxuICAgICAgICAgICAgICAgNDkuMiAgICAgICAgICAgICAgICAzNy4wICAgICAgICAgICAgICAgIDM1LjkgICAgICAgICAgICAgICAgMTUuMCAgICAgICAgICAgICAgICAzMC4yIFxuICAgICAgICAgICAgICAgUmVubyAgICAgICAgICAgICBDb25jb3JkICAgICAgIEF0bGFudGljIENpdHkgICAgICAgICBBbGJ1cXVlcnF1ZSAgICAgICAgICAgICAgQWxiYW55IFxuICAgICAgICAgICAgICAgIDcuMiAgICAgICAgICAgICAgICAzNi4yICAgICAgICAgICAgICAgIDQ1LjUgICAgICAgICAgICAgICAgIDcuOCAgICAgICAgICAgICAgICAzMy40IFxuICAgICAgICAgICAgQnVmZmFsbyAgICAgICAgICAgIE5ldyBZb3JrICAgICAgICAgICBDaGFybG90dGUgICAgICAgICAgICAgUmFsZWlnaCAgICAgICAgICAgICBCaXNtYXJrIFxuICAgICAgICAgICAgICAgMzYuMSAgICAgICAgICAgICAgICA0MC4yICAgICAgICAgICAgICAgIDQyLjcgICAgICAgICAgICAgICAgNDIuNSAgICAgICAgICAgICAgICAxNi4yIFxuICAgICAgICAgQ2luY2lubmF0aSAgICAgICAgICAgQ2xldmVsYW5kICAgICAgICAgICAgQ29sdW1idXMgICAgICAgT2tsYWhvbWEgQ2l0eSAgICAgICAgICAgIFBvcnRsYW5kIFxuICAgICAgICAgICAgICAgMzkuMCAgICAgICAgICAgICAgICAzNS4wICAgICAgICAgICAgICAgIDM3LjAgICAgICAgICAgICAgICAgMzEuNCAgICAgICAgICAgICAgICAzNy42IFxuICAgICAgIFBoaWxhZGVscGhpYSAgICAgICAgICAgUGl0dHNidXJnICAgICAgICAgIFByb3ZpZGVuY2UgICAgICAgICAgICBDb2x1bWJpYSAgICAgICAgIFNpb3V4IEZhbGxzIFxuICAgICAgICAgICAgICAgMzkuOSAgICAgICAgICAgICAgICAzNi4yICAgICAgICAgICAgICAgIDQyLjggICAgICAgICAgICAgICAgNDYuNCAgICAgICAgICAgICAgICAyNC43IFxuICAgICAgICAgICAgTWVtcGhpcyAgICAgICAgICAgTmFzaHZpbGxlICAgICAgICAgICAgICBEYWxsYXMgICAgICAgICAgICAgRWwgUGFzbyAgICAgICAgICAgICBIb3VzdG9uIFxuICAgICAgICAgICAgICAgNDkuMSAgICAgICAgICAgICAgICA0Ni4wICAgICAgICAgICAgICAgIDM1LjkgICAgICAgICAgICAgICAgIDcuOCAgICAgICAgICAgICAgICA0OC4yIFxuICAgICBTYWx0IExha2UgQ2l0eSAgICAgICAgICBCdXJsaW5ndG9uICAgICAgICAgICAgIE5vcmZvbGsgICAgICAgICAgICBSaWNobW9uZCAgICAgIFNlYXR0bGUgVGFjb21hIFxuICAgICAgICAgICAgICAgMTUuMiAgICAgICAgICAgICAgICAzMi41ICAgICAgICAgICAgICAgIDQ0LjcgICAgICAgICAgICAgICAgNDIuNiAgICAgICAgICAgICAgICAzOC44IFxuICAgICAgICAgICAgU3Bva2FuZSAgICAgICAgICBDaGFybGVzdG9uICAgICAgICAgICBNaWx3YXVrZWUgICAgICAgICAgICBDaGV5ZW5uZSAgICAgICAgICAgIFNhbiBKdWFuIFxuICAgICAgICAgICAgICAgMTcuNCAgICAgICAgICAgICAgICA0MC44ICAgICAgICAgICAgICAgIDI5LjEgICAgICAgICAgICAgICAgMTQuNiAgICAgICAgICAgICAgICA1OS4yIFxuIn0= -->
+<pre><code>             Mobile              Juneau             Phoenix         Little Rock         Los Angeles 
+               67.0                54.7                 7.0                48.5                14.0 
+         Sacramento       San Francisco              Denver            Hartford          Wilmington 
+               17.2                20.7                13.0                43.4                40.2 
+         Washington        Jacksonville               Miami             Atlanta            Honolulu 
+               38.9                54.5                59.8                48.3                22.9 
+              Boise             Chicago              Peoria        Indianapolis          Des Moines 
+               11.5                34.4                35.1                38.7                30.8 
+            Wichita          Louisville         New Orleans            Portland           Baltimore 
+               30.6                43.1                56.8                40.8                41.8 
+             Boston             Detroit    Sault Ste. Marie              Duluth Minneapolis/St Paul 
+               42.5                31.0                31.7                30.2                25.9 
+            Jackson         Kansas City            St Louis         Great Falls               Omaha 
+               49.2                37.0                35.9                15.0                30.2 
+               Reno             Concord       Atlantic City         Albuquerque              Albany 
+                7.2                36.2                45.5                 7.8                33.4 
+            Buffalo            New York           Charlotte             Raleigh             Bismark 
+               36.1                40.2                42.7                42.5                16.2 
+         Cincinnati           Cleveland            Columbus       Oklahoma City            Portland 
+               39.0                35.0                37.0                31.4                37.6 
+       Philadelphia           Pittsburg          Providence            Columbia         Sioux Falls 
+               39.9                36.2                42.8                46.4                24.7 
+            Memphis           Nashville              Dallas             El Paso             Houston 
+               49.1                46.0                35.9                 7.8                48.2 
+     Salt Lake City          Burlington             Norfolk            Richmond      Seattle Tacoma 
+               15.2                32.5                44.7                42.6                38.8 
+            Spokane          Charleston           Milwaukee            Cheyenne            San Juan 
+               17.4                40.8                29.1                14.6                59.2 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Recall you can learn even more about this dataset (or any preloaded
+dataset in R/RStudio) by entering a question mark before the name of the
+dataset in R/RStudio:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuP3ByZWNpcFxuYGBgIn0= -->
+<pre class="r"><code>?precip</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>After loading in the precip dataset, you are now ready to complete
+Part 1 of the lab.</p>
+<p><span class="math inline">\(\textbf{(1a)}\)</span> In the continental
+U.S., the mean annual rainfall is 30.2 inches. Consider the following
+claim: Annual rainfall from the 70 cities in the precip dataset is at
+least 30.2 inches. Construct null and alternative hypotheses given this
+claim, and state whether this is a right, left, or two-tailed test. (3
+points)</p>
+<p><span class="math inline">\(H_{o} \rightarrow\)</span> annual
+rainfall &gt;= 30.2 in<br />
+<span class="math inline">\(H_{a} \rightarrow\)</span> annual rainfall
+&lt; 30.2 in</p>
+<p>The alternative contains a less than sign, so this is a left-tailed
+test.</p>
+<p><span class="math inline">\(\textbf{(1b)}\)</span> Test your
+hypothesis from (1a) using the t.test function in R/Studio. Paste your
+t.test code and output below. (4 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHByZWNpcCwgbXUgPSAzMC4yLCBhbHRlcm5hdGl2ZSA9IGMoJ2xlc3MnKSlcbmBgYCJ9 -->
+<pre class="r"><code>t.test(precip, mu = 30.2, alternative = c(&#39;less&#39;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmVjaXBcbnQgPSAyLjg2MDIsIGRmID0gNjksIHAtdmFsdWUgPSAwLjk5NzJcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBsZXNzIHRoYW4gMzAuMlxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuICAgICAtSW5mIDM3LjYxNzA4XG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IFxuIDM0Ljg4NTcxIFxuIn0= -->
 <pre><code>
-&lt;!-- rnb-source-end --&gt;
+    One Sample t-test
 
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-To see the data contained in precip, enter:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJlY2lwXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-precip</code></pre>
+data:  precip
+t = 2.8602, df = 69, p-value = 0.9972
+alternative hypothesis: true mean is less than 30.2
+95 percent confidence interval:
+     -Inf 37.61708
+sample estimates:
+mean of x 
+ 34.88571 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(1c)}\)</span> When using alpha =
+0.05, what is the statistical decision and interpretation? (8
+points)<br />
+</p>
+<p>The p-value is greater than our alpha, so we fail to reject the null
+hypothesis that mean annual rainfall is greater than 30.2 in.</p>
+<p><span class="math inline">\(\textbf{(1d)}\)</span> Now, consider this
+claim: Annual rainfall from the 70 cities in the precip dataset is
+greater than 30.2 inches. Construct null and alternative hypotheses
+given this claim, and state whether this is a right, left, or two-tailed
+test. (3 points)</p>
+<p><span class="math inline">\(H_{a} \rightarrow\)</span> annual
+rainfall &gt; 30.2 in<br />
+<span class="math inline">\(H_{o} \rightarrow\)</span> annual rainfall
+&lt;= 30.2 in</p>
+<p>In this claim, the alternative contains a greater sign making this a
+right-tail test.</p>
+<p><span class="math inline">\(\textbf{(1e)}\)</span> Test your
+hypothesis from (1d) using the t.test function in R/Studio. Paste your
+t.test code and output below. (4 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHByZWNpcCwgbXUgPSAzMC4yLCBhbHRlcm5hdGl2ZSA9IGMoJ2dyZWF0ZXInKSlcbmBgYCJ9 -->
+<pre class="r"><code>t.test(precip, mu = 30.2, alternative = c(&#39;greater&#39;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmVjaXBcbnQgPSAyLjg2MDIsIGRmID0gNjksIHAtdmFsdWUgPSAwLjAwMjc5OVxuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBtZWFuIGlzIGdyZWF0ZXIgdGhhbiAzMC4yXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMzIuMTU0MzUgICAgICBJbmZcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggXG4gMzQuODg1NzEgXG4ifQ== -->
 <pre><code>
-&lt;!-- rnb-source-end --&gt;
+    One Sample t-test
 
-&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgIE1vYmlsZSAgICAgICAgICAgICAgSnVuZWF1ICAgICAgICAgICAgIFBob2VuaXggICAgICAgICBMaXR0bGUgUm9jayAgICAgICAgIExvcyBBbmdlbGVzIFxuICAgICAgICAgICAgICAgNjcuMCAgICAgICAgICAgICAgICA1NC43ICAgICAgICAgICAgICAgICA3LjAgICAgICAgICAgICAgICAgNDguNSAgICAgICAgICAgICAgICAxNC4wIFxuICAgICAgICAgU2FjcmFtZW50byAgICAgICBTYW4gRnJhbmNpc2NvICAgICAgICAgICAgICBEZW52ZXIgICAgICAgICAgICBIYXJ0Zm9yZCAgICAgICAgICBXaWxtaW5ndG9uIFxuICAgICAgICAgICAgICAgMTcuMiAgICAgICAgICAgICAgICAyMC43ICAgICAgICAgICAgICAgIDEzLjAgICAgICAgICAgICAgICAgNDMuNCAgICAgICAgICAgICAgICA0MC4yIFxuICAgICAgICAgV2FzaGluZ3RvbiAgICAgICAgSmFja3NvbnZpbGxlICAgICAgICAgICAgICAgTWlhbWkgICAgICAgICAgICAgQXRsYW50YSAgICAgICAgICAgIEhvbm9sdWx1IFxuICAgICAgICAgICAgICAgMzguOSAgICAgICAgICAgICAgICA1NC41ICAgICAgICAgICAgICAgIDU5LjggICAgICAgICAgICAgICAgNDguMyAgICAgICAgICAgICAgICAyMi45IFxuICAgICAgICAgICAgICBCb2lzZSAgICAgICAgICAgICBDaGljYWdvICAgICAgICAgICAgICBQZW9yaWEgICAgICAgIEluZGlhbmFwb2xpcyAgICAgICAgICBEZXMgTW9pbmVzIFxuICAgICAgICAgICAgICAgMTEuNSAgICAgICAgICAgICAgICAzNC40ICAgICAgICAgICAgICAgIDM1LjEgICAgICAgICAgICAgICAgMzguNyAgICAgICAgICAgICAgICAzMC44IFxuICAgICAgICAgICAgV2ljaGl0YSAgICAgICAgICBMb3Vpc3ZpbGxlICAgICAgICAgTmV3IE9ybGVhbnMgICAgICAgICAgICBQb3J0bGFuZCAgICAgICAgICAgQmFsdGltb3JlIFxuICAgICAgICAgICAgICAgMzAuNiAgICAgICAgICAgICAgICA0My4xICAgICAgICAgICAgICAgIDU2LjggICAgICAgICAgICAgICAgNDAuOCAgICAgICAgICAgICAgICA0MS44IFxuICAgICAgICAgICAgIEJvc3RvbiAgICAgICAgICAgICBEZXRyb2l0ICAgIFNhdWx0IFN0ZS4gTWFyaWUgICAgICAgICAgICAgIER1bHV0aCBNaW5uZWFwb2xpcy9TdCBQYXVsIFxuICAgICAgICAgICAgICAgNDIuNSAgICAgICAgICAgICAgICAzMS4wICAgICAgICAgICAgICAgIDMxLjcgICAgICAgICAgICAgICAgMzAuMiAgICAgICAgICAgICAgICAyNS45IFxuICAgICAgICAgICAgSmFja3NvbiAgICAgICAgIEthbnNhcyBDaXR5ICAgICAgICAgICAgU3QgTG91aXMgICAgICAgICBHcmVhdCBGYWxscyAgICAgICAgICAgICAgIE9tYWhhIFxuICAgICAgICAgICAgICAgNDkuMiAgICAgICAgICAgICAgICAzNy4wICAgICAgICAgICAgICAgIDM1LjkgICAgICAgICAgICAgICAgMTUuMCAgICAgICAgICAgICAgICAzMC4yIFxuICAgICAgICAgICAgICAgUmVubyAgICAgICAgICAgICBDb25jb3JkICAgICAgIEF0bGFudGljIENpdHkgICAgICAgICBBbGJ1cXVlcnF1ZSAgICAgICAgICAgICAgQWxiYW55IFxuICAgICAgICAgICAgICAgIDcuMiAgICAgICAgICAgICAgICAzNi4yICAgICAgICAgICAgICAgIDQ1LjUgICAgICAgICAgICAgICAgIDcuOCAgICAgICAgICAgICAgICAzMy40IFxuICAgICAgICAgICAgQnVmZmFsbyAgICAgICAgICAgIE5ldyBZb3JrICAgICAgICAgICBDaGFybG90dGUgICAgICAgICAgICAgUmFsZWlnaCAgICAgICAgICAgICBCaXNtYXJrIFxuICAgICAgICAgICAgICAgMzYuMSAgICAgICAgICAgICAgICA0MC4yICAgICAgICAgICAgICAgIDQyLjcgICAgICAgICAgICAgICAgNDIuNSAgICAgICAgICAgICAgICAxNi4yIFxuICAgICAgICAgQ2luY2lubmF0aSAgICAgICAgICAgQ2xldmVsYW5kICAgICAgICAgICAgQ29sdW1idXMgICAgICAgT2tsYWhvbWEgQ2l0eSAgICAgICAgICAgIFBvcnRsYW5kIFxuICAgICAgICAgICAgICAgMzkuMCAgICAgICAgICAgICAgICAzNS4wICAgICAgICAgICAgICAgIDM3LjAgICAgICAgICAgICAgICAgMzEuNCAgICAgICAgICAgICAgICAzNy42IFxuICAgICAgIFBoaWxhZGVscGhpYSAgICAgICAgICAgUGl0dHNidXJnICAgICAgICAgIFByb3ZpZGVuY2UgICAgICAgICAgICBDb2x1bWJpYSAgICAgICAgIFNpb3V4IEZhbGxzIFxuICAgICAgICAgICAgICAgMzkuOSAgICAgICAgICAgICAgICAzNi4yICAgICAgICAgICAgICAgIDQyLjggICAgICAgICAgICAgICAgNDYuNCAgICAgICAgICAgICAgICAyNC43IFxuICAgICAgICAgICAgTWVtcGhpcyAgICAgICAgICAgTmFzaHZpbGxlICAgICAgICAgICAgICBEYWxsYXMgICAgICAgICAgICAgRWwgUGFzbyAgICAgICAgICAgICBIb3VzdG9uIFxuICAgICAgICAgICAgICAgNDkuMSAgICAgICAgICAgICAgICA0Ni4wICAgICAgICAgICAgICAgIDM1LjkgICAgICAgICAgICAgICAgIDcuOCAgICAgICAgICAgICAgICA0OC4yIFxuICAgICBTYWx0IExha2UgQ2l0eSAgICAgICAgICBCdXJsaW5ndG9uICAgICAgICAgICAgIE5vcmZvbGsgICAgICAgICAgICBSaWNobW9uZCAgICAgIFNlYXR0bGUgVGFjb21hIFxuICAgICAgICAgICAgICAgMTUuMiAgICAgICAgICAgICAgICAzMi41ICAgICAgICAgICAgICAgIDQ0LjcgICAgICAgICAgICAgICAgNDIuNiAgICAgICAgICAgICAgICAzOC44IFxuICAgICAgICAgICAgU3Bva2FuZSAgICAgICAgICBDaGFybGVzdG9uICAgICAgICAgICBNaWx3YXVrZWUgICAgICAgICAgICBDaGV5ZW5uZSAgICAgICAgICAgIFNhbiBKdWFuIFxuICAgICAgICAgICAgICAgMTcuNCAgICAgICAgICAgICAgICA0MC44ICAgICAgICAgICAgICAgIDI5LjEgICAgICAgICAgICAgICAgMTQuNiAgICAgICAgICAgICAgICA1OS4yIFxuIn0= --&gt;
-</code></pre>
-<pre><code>         Mobile              Juneau             Phoenix         Little Rock         Los Angeles 
-           67.0                54.7                 7.0                48.5                14.0 
-     Sacramento       San Francisco              Denver            Hartford          Wilmington 
-           17.2                20.7                13.0                43.4                40.2 
-     Washington        Jacksonville               Miami             Atlanta            Honolulu 
-           38.9                54.5                59.8                48.3                22.9 
-          Boise             Chicago              Peoria        Indianapolis          Des Moines 
-           11.5                34.4                35.1                38.7                30.8 
-        Wichita          Louisville         New Orleans            Portland           Baltimore 
-           30.6                43.1                56.8                40.8                41.8 
-         Boston             Detroit    Sault Ste. Marie              Duluth Minneapolis/St Paul 
-           42.5                31.0                31.7                30.2                25.9 
-        Jackson         Kansas City            St Louis         Great Falls               Omaha 
-           49.2                37.0                35.9                15.0                30.2 
-           Reno             Concord       Atlantic City         Albuquerque              Albany 
-            7.2                36.2                45.5                 7.8                33.4 
-        Buffalo            New York           Charlotte             Raleigh             Bismark 
-           36.1                40.2                42.7                42.5                16.2 
-     Cincinnati           Cleveland            Columbus       Oklahoma City            Portland 
-           39.0                35.0                37.0                31.4                37.6 
-   Philadelphia           Pittsburg          Providence            Columbia         Sioux Falls 
-           39.9                36.2                42.8                46.4                24.7 
-        Memphis           Nashville              Dallas             El Paso             Houston 
-           49.1                46.0                35.9                 7.8                48.2 
- Salt Lake City          Burlington             Norfolk            Richmond      Seattle Tacoma 
-           15.2                32.5                44.7                42.6                38.8 
-        Spokane          Charleston           Milwaukee            Cheyenne            San Juan 
-           17.4                40.8                29.1                14.6                59.2 </code></pre>
+data:  precip
+t = 2.8602, df = 69, p-value = 0.002799
+alternative hypothesis: true mean is greater than 30.2
+95 percent confidence interval:
+ 32.15435      Inf
+sample estimates:
+mean of x 
+ 34.88571 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(1f)}\)</span> When using alpha =
+0.05, what is the statistical decision and interpretation? (8
+points)<br />
+</p>
+<p>Our p-value is less than alpha, so we reject the null hypothesis that
+annual rainfall is at most 30.2 in.</p>
+<p><span class="math inline">\(\textbf{Part 2. Paired t-tests}\)</span>
+A sleep disorder specialist claims that herbal medicines will increase
+the number of hours of REM sleep per night. The specialist randomly
+selects 23 patients, and records the number of hours of REM sleep per
+night before and after taking the herbal medicines. Below are the data,
+ordered by patient. Assume the data are normally distributed.</p>
+<p>Hours of REM sleep before taking the herbal medicines:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJlIDwtIGMoMy43LCAzLjUsIDMuNSwgNC4zLCA0LjUsIDMuMywgMy45LCAzLjYsIDUuNiwgMy41LCAzLjksIDQuNiwgMy4wLCAzLjksIDQuMSwgNS4zLCAzLjUsIDMuMCwgNC40LCA1LjIsIDQuMSwgMi45LCAyLjMpXG5gYGAifQ== -->
+<pre class="r"><code>pre &lt;- c(3.7, 3.5, 3.5, 4.3, 4.5, 3.3, 3.9, 3.6, 5.6, 3.5, 3.9, 4.6, 3.0, 3.9, 4.1, 5.3, 3.5, 3.0, 4.4, 5.2, 4.1, 2.9, 2.3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Hours of REM sleep after taking the herbal medicines:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucG9zdCA8LSBjKDQuMiwgNC4zLCAzLjUsIDQuMSwgMy4yLCA0LjcsIDQuMywgNC40LCA0LjcsIDQuOCwgNC40LCA1LjUsIDQuNywgMy41LCA0LjcsIDQuNSwgMy4yLCAzLjgsIDIuNCwgNC4yLCA0LjMsIDUuMCwgNS4xKVxuYGBgIn0= -->
+<pre class="r"><code>post &lt;- c(4.2, 4.3, 3.5, 4.1, 3.2, 4.7, 4.3, 4.4, 4.7, 4.8, 4.4, 5.5, 4.7, 3.5, 4.7, 4.5, 3.2, 3.8, 2.4, 4.2, 4.3, 5.0, 5.1)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(2a)}\)</span> Write the null and
+alternative hypotheses given the claim and with respect to D-bar and
+when considering pre-post. State whether this is a right-, left-, or
+two-tailed test. (3 points)</p>
+<p><span class="math inline">\(H_{a} \rightarrow\)</span> <span class="math inline">\(\bar{d}\)</span> &gt; 0 hrs change<br />
+<span class="math inline">\(H_{o} \rightarrow\)</span> <span class="math inline">\(\bar{d}\)</span> &lt;= 0 hrs change<br />
+The alternative contains a greater than symbol making this a
+right-tailed test.</p>
+<p><span class="math inline">\(\textbf{(2b)}\)</span> Test your
+hypothesis from (2a) using the t.test function in R/Studio. Paste your
+t.test code and output below. (4 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHByZSwgcG9zdCwgYWx0ZXJuYXRpdmUgPSBjKCdncmVhdGVyJykpXG5gYGAifQ== -->
+<pre class="r"><code>t.test(pre, post, alternative = c(&#39;greater&#39;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmUgYW5kIHBvc3RcbnQgPSAtMS41Mzc4LCBkZiA9IDQzLjMzMiwgcC12YWx1ZSA9IDAuOTM0M1xuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBkaWZmZXJlbmNlIGluIG1lYW5zIGlzIGdyZWF0ZXIgdGhhbiAwXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gLTAuNzE4OTAwMSAgICAgICAgSW5mXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IG1lYW4gb2YgeSBcbiAzLjg5NTY1MiAgNC4yMzkxMzAgXG4ifQ== -->
 <pre><code>
+    Welch Two Sample t-test
 
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Recall you can learn even more about this dataset (or any preloaded dataset in R/RStudio) by entering a question mark before the name of the dataset in R/RStudio:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuP3ByZWNpcFxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-?precip</code></pre>
+data:  pre and post
+t = -1.5378, df = 43.332, p-value = 0.9343
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+ -0.7189001        Inf
+sample estimates:
+mean of x mean of y 
+ 3.895652  4.239130 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(2c)}\)</span> When using alpha =
+0.1 and 0.05, what are the statistical decisions and interpretations?
+(12 points)<br />
+</p>
+<p>The p-value is greater than both <span class="math inline">\(\alpha\)</span> = 0.1 and <span class="math inline">\(\alpha\)</span> = 0.05, so in both instances we
+fail to reject the null hypothesis that herbal supplements do
+nothing.</p>
+<p><span class="math inline">\(\textbf{Part 3. Two-sample
+t-tests}\)</span></p>
+<p>A research group is investigating phytoremediation, which involves
+the use of plants to clean-up pollutants from the environment. Some
+species of plants have an ability to tolerate and accumulate heavy
+metals in their tissues, which consequently removes the pollutants from
+the environment. One toxin of major concern is arsenic due it is
+toxicity at very low concentrations and the fact that it does not
+biodegrade.</p>
+<p>This research group claims that a newly developed variety of willow
+accumulates higher levels of arsenic (measured as mg of arsenic per kg
+of plant dry weight) than a local species of poplar that is currently
+used in phytoremediation efforts. The research group conducts an
+experiment using 21 randomly selected trees from each species that are
+growing in arsenic contaminated soils. At the end of the experiment, the
+amount of arsenic (mg/kg) in each tree was measured. Below are the data;
+assume the data are normally distributed.</p>
+<p>Measurements taken from the willow trees:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2lsbG93IDwtIGMoNTYuMjAsIDU1Ljg5LCA1My4zMiwgNTQuNTcsIDU1LjUwLCA1Ni4xMSwgNTQuODgsIDU2LjYyLCA1NC4zNSwgNTYuNzEsIDUzLjAwLCA1NC4zOSwgNTcuNzUsIDUzLjg0LCA1OC4zNCwgNTUuNzcsIDUzLjc2LCA1Ni41NCwgNTQuOTksIDUzLjE1LCA1My42NylcbmBgYCJ9 -->
+<pre class="r"><code>willow &lt;- c(56.20, 55.89, 53.32, 54.57, 55.50, 56.11, 54.88, 56.62, 54.35, 56.71, 53.00, 54.39, 57.75, 53.84, 58.34, 55.77, 53.76, 56.54, 54.99, 53.15, 53.67)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Measurements taken from the poplar trees:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucG9wbGFyIDwtIGMoNTQuNjAsIDU0LjUzLCA1NC45MywgNTQuNjEsIDU0LjQzLCA1Ni4wMywgNTMuOTAsIDU0LjQ4LCA1NC4zOCwgNTQuNDAsIDU2LjA0LCA1Ni4xNywgNTUuMjIsIDUzLjUxLCA1My45NCwgNTMuMTgsIDU1LjA5LCA1NC4yOSwgNTYuMDUsIDU0LjUxLCA1NS4zMSlcbmBgYCJ9 -->
+<pre class="r"><code>poplar &lt;- c(54.60, 54.53, 54.93, 54.61, 54.43, 56.03, 53.90, 54.48, 54.38, 54.40, 56.04, 56.17, 55.22, 53.51, 53.94, 53.18, 55.09, 54.29, 56.05, 54.51, 55.31)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(3a)}\)</span> Write the null and
+alternative hypotheses for a test of variance equality between willow
+and poplar, and state whether this is a right-, left-, or two-tailed
+test. (3 points)</p>
+<p><span class="math inline">\(H_{a} \rightarrow\)</span> var(willow)
+<span class="math inline">\(\neq\)</span> var(poplar)<br />
+<span class="math inline">\(H_{o} \rightarrow\)</span> var(willow) =
+var(poplar)<br />
+Due to the inequality of the alt hypothesis, this is a two-tailed
+test.</p>
+<p><span class="math inline">\(\textbf{(3b)}\)</span> Use R/RStudio to
+find the variance of the levels of arsenic accumulated in the willow and
+poplar trees. (2 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2lsX3ZhciA8LSB2YXIod2lsbG93KVxucG9wX3ZhciA8LSB2YXIocG9wbGFyKVxuYGBgIn0= -->
+<pre class="r"><code>wil_var &lt;- var(willow)
+pop_var &lt;- var(poplar)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(3c)}\)</span> Conduct a test of
+variance equality using var.test() in R/RStudio. Paste your code and
+output below. (4 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudmFyLnRlc3Qod2lsbG93LCBwb3BsYXIsIGFsdGVybmF0aXZlPWMoJ3R3by5zaWRlZCcpKVxuYGBgIn0= -->
+<pre class="r"><code>var.test(willow, poplar, alternative=c(&#39;two.sided&#39;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdEYgdGVzdCB0byBjb21wYXJlIHR3byB2YXJpYW5jZXNcblxuZGF0YTogIHdpbGxvdyBhbmQgcG9wbGFyXG5GID0gMy4zMTI4LCBudW0gZGYgPSAyMCwgZGVub20gZGYgPSAyMCwgcC12YWx1ZSA9IDAuMDEwMDlcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgcmF0aW8gb2YgdmFyaWFuY2VzIGlzIG5vdCBlcXVhbCB0byAxXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMS4zNDQyMzEgOC4xNjQ0MzVcbnNhbXBsZSBlc3RpbWF0ZXM6XG5yYXRpbyBvZiB2YXJpYW5jZXMgXG4gICAgICAgICAgMy4zMTI4MzcgXG4ifQ== -->
 <pre><code>
-&lt;!-- rnb-source-end --&gt;
+    F test to compare two variances
 
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-After loading in the precip dataset, you are now ready to complete Part 1 of the lab.
-
- 
-
-$\textbf{(1a)}$ In the continental U.S., the mean annual rainfall is 30.2 inches. Consider the following claim: Annual rainfall from the 70 cities in the precip dataset is at least 30.2 inches. Construct null and alternative hypotheses given this claim, and state whether this is a right, left, or two-tailed test. (3 points)
-
-$H_{o} \rightarrow$  annual rainfall &gt;= 30.2 in\
-$H_{a} \rightarrow$  annual rainfall &lt; 30.2 in
-
-The alternative contains a less than sign, so this is a left-tailed test.
-
-$\textbf{(1b)}$ Test your hypothesis from (1a) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KHByZWNpcCwgbXUgPSAzMC4yLCBhbHRlcm5hdGl2ZSA9IGMoJ2xlc3MnKSlcblxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-t.test(precip, mu = 30.2, alternative = c(&#39;less&#39;))
-</code></pre>
+data:  willow and poplar
+F = 3.3128, num df = 20, denom df = 20, p-value = 0.01009
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+ 1.344231 8.164435
+sample estimates:
+ratio of variances 
+          3.312837 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><span class="math inline">\(\textbf{(3d)}\)</span> Using alpha =
+0.05, state the statistical decision and interpretation for the test of
+variance equality? (4 points)</p>
+<p>With <span class="math inline">\(\alpha\)</span> = 0.05, we reject
+the null hypothesis that the variances are equal.</p>
+<p><span class="math inline">\(\textbf{(3e)}\)</span> Given your results
+in (3c) and (3d), conduct the appropriate two-sample t-test to test the
+claim from the research group that a newly developed variety of willow
+accumulates higher levels of arsenic than a local species of poplar that
+is currently used in phytoremediation efforts. Paste your code and
+output below (5 points)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHBvcGxhciwgd2lsbG93LCBhbHRlcm5hdGl2ZSA9IGMoJ3R3by5zaWRlZCcpLCB2YXIuZXF1YWwgPSBGQUxTRSlcbmBgYCJ9 -->
+<pre class="r"><code>t.test(poplar, willow, alternative = c(&#39;two.sided&#39;), var.equal = FALSE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwb3BsYXIgYW5kIHdpbGxvd1xudCA9IC0xLjIzMDQsIGRmID0gMzEuMDY2LCBwLXZhbHVlID0gMC4yMjc4XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIGRpZmZlcmVuY2UgaW4gbWVhbnMgaXMgbm90IGVxdWFsIHRvIDBcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAtMS4yMzM4MDQxICAwLjMwNTIzMjdcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggbWVhbiBvZiB5IFxuIDU0Ljc0Mjg2ICA1NS4yMDcxNCBcbiJ9 -->
 <pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmVjaXBcbnQgPSAyLjg2MDIsIGRmID0gNjksIHAtdmFsdWUgPSAwLjk5NzJcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBsZXNzIHRoYW4gMzAuMlxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuICAgICAtSW5mIDM3LjYxNzA4XG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IFxuIDM0Ljg4NTcxIFxuIn0= --&gt;
-</code></pre>
-<pre><code>One Sample t-test</code></pre>
-<p>data: precip t = 2.8602, df = 69, p-value = 0.9972 alternative
-hypothesis: true mean is less than 30.2 95 percent confidence interval:
--Inf 37.61708 sample estimates: mean of x 34.88571</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-$\textbf{(1c)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)\
-
-The p-value is greater than our alpha, so we fail to reject the null hypothesis that mean annual rainfall is greater than 30.2 in.
-
-$\textbf{(1d)}$ Now, consider this claim: Annual rainfall from the 70 cities in the precip dataset is greater than 30.2 inches. Construct null and alternative hypotheses given this claim, and state whether this is a right, left, or two-tailed test. (3 points)
-
-$H_{a} \rightarrow$  annual rainfall &gt; 30.2 in\
-$H_{o} \rightarrow$  annual rainfall &lt;= 30.2 in
-
-In this claim, the alternative contains a greater sign making this a right-tail test.
-
-$\textbf{(1e)}$ Test your hypothesis from (1d) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KHByZWNpcCwgbXUgPSAzMC4yLCBhbHRlcm5hdGl2ZSA9IGMoJ2dyZWF0ZXInKSlcblxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-t.test(precip, mu = 30.2, alternative = c(&#39;greater&#39;))
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmVjaXBcbnQgPSAyLjg2MDIsIGRmID0gNjksIHAtdmFsdWUgPSAwLjAwMjc5OVxuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBtZWFuIGlzIGdyZWF0ZXIgdGhhbiAzMC4yXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMzIuMTU0MzUgICAgICBJbmZcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggXG4gMzQuODg1NzEgXG4ifQ== --&gt;
-</code></pre>
-<pre><code>One Sample t-test</code></pre>
-<p>data: precip t = 2.8602, df = 69, p-value = 0.002799 alternative
-hypothesis: true mean is greater than 30.2 95 percent confidence
-interval: 32.15435 Inf sample estimates: mean of x 34.88571</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-$\textbf{(1f)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)
-Our p-value is less than alpha, so we reject the null hypothesis that annual rainfall is at most 30.2 in.
- 
-
-$\textbf{Part 2. Paired t-tests}$
-A sleep disorder specialist claims that herbal medicines will increase the number of hours of REM sleep per night. The specialist randomly selects 23 patients, and records the number of hours of REM sleep per night before and after taking the herbal medicines. Below are the data, ordered by patient. Assume the data are normally distributed.
-
-Hours of REM sleep before taking the herbal medicines:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJlIDwtIGMoMy43LCAzLjUsIDMuNSwgNC4zLCA0LjUsIDMuMywgMy45LCAzLjYsIDUuNiwgMy41LCAzLjksIDQuNiwgMy4wLCAzLjksIDQuMSwgNS4zLCAzLjUsIDMuMCwgNC40LCA1LjIsIDQuMSwgMi45LCAyLjMpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-pre &lt;- c(3.7, 3.5, 3.5, 4.3, 4.5, 3.3, 3.9, 3.6, 5.6, 3.5, 3.9, 4.6, 3.0, 3.9, 4.1, 5.3, 3.5, 3.0, 4.4, 5.2, 4.1, 2.9, 2.3)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-Hours of REM sleep after taking the herbal medicines:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucG9zdCA8LSBjKDQuMiwgNC4zLCAzLjUsIDQuMSwgMy4yLCA0LjcsIDQuMywgNC40LCA0LjcsIDQuOCwgNC40LCA1LjUsIDQuNywgMy41LCA0LjcsIDQuNSwgMy4yLCAzLjgsIDIuNCwgNC4yLCA0LjMsIDUuMCwgNS4xKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-post &lt;- c(4.2, 4.3, 3.5, 4.1, 3.2, 4.7, 4.3, 4.4, 4.7, 4.8, 4.4, 5.5, 4.7, 3.5, 4.7, 4.5, 3.2, 3.8, 2.4, 4.2, 4.3, 5.0, 5.1)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-$\textbf{(2a)}$ Write the null and alternative hypotheses given the claim and with respect to D-bar and when considering pre-post. State whether this is a right-, left-, or two-tailed test. (3 points)
-
-$H_{a} \rightarrow$ $\bar{d}$  &gt; 0 hrs change\
-$H_{o} \rightarrow$ $\bar{d}$  &lt;= 0 hrs change\
-The alternative contains a greater than symbol making this a right-tailed test.
-
-$\textbf{(2b)}$ Test your hypothesis from (2a) using the t.test function in R/Studio. Paste your t.test code and output below. (4 points)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KHByZSwgcG9zdCwgYWx0ZXJuYXRpdmUgPSBjKCdncmVhdGVyJykpXG5cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-t.test(pre, post, alternative = c(&#39;greater&#39;))
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwcmUgYW5kIHBvc3RcbnQgPSAtMS41Mzc4LCBkZiA9IDQzLjMzMiwgcC12YWx1ZSA9IDAuOTM0M1xuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBkaWZmZXJlbmNlIGluIG1lYW5zIGlzIGdyZWF0ZXIgdGhhbiAwXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gLTAuNzE4OTAwMSAgICAgICAgSW5mXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBvZiB4IG1lYW4gb2YgeSBcbiAzLjg5NTY1MiAgNC4yMzkxMzAgXG4ifQ== --&gt;
-</code></pre>
-<pre><code>Welch Two Sample t-test</code></pre>
-<p>data: pre and post t = -1.5378, df = 43.332, p-value = 0.9343
-alternative hypothesis: true difference in means is greater than 0 95
-percent confidence interval: -0.7189001 Inf sample estimates: mean of x
-mean of y 3.895652 4.239130</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-$\textbf{(2c)}$ When using alpha = 0.1 and 0.05, what are the statistical decisions and interpretations? (12 points)\
-
-The p-value is greater than both $\alpha$ = 0.1 and $\alpha$ = 0.05, so in both instances we fail to reject the null hypothesis that herbal supplements do nothing.
-
- 
-
-$\textbf{Part 3. Two-sample t-tests}$
-
- A research group is investigating phytoremediation, which involves the use of plants to clean-up pollutants from the environment. Some species of plants have an ability to tolerate and accumulate heavy metals in their tissues, which consequently removes the pollutants from the environment. One toxin of major concern is arsenic due it is toxicity at very low concentrations and the fact that it does not biodegrade.
-
-This research group claims that a newly developed variety of willow accumulates higher levels of arsenic (measured as mg of arsenic per kg of plant dry weight) than a local species of poplar that is currently used in phytoremediation efforts. The research group conducts an experiment using 21 randomly selected trees from each species that are growing in arsenic contaminated soils. At the end of the experiment, the amount of arsenic (mg/kg) in each tree was measured. Below are the data; assume the data are normally distributed.
-
-Measurements taken from the willow trees:
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2lsbG93IDwtIGMoNTYuMjAsIDU1Ljg5LCA1My4zMiwgNTQuNTcsIDU1LjUwLCA1Ni4xMSwgNTQuODgsIDU2LjYyLCA1NC4zNSwgNTYuNzEsIDUzLjAwLCA1NC4zOSwgNTcuNzUsIDUzLjg0LCA1OC4zNCwgNTUuNzcsIDUzLjc2LCA1Ni41NCwgNTQuOTksIDUzLjE1LCA1My42NylcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-willow &lt;- c(56.20, 55.89, 53.32, 54.57, 55.50, 56.11, 54.88, 56.62, 54.35, 56.71, 53.00, 54.39, 57.75, 53.84, 58.34, 55.77, 53.76, 56.54, 54.99, 53.15, 53.67)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Measurements taken from the poplar trees:
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucG9wbGFyIDwtIGMoNTQuNjAsIDU0LjUzLCA1NC45MywgNTQuNjEsIDU0LjQzLCA1Ni4wMywgNTMuOTAsIDU0LjQ4LCA1NC4zOCwgNTQuNDAsIDU2LjA0LCA1Ni4xNywgNTUuMjIsIDUzLjUxLCA1My45NCwgNTMuMTgsIDU1LjA5LCA1NC4yOSwgNTYuMDUsIDU0LjUxLCA1NS4zMSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-poplar &lt;- c(54.60, 54.53, 54.93, 54.61, 54.43, 56.03, 53.90, 54.48, 54.38, 54.40, 56.04, 56.17, 55.22, 53.51, 53.94, 53.18, 55.09, 54.29, 56.05, 54.51, 55.31)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
- 
-
-$\textbf{(3a)}$ Write the null and alternative hypotheses for a test of variance equality between willow and poplar, and state whether this is a right-, left-, or two-tailed test. (3 points)
-
-$H_{a} \rightarrow$ var(willow) $\neq$ var(poplar)\
-$H_{o} \rightarrow$ var(willow) = var(poplar)\
-Due to the inequality of the alt hypothesis, this is a two-tailed test.
-
-
-$\textbf{(3b)}$ Use R/RStudio to find the variance of the levels of arsenic accumulated in the willow and poplar trees. (2 points)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBge3J9XG5cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-```{r}
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IGF0dGVtcHQgdG8gdXNlIHplcm8tbGVuZ3RoIHZhcmlhYmxlIG5hbWVcbiJ9 --&gt;
-</code></pre>
-<p>Error: attempt to use zero-length variable name</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-$\textbf{(3c)}$ Conduct a test of variance equality using var.test() in R/RStudio. Paste your code and output below. (4 points)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudmFyLnRlc3Qod2lsbG93LCBwb3BsYXIsIGFsdGVybmF0aXZlPWMoJ3R3by5zaWRlZCcpKVxuXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-var.test(willow, poplar, alternative=c(&#39;two.sided&#39;))
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdEYgdGVzdCB0byBjb21wYXJlIHR3byB2YXJpYW5jZXNcblxuZGF0YTogIHdpbGxvdyBhbmQgcG9wbGFyXG5GID0gMy4zMTI4LCBudW0gZGYgPSAyMCwgZGVub20gZGYgPSAyMCwgcC12YWx1ZSA9IDAuMDEwMDlcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgcmF0aW8gb2YgdmFyaWFuY2VzIGlzIG5vdCBlcXVhbCB0byAxXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gMS4zNDQyMzEgOC4xNjQ0MzVcbnNhbXBsZSBlc3RpbWF0ZXM6XG5yYXRpbyBvZiB2YXJpYW5jZXMgXG4gICAgICAgICAgMy4zMTI4MzcgXG4ifQ== --&gt;
-</code></pre>
-<pre><code>F test to compare two variances</code></pre>
-<p>data: willow and poplar F = 3.3128, num df = 20, denom df = 20,
-p-value = 0.01009 alternative hypothesis: true ratio of variances is not
-equal to 1 95 percent confidence interval: 1.344231 8.164435 sample
-estimates: ratio of variances 3.312837</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-$\textbf{(3d)}$ Using alpha = 0.05, state the statistical decision and interpretation for the test of variance equality? (4 points)
-
-With $\alpha$ = 0.05, we reject the null hypothesis that the variances are equal.
-
-$\textbf{(3e)}$ Given your results in (3c) and (3d), conduct the appropriate two-sample t-test to test the claim from the research group that a newly developed variety of willow accumulates higher levels of arsenic than a local species of poplar that is currently used in phytoremediation efforts. Paste your code and output below (5 points)
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudC50ZXN0KHBvcGxhciwgd2lsbG93LCBhbHRlcm5hdGl2ZSA9IGMoJ3R3by5zaWRlZCcpLCB2YXIuZXF1YWwgPSBGQUxTRSlcblxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-t.test(poplar, willow, alternative = c(&#39;two.sided&#39;), var.equal = FALSE)
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBwb3BsYXIgYW5kIHdpbGxvd1xudCA9IC0xLjIzMDQsIGRmID0gMzEuMDY2LCBwLXZhbHVlID0gMC4yMjc4XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIGRpZmZlcmVuY2UgaW4gbWVhbnMgaXMgbm90IGVxdWFsIHRvIDBcbjk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDpcbiAtMS4yMzM4MDQxICAwLjMwNTIzMjdcbnNhbXBsZSBlc3RpbWF0ZXM6XG5tZWFuIG9mIHggbWVhbiBvZiB5IFxuIDU0Ljc0Mjg2ICA1NS4yMDcxNCBcbiJ9 --&gt;
-</code></pre>
-<pre><code>Welch Two Sample t-test</code></pre>
-<p>data: poplar and willow t = -1.2304, df = 31.066, p-value = 0.2278
-alternative hypothesis: true difference in means is not equal to 0 95
-percent confidence interval: -1.2338041 0.3052327 sample estimates: mean
-of x mean of y 54.74286 55.20714 ```</p>
+    Welch Two Sample t-test
+
+data:  poplar and willow
+t = -1.2304, df = 31.066, p-value = 0.2278
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.2338041  0.3052327
+sample estimates:
+mean of x mean of y 
+ 54.74286  55.20714 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2214,7 +2075,7 @@ reject the null that the newly developed variety of willow trees
 accumulate higher levels of arsenic.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUVNDSSAzODEgTGFiIDYgU2ltb24gSGFucyBFZGFzaSAyLzE3LzIwMjMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiRcdGV4dGJme1BhcnQgMTogT25lIHNhbXBsZSB0LXRlc3RzfSQKCkluIHRoaXMgcGFydCBvZiBMYWIgNiwgd2Ugd2lsbCB1c2Ugb25lIG9mIHRoZSBkYXRhc2V0cyBhbHJlYWR5IGF2YWlsYWJsZSBpbiBSL1JTdHVkaW8uIE9uZSBvZiB0aGVzZSBkYXRhc2V0cyBpcyBjYWxsZWQgInByZWNpcCwiIGFuZCBpdCBjb250YWlucyB0aGUgYXZlcmFnZSBhbW91bnQgb2YgcmFpbmZhbGwsIGluIGluY2hlcywgZm9yIDcwIGNpdGllcyBmcm9tIHRoZSBVLlMuIGFuZCBQdWVydG8gUmljby4gQXNzdW1lIHRoZSBkYXRhIGluIHByZWNpcCBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgpMb2FkIHRoZSBkYXRhc2V0IGJ5IGVudGVyaW5nIHRoZSBmb2xsb3dpbmcgY29tbWFuZDoKCmBgYHtyfQpkYXRhKHByZWNpcCkKYGBgCgpUbyBzZWUgdGhlIGRhdGEgY29udGFpbmVkIGluIHByZWNpcCwgZW50ZXI6CgpgYGB7cn0KcHJlY2lwCmBgYAoKUmVjYWxsIHlvdSBjYW4gbGVhcm4gZXZlbiBtb3JlIGFib3V0IHRoaXMgZGF0YXNldCAob3IgYW55IHByZWxvYWRlZCBkYXRhc2V0IGluIFIvUlN0dWRpbykgYnkgZW50ZXJpbmcgYSBxdWVzdGlvbiBtYXJrIGJlZm9yZSB0aGUgbmFtZSBvZiB0aGUgZGF0YXNldCBpbiBSL1JTdHVkaW86CgpgYGB7cn0KP3ByZWNpcApgYGAKCkFmdGVyIGxvYWRpbmcgaW4gdGhlIHByZWNpcCBkYXRhc2V0LCB5b3UgYXJlIG5vdyByZWFkeSB0byBjb21wbGV0ZSBQYXJ0IDEgb2YgdGhlIGxhYi4KCiAKCiRcdGV4dGJmeygxYSl9JCBJbiB0aGUgY29udGluZW50YWwgVS5TLiwgdGhlIG1lYW4gYW5udWFsIHJhaW5mYWxsIGlzIDMwLjIgaW5jaGVzLiBDb25zaWRlciB0aGUgZm9sbG93aW5nIGNsYWltOiBBbm51YWwgcmFpbmZhbGwgZnJvbSB0aGUgNzAgY2l0aWVzIGluIHRoZSBwcmVjaXAgZGF0YXNldCBpcyBhdCBsZWFzdCAzMC4yIGluY2hlcy4gQ29uc3RydWN0IG51bGwgYW5kIGFsdGVybmF0aXZlIGh5cG90aGVzZXMgZ2l2ZW4gdGhpcyBjbGFpbSwgYW5kIHN0YXRlIHdoZXRoZXIgdGhpcyBpcyBhIHJpZ2h0LCBsZWZ0LCBvciB0d28tdGFpbGVkIHRlc3QuICgzIHBvaW50cykKCiRIX3tvfSBccmlnaHRhcnJvdyQgIGFubnVhbCByYWluZmFsbCA+PSAzMC4yIGluXAokSF97YX0gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPCAzMC4yIGluCgpUaGUgYWx0ZXJuYXRpdmUgY29udGFpbnMgYSBsZXNzIHRoYW4gc2lnbiwgc28gdGhpcyBpcyBhIGxlZnQtdGFpbGVkIHRlc3QuCgokXHRleHRiZnsoMWIpfSQgVGVzdCB5b3VyIGh5cG90aGVzaXMgZnJvbSAoMWEpIHVzaW5nIHRoZSB0LnRlc3QgZnVuY3Rpb24gaW4gUi9TdHVkaW8uIFBhc3RlIHlvdXIgdC50ZXN0IGNvZGUgYW5kIG91dHB1dCBiZWxvdy4gKDQgcG9pbnRzKQoKYGBge3J9CnQudGVzdChwcmVjaXAsIG11ID0gMzAuMiwgYWx0ZXJuYXRpdmUgPSBjKCdsZXNzJykpCmBgYAoKJFx0ZXh0YmZ7KDFjKX0kIFdoZW4gdXNpbmcgYWxwaGEgPSAwLjA1LCB3aGF0IGlzIHRoZSBzdGF0aXN0aWNhbCBkZWNpc2lvbiBhbmQgaW50ZXJwcmV0YXRpb24/ICg4IHBvaW50cylcCgpUaGUgcC12YWx1ZSBpcyBncmVhdGVyIHRoYW4gb3VyIGFscGhhLCBzbyB3ZSBmYWlsIHRvIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgbWVhbiBhbm51YWwgcmFpbmZhbGwgaXMgZ3JlYXRlciB0aGFuIDMwLjIgaW4uCgokXHRleHRiZnsoMWQpfSQgTm93LCBjb25zaWRlciB0aGlzIGNsYWltOiBBbm51YWwgcmFpbmZhbGwgZnJvbSB0aGUgNzAgY2l0aWVzIGluIHRoZSBwcmVjaXAgZGF0YXNldCBpcyBncmVhdGVyIHRoYW4gMzAuMiBpbmNoZXMuIENvbnN0cnVjdCBudWxsIGFuZCBhbHRlcm5hdGl2ZSBoeXBvdGhlc2VzIGdpdmVuIHRoaXMgY2xhaW0sIGFuZCBzdGF0ZSB3aGV0aGVyIHRoaXMgaXMgYSByaWdodCwgbGVmdCwgb3IgdHdvLXRhaWxlZCB0ZXN0LiAoMyBwb2ludHMpCgokSF97YX0gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPiAzMC4yIGluXAokSF97b30gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPD0gMzAuMiBpbgoKSW4gdGhpcyBjbGFpbSwgdGhlIGFsdGVybmF0aXZlIGNvbnRhaW5zIGEgZ3JlYXRlciBzaWduIG1ha2luZyB0aGlzIGEgcmlnaHQtdGFpbCB0ZXN0LgoKJFx0ZXh0YmZ7KDFlKX0kIFRlc3QgeW91ciBoeXBvdGhlc2lzIGZyb20gKDFkKSB1c2luZyB0aGUgdC50ZXN0IGZ1bmN0aW9uIGluIFIvU3R1ZGlvLiBQYXN0ZSB5b3VyIHQudGVzdCBjb2RlIGFuZCBvdXRwdXQgYmVsb3cuICg0IHBvaW50cykKCmBgYHtyfQp0LnRlc3QocHJlY2lwLCBtdSA9IDMwLjIsIGFsdGVybmF0aXZlID0gYygnZ3JlYXRlcicpKQpgYGAKCiRcdGV4dGJmeygxZil9JCBXaGVuIHVzaW5nIGFscGhhID0gMC4wNSwgd2hhdCBpcyB0aGUgc3RhdGlzdGljYWwgZGVjaXNpb24gYW5kIGludGVycHJldGF0aW9uPyAoOCBwb2ludHMpCk91ciBwLXZhbHVlIGlzIGxlc3MgdGhhbiBhbHBoYSwgc28gd2UgcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCBhbm51YWwgcmFpbmZhbGwgaXMgYXQgbW9zdCAzMC4yIGluLgogCgokXHRleHRiZntQYXJ0IDIuIFBhaXJlZCB0LXRlc3RzfSQKQSBzbGVlcCBkaXNvcmRlciBzcGVjaWFsaXN0IGNsYWltcyB0aGF0IGhlcmJhbCBtZWRpY2luZXMgd2lsbCBpbmNyZWFzZSB0aGUgbnVtYmVyIG9mIGhvdXJzIG9mIFJFTSBzbGVlcCBwZXIgbmlnaHQuIFRoZSBzcGVjaWFsaXN0IHJhbmRvbWx5IHNlbGVjdHMgMjMgcGF0aWVudHMsIGFuZCByZWNvcmRzIHRoZSBudW1iZXIgb2YgaG91cnMgb2YgUkVNIHNsZWVwIHBlciBuaWdodCBiZWZvcmUgYW5kIGFmdGVyIHRha2luZyB0aGUgaGVyYmFsIG1lZGljaW5lcy4gQmVsb3cgYXJlIHRoZSBkYXRhLCBvcmRlcmVkIGJ5IHBhdGllbnQuIEFzc3VtZSB0aGUgZGF0YSBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgpIb3VycyBvZiBSRU0gc2xlZXAgYmVmb3JlIHRha2luZyB0aGUgaGVyYmFsIG1lZGljaW5lczoKCmBgYHtyfQpwcmUgPC0gYygzLjcsIDMuNSwgMy41LCA0LjMsIDQuNSwgMy4zLCAzLjksIDMuNiwgNS42LCAzLjUsIDMuOSwgNC42LCAzLjAsIDMuOSwgNC4xLCA1LjMsIDMuNSwgMy4wLCA0LjQsIDUuMiwgNC4xLCAyLjksIDIuMykKYGBgCkhvdXJzIG9mIFJFTSBzbGVlcCBhZnRlciB0YWtpbmcgdGhlIGhlcmJhbCBtZWRpY2luZXM6CgpgYGB7cn0KcG9zdCA8LSBjKDQuMiwgNC4zLCAzLjUsIDQuMSwgMy4yLCA0LjcsIDQuMywgNC40LCA0LjcsIDQuOCwgNC40LCA1LjUsIDQuNywgMy41LCA0LjcsIDQuNSwgMy4yLCAzLjgsIDIuNCwgNC4yLCA0LjMsIDUuMCwgNS4xKQpgYGAKJFx0ZXh0YmZ7KDJhKX0kIFdyaXRlIHRoZSBudWxsIGFuZCBhbHRlcm5hdGl2ZSBoeXBvdGhlc2VzIGdpdmVuIHRoZSBjbGFpbSBhbmQgd2l0aCByZXNwZWN0IHRvIEQtYmFyIGFuZCB3aGVuIGNvbnNpZGVyaW5nIHByZS1wb3N0LiBTdGF0ZSB3aGV0aGVyIHRoaXMgaXMgYSByaWdodC0sIGxlZnQtLCBvciB0d28tdGFpbGVkIHRlc3QuICgzIHBvaW50cykKCiRIX3thfSBccmlnaHRhcnJvdyQgJFxiYXJ7ZH0kICA+IDAgaHJzIGNoYW5nZVwKJEhfe299IFxyaWdodGFycm93JCAkXGJhcntkfSQgIDw9IDAgaHJzIGNoYW5nZVwKVGhlIGFsdGVybmF0aXZlIGNvbnRhaW5zIGEgZ3JlYXRlciB0aGFuIHN5bWJvbCBtYWtpbmcgdGhpcyBhIHJpZ2h0LXRhaWxlZCB0ZXN0LgoKJFx0ZXh0YmZ7KDJiKX0kIFRlc3QgeW91ciBoeXBvdGhlc2lzIGZyb20gKDJhKSB1c2luZyB0aGUgdC50ZXN0IGZ1bmN0aW9uIGluIFIvU3R1ZGlvLiBQYXN0ZSB5b3VyIHQudGVzdCBjb2RlIGFuZCBvdXRwdXQgYmVsb3cuICg0IHBvaW50cykKCmBgYHtyfQp0LnRlc3QocHJlLCBwb3N0LCBhbHRlcm5hdGl2ZSA9IGMoJ2dyZWF0ZXInKSkKYGBgCgokXHRleHRiZnsoMmMpfSQgV2hlbiB1c2luZyBhbHBoYSA9IDAuMSBhbmQgMC4wNSwgd2hhdCBhcmUgdGhlIHN0YXRpc3RpY2FsIGRlY2lzaW9ucyBhbmQgaW50ZXJwcmV0YXRpb25zPyAoMTIgcG9pbnRzKVwKClRoZSBwLXZhbHVlIGlzIGdyZWF0ZXIgdGhhbiBib3RoICRcYWxwaGEkID0gMC4xIGFuZCAkXGFscGhhJCA9IDAuMDUsIHNvIGluIGJvdGggaW5zdGFuY2VzIHdlIGZhaWwgdG8gcmVqZWN0IHRoZSBudWxsIGh5cG90aGVzaXMgdGhhdCBoZXJiYWwgc3VwcGxlbWVudHMgZG8gbm90aGluZy4KCiAKCiRcdGV4dGJme1BhcnQgMy4gVHdvLXNhbXBsZSB0LXRlc3RzfSQKCiBBIHJlc2VhcmNoIGdyb3VwIGlzIGludmVzdGlnYXRpbmcgcGh5dG9yZW1lZGlhdGlvbiwgd2hpY2ggaW52b2x2ZXMgdGhlIHVzZSBvZiBwbGFudHMgdG8gY2xlYW4tdXAgcG9sbHV0YW50cyBmcm9tIHRoZSBlbnZpcm9ubWVudC4gU29tZSBzcGVjaWVzIG9mIHBsYW50cyBoYXZlIGFuIGFiaWxpdHkgdG8gdG9sZXJhdGUgYW5kIGFjY3VtdWxhdGUgaGVhdnkgbWV0YWxzIGluIHRoZWlyIHRpc3N1ZXMsIHdoaWNoIGNvbnNlcXVlbnRseSByZW1vdmVzIHRoZSBwb2xsdXRhbnRzIGZyb20gdGhlIGVudmlyb25tZW50LiBPbmUgdG94aW4gb2YgbWFqb3IgY29uY2VybiBpcyBhcnNlbmljIGR1ZSBpdCBpcyB0b3hpY2l0eSBhdCB2ZXJ5IGxvdyBjb25jZW50cmF0aW9ucyBhbmQgdGhlIGZhY3QgdGhhdCBpdCBkb2VzIG5vdCBiaW9kZWdyYWRlLgoKVGhpcyByZXNlYXJjaCBncm91cCBjbGFpbXMgdGhhdCBhIG5ld2x5IGRldmVsb3BlZCB2YXJpZXR5IG9mIHdpbGxvdyBhY2N1bXVsYXRlcyBoaWdoZXIgbGV2ZWxzIG9mIGFyc2VuaWMgKG1lYXN1cmVkIGFzIG1nIG9mIGFyc2VuaWMgcGVyIGtnIG9mIHBsYW50IGRyeSB3ZWlnaHQpIHRoYW4gYSBsb2NhbCBzcGVjaWVzIG9mIHBvcGxhciB0aGF0IGlzIGN1cnJlbnRseSB1c2VkIGluIHBoeXRvcmVtZWRpYXRpb24gZWZmb3J0cy4gVGhlIHJlc2VhcmNoIGdyb3VwIGNvbmR1Y3RzIGFuIGV4cGVyaW1lbnQgdXNpbmcgMjEgcmFuZG9tbHkgc2VsZWN0ZWQgdHJlZXMgZnJvbSBlYWNoIHNwZWNpZXMgdGhhdCBhcmUgZ3Jvd2luZyBpbiBhcnNlbmljIGNvbnRhbWluYXRlZCBzb2lscy4gQXQgdGhlIGVuZCBvZiB0aGUgZXhwZXJpbWVudCwgdGhlIGFtb3VudCBvZiBhcnNlbmljIChtZy9rZykgaW4gZWFjaCB0cmVlIHdhcyBtZWFzdXJlZC4gQmVsb3cgYXJlIHRoZSBkYXRhOyBhc3N1bWUgdGhlIGRhdGEgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLgoKTWVhc3VyZW1lbnRzIHRha2VuIGZyb20gdGhlIHdpbGxvdyB0cmVlczoKCmBgYHtyfQp3aWxsb3cgPC0gYyg1Ni4yMCwgNTUuODksIDUzLjMyLCA1NC41NywgNTUuNTAsIDU2LjExLCA1NC44OCwgNTYuNjIsIDU0LjM1LCA1Ni43MSwgNTMuMDAsIDU0LjM5LCA1Ny43NSwgNTMuODQsIDU4LjM0LCA1NS43NywgNTMuNzYsIDU2LjU0LCA1NC45OSwgNTMuMTUsIDUzLjY3KQpgYGAKCk1lYXN1cmVtZW50cyB0YWtlbiBmcm9tIHRoZSBwb3BsYXIgdHJlZXM6CmBgYHtyfQpwb3BsYXIgPC0gYyg1NC42MCwgNTQuNTMsIDU0LjkzLCA1NC42MSwgNTQuNDMsIDU2LjAzLCA1My45MCwgNTQuNDgsIDU0LjM4LCA1NC40MCwgNTYuMDQsIDU2LjE3LCA1NS4yMiwgNTMuNTEsIDUzLjk0LCA1My4xOCwgNTUuMDksIDU0LjI5LCA1Ni4wNSwgNTQuNTEsIDU1LjMxKQpgYGAKCiAKCiRcdGV4dGJmeygzYSl9JCBXcml0ZSB0aGUgbnVsbCBhbmQgYWx0ZXJuYXRpdmUgaHlwb3RoZXNlcyBmb3IgYSB0ZXN0IG9mIHZhcmlhbmNlIGVxdWFsaXR5IGJldHdlZW4gd2lsbG93IGFuZCBwb3BsYXIsIGFuZCBzdGF0ZSB3aGV0aGVyIHRoaXMgaXMgYSByaWdodC0sIGxlZnQtLCBvciB0d28tdGFpbGVkIHRlc3QuICgzIHBvaW50cykKCiRIX3thfSBccmlnaHRhcnJvdyQgdmFyKHdpbGxvdykgJFxuZXEkIHZhcihwb3BsYXIpXAokSF97b30gXHJpZ2h0YXJyb3ckIHZhcih3aWxsb3cpID0gdmFyKHBvcGxhcilcCkR1ZSB0byB0aGUgaW5lcXVhbGl0eSBvZiB0aGUgYWx0IGh5cG90aGVzaXMsIHRoaXMgaXMgYSB0d28tdGFpbGVkIHRlc3QuCgoKJFx0ZXh0YmZ7KDNiKX0kIFVzZSBSL1JTdHVkaW8gdG8gZmluZCB0aGUgdmFyaWFuY2Ugb2YgdGhlIGxldmVscyBvZiBhcnNlbmljIGFjY3VtdWxhdGVkIGluIHRoZSB3aWxsb3cgYW5kIHBvcGxhciB0cmVlcy4gKDIgcG9pbnRzKQoKYGBge3J9CndpbF92YXIgPC0gdmFyKHdpbGxvdykKcG9wX3ZhciA8LSB2YXIocG9wbGFyKQpgYGAKCiRcdGV4dGJmeygzYyl9JCBDb25kdWN0IGEgdGVzdCBvZiB2YXJpYW5jZSBlcXVhbGl0eSB1c2luZyB2YXIudGVzdCgpIGluIFIvUlN0dWRpby4gUGFzdGUgeW91ciBjb2RlIGFuZCBvdXRwdXQgYmVsb3cuICg0IHBvaW50cykKCmBgYHtyfQp2YXIudGVzdCh3aWxsb3csIHBvcGxhciwgYWx0ZXJuYXRpdmU9YygndHdvLnNpZGVkJykpCmBgYAoKJFx0ZXh0YmZ7KDNkKX0kIFVzaW5nIGFscGhhID0gMC4wNSwgc3RhdGUgdGhlIHN0YXRpc3RpY2FsIGRlY2lzaW9uIGFuZCBpbnRlcnByZXRhdGlvbiBmb3IgdGhlIHRlc3Qgb2YgdmFyaWFuY2UgZXF1YWxpdHk/ICg0IHBvaW50cykKCldpdGggJFxhbHBoYSQgPSAwLjA1LCB3ZSByZWplY3QgdGhlIG51bGwgaHlwb3RoZXNpcyB0aGF0IHRoZSB2YXJpYW5jZXMgYXJlIGVxdWFsLgoKJFx0ZXh0YmZ7KDNlKX0kIEdpdmVuIHlvdXIgcmVzdWx0cyBpbiAoM2MpIGFuZCAoM2QpLCBjb25kdWN0IHRoZSBhcHByb3ByaWF0ZSB0d28tc2FtcGxlIHQtdGVzdCB0byB0ZXN0IHRoZSBjbGFpbSBmcm9tIHRoZSByZXNlYXJjaCBncm91cCB0aGF0IGEgbmV3bHkgZGV2ZWxvcGVkIHZhcmlldHkgb2Ygd2lsbG93IGFjY3VtdWxhdGVzIGhpZ2hlciBsZXZlbHMgb2YgYXJzZW5pYyB0aGFuIGEgbG9jYWwgc3BlY2llcyBvZiBwb3BsYXIgdGhhdCBpcyBjdXJyZW50bHkgdXNlZCBpbiBwaHl0b3JlbWVkaWF0aW9uIGVmZm9ydHMuIFBhc3RlIHlvdXIgY29kZSBhbmQgb3V0cHV0IGJlbG93ICg1IHBvaW50cykKYGBge3J9CnQudGVzdChwb3BsYXIsIHdpbGxvdywgYWx0ZXJuYXRpdmUgPSBjKCd0d28uc2lkZWQnKSwgdmFyLmVxdWFsID0gRkFMU0UpCmBgYAoKJFx0ZXh0YmZ7KDNmKX0kIFdoZW4gdXNpbmcgYWxwaGEgPSAwLjA1LCB3aGF0IGlzIHRoZSBzdGF0aXN0aWNhbCBkZWNpc2lvbiBhbmQgaW50ZXJwcmV0YXRpb24/ICg4IHBvaW50cykKCiBXaXRoICRcYWxwaGEkID0gMC4wNSB3ZSBmYWlsIHRvIHJlamVjdCB0aGUgbnVsbCB0aGF0IHRoZSBuZXdseSBkZXZlbG9wZWQgdmFyaWV0eSBvZiB3aWxsb3cgdHJlZXMgYWNjdW11bGF0ZSBoaWdoZXIgbGV2ZWxzIG9mIGFyc2VuaWMu</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUVNDSSAzODEgTGFiIDYgU2ltb24gSGFucyBFZGFzaSAyLzE3LzIwMjMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiRcdGV4dGJme1BhcnQgMTogT25lIHNhbXBsZSB0LXRlc3RzfSQKCkluIHRoaXMgcGFydCBvZiBMYWIgNiwgd2Ugd2lsbCB1c2Ugb25lIG9mIHRoZSBkYXRhc2V0cyBhbHJlYWR5IGF2YWlsYWJsZSBpbiBSL1JTdHVkaW8uIE9uZSBvZiB0aGVzZSBkYXRhc2V0cyBpcyBjYWxsZWQgInByZWNpcCwiIGFuZCBpdCBjb250YWlucyB0aGUgYXZlcmFnZSBhbW91bnQgb2YgcmFpbmZhbGwsIGluIGluY2hlcywgZm9yIDcwIGNpdGllcyBmcm9tIHRoZSBVLlMuIGFuZCBQdWVydG8gUmljby4gQXNzdW1lIHRoZSBkYXRhIGluIHByZWNpcCBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgpMb2FkIHRoZSBkYXRhc2V0IGJ5IGVudGVyaW5nIHRoZSBmb2xsb3dpbmcgY29tbWFuZDoKCmBgYHtyfQpkYXRhKHByZWNpcCkKYGBgCgpUbyBzZWUgdGhlIGRhdGEgY29udGFpbmVkIGluIHByZWNpcCwgZW50ZXI6CgpgYGB7cn0KcHJlY2lwCmBgYAoKUmVjYWxsIHlvdSBjYW4gbGVhcm4gZXZlbiBtb3JlIGFib3V0IHRoaXMgZGF0YXNldCAob3IgYW55IHByZWxvYWRlZCBkYXRhc2V0IGluIFIvUlN0dWRpbykgYnkgZW50ZXJpbmcgYSBxdWVzdGlvbiBtYXJrIGJlZm9yZSB0aGUgbmFtZSBvZiB0aGUgZGF0YXNldCBpbiBSL1JTdHVkaW86CgpgYGB7cn0KP3ByZWNpcApgYGAKCkFmdGVyIGxvYWRpbmcgaW4gdGhlIHByZWNpcCBkYXRhc2V0LCB5b3UgYXJlIG5vdyByZWFkeSB0byBjb21wbGV0ZSBQYXJ0IDEgb2YgdGhlIGxhYi4KCiAKCiRcdGV4dGJmeygxYSl9JCBJbiB0aGUgY29udGluZW50YWwgVS5TLiwgdGhlIG1lYW4gYW5udWFsIHJhaW5mYWxsIGlzIDMwLjIgaW5jaGVzLiBDb25zaWRlciB0aGUgZm9sbG93aW5nIGNsYWltOiBBbm51YWwgcmFpbmZhbGwgZnJvbSB0aGUgNzAgY2l0aWVzIGluIHRoZSBwcmVjaXAgZGF0YXNldCBpcyBhdCBsZWFzdCAzMC4yIGluY2hlcy4gQ29uc3RydWN0IG51bGwgYW5kIGFsdGVybmF0aXZlIGh5cG90aGVzZXMgZ2l2ZW4gdGhpcyBjbGFpbSwgYW5kIHN0YXRlIHdoZXRoZXIgdGhpcyBpcyBhIHJpZ2h0LCBsZWZ0LCBvciB0d28tdGFpbGVkIHRlc3QuICgzIHBvaW50cykKCiRIX3tvfSBccmlnaHRhcnJvdyQgIGFubnVhbCByYWluZmFsbCA+PSAzMC4yIGluXAokSF97YX0gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPCAzMC4yIGluCgpUaGUgYWx0ZXJuYXRpdmUgY29udGFpbnMgYSBsZXNzIHRoYW4gc2lnbiwgc28gdGhpcyBpcyBhIGxlZnQtdGFpbGVkIHRlc3QuCgokXHRleHRiZnsoMWIpfSQgVGVzdCB5b3VyIGh5cG90aGVzaXMgZnJvbSAoMWEpIHVzaW5nIHRoZSB0LnRlc3QgZnVuY3Rpb24gaW4gUi9TdHVkaW8uIFBhc3RlIHlvdXIgdC50ZXN0IGNvZGUgYW5kIG91dHB1dCBiZWxvdy4gKDQgcG9pbnRzKQoKYGBge3J9CnQudGVzdChwcmVjaXAsIG11ID0gMzAuMiwgYWx0ZXJuYXRpdmUgPSBjKCdsZXNzJykpCmBgYAoKJFx0ZXh0YmZ7KDFjKX0kIFdoZW4gdXNpbmcgYWxwaGEgPSAwLjA1LCB3aGF0IGlzIHRoZSBzdGF0aXN0aWNhbCBkZWNpc2lvbiBhbmQgaW50ZXJwcmV0YXRpb24/ICg4IHBvaW50cylcCgpUaGUgcC12YWx1ZSBpcyBncmVhdGVyIHRoYW4gb3VyIGFscGhhLCBzbyB3ZSBmYWlsIHRvIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgbWVhbiBhbm51YWwgcmFpbmZhbGwgaXMgZ3JlYXRlciB0aGFuIDMwLjIgaW4uCgokXHRleHRiZnsoMWQpfSQgTm93LCBjb25zaWRlciB0aGlzIGNsYWltOiBBbm51YWwgcmFpbmZhbGwgZnJvbSB0aGUgNzAgY2l0aWVzIGluIHRoZSBwcmVjaXAgZGF0YXNldCBpcyBncmVhdGVyIHRoYW4gMzAuMiBpbmNoZXMuIENvbnN0cnVjdCBudWxsIGFuZCBhbHRlcm5hdGl2ZSBoeXBvdGhlc2VzIGdpdmVuIHRoaXMgY2xhaW0sIGFuZCBzdGF0ZSB3aGV0aGVyIHRoaXMgaXMgYSByaWdodCwgbGVmdCwgb3IgdHdvLXRhaWxlZCB0ZXN0LiAoMyBwb2ludHMpCgokSF97YX0gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPiAzMC4yIGluXAokSF97b30gXHJpZ2h0YXJyb3ckICBhbm51YWwgcmFpbmZhbGwgPD0gMzAuMiBpbgoKSW4gdGhpcyBjbGFpbSwgdGhlIGFsdGVybmF0aXZlIGNvbnRhaW5zIGEgZ3JlYXRlciBzaWduIG1ha2luZyB0aGlzIGEgcmlnaHQtdGFpbCB0ZXN0LgoKJFx0ZXh0YmZ7KDFlKX0kIFRlc3QgeW91ciBoeXBvdGhlc2lzIGZyb20gKDFkKSB1c2luZyB0aGUgdC50ZXN0IGZ1bmN0aW9uIGluIFIvU3R1ZGlvLiBQYXN0ZSB5b3VyIHQudGVzdCBjb2RlIGFuZCBvdXRwdXQgYmVsb3cuICg0IHBvaW50cykKCmBgYHtyfQp0LnRlc3QocHJlY2lwLCBtdSA9IDMwLjIsIGFsdGVybmF0aXZlID0gYygnZ3JlYXRlcicpKQpgYGAKCiRcdGV4dGJmeygxZil9JCBXaGVuIHVzaW5nIGFscGhhID0gMC4wNSwgd2hhdCBpcyB0aGUgc3RhdGlzdGljYWwgZGVjaXNpb24gYW5kIGludGVycHJldGF0aW9uPyAoOCBwb2ludHMpXAoKT3VyIHAtdmFsdWUgaXMgbGVzcyB0aGFuIGFscGhhLCBzbyB3ZSByZWplY3QgdGhlIG51bGwgaHlwb3RoZXNpcyB0aGF0IGFubnVhbCByYWluZmFsbCBpcyBhdCBtb3N0IDMwLjIgaW4uCiAKCiRcdGV4dGJme1BhcnQgMi4gUGFpcmVkIHQtdGVzdHN9JApBIHNsZWVwIGRpc29yZGVyIHNwZWNpYWxpc3QgY2xhaW1zIHRoYXQgaGVyYmFsIG1lZGljaW5lcyB3aWxsIGluY3JlYXNlIHRoZSBudW1iZXIgb2YgaG91cnMgb2YgUkVNIHNsZWVwIHBlciBuaWdodC4gVGhlIHNwZWNpYWxpc3QgcmFuZG9tbHkgc2VsZWN0cyAyMyBwYXRpZW50cywgYW5kIHJlY29yZHMgdGhlIG51bWJlciBvZiBob3VycyBvZiBSRU0gc2xlZXAgcGVyIG5pZ2h0IGJlZm9yZSBhbmQgYWZ0ZXIgdGFraW5nIHRoZSBoZXJiYWwgbWVkaWNpbmVzLiBCZWxvdyBhcmUgdGhlIGRhdGEsIG9yZGVyZWQgYnkgcGF0aWVudC4gQXNzdW1lIHRoZSBkYXRhIGFyZSBub3JtYWxseSBkaXN0cmlidXRlZC4KCkhvdXJzIG9mIFJFTSBzbGVlcCBiZWZvcmUgdGFraW5nIHRoZSBoZXJiYWwgbWVkaWNpbmVzOgoKYGBge3J9CnByZSA8LSBjKDMuNywgMy41LCAzLjUsIDQuMywgNC41LCAzLjMsIDMuOSwgMy42LCA1LjYsIDMuNSwgMy45LCA0LjYsIDMuMCwgMy45LCA0LjEsIDUuMywgMy41LCAzLjAsIDQuNCwgNS4yLCA0LjEsIDIuOSwgMi4zKQpgYGAKSG91cnMgb2YgUkVNIHNsZWVwIGFmdGVyIHRha2luZyB0aGUgaGVyYmFsIG1lZGljaW5lczoKCmBgYHtyfQpwb3N0IDwtIGMoNC4yLCA0LjMsIDMuNSwgNC4xLCAzLjIsIDQuNywgNC4zLCA0LjQsIDQuNywgNC44LCA0LjQsIDUuNSwgNC43LCAzLjUsIDQuNywgNC41LCAzLjIsIDMuOCwgMi40LCA0LjIsIDQuMywgNS4wLCA1LjEpCmBgYAokXHRleHRiZnsoMmEpfSQgV3JpdGUgdGhlIG51bGwgYW5kIGFsdGVybmF0aXZlIGh5cG90aGVzZXMgZ2l2ZW4gdGhlIGNsYWltIGFuZCB3aXRoIHJlc3BlY3QgdG8gRC1iYXIgYW5kIHdoZW4gY29uc2lkZXJpbmcgcHJlLXBvc3QuIFN0YXRlIHdoZXRoZXIgdGhpcyBpcyBhIHJpZ2h0LSwgbGVmdC0sIG9yIHR3by10YWlsZWQgdGVzdC4gKDMgcG9pbnRzKQoKJEhfe2F9IFxyaWdodGFycm93JCAkXGJhcntkfSQgID4gMCBocnMgY2hhbmdlXAokSF97b30gXHJpZ2h0YXJyb3ckICRcYmFye2R9JCAgPD0gMCBocnMgY2hhbmdlXApUaGUgYWx0ZXJuYXRpdmUgY29udGFpbnMgYSBncmVhdGVyIHRoYW4gc3ltYm9sIG1ha2luZyB0aGlzIGEgcmlnaHQtdGFpbGVkIHRlc3QuCgokXHRleHRiZnsoMmIpfSQgVGVzdCB5b3VyIGh5cG90aGVzaXMgZnJvbSAoMmEpIHVzaW5nIHRoZSB0LnRlc3QgZnVuY3Rpb24gaW4gUi9TdHVkaW8uIFBhc3RlIHlvdXIgdC50ZXN0IGNvZGUgYW5kIG91dHB1dCBiZWxvdy4gKDQgcG9pbnRzKQoKYGBge3J9CnQudGVzdChwcmUsIHBvc3QsIGFsdGVybmF0aXZlID0gYygnZ3JlYXRlcicpKQpgYGAKCiRcdGV4dGJmeygyYyl9JCBXaGVuIHVzaW5nIGFscGhhID0gMC4xIGFuZCAwLjA1LCB3aGF0IGFyZSB0aGUgc3RhdGlzdGljYWwgZGVjaXNpb25zIGFuZCBpbnRlcnByZXRhdGlvbnM/ICgxMiBwb2ludHMpXAoKVGhlIHAtdmFsdWUgaXMgZ3JlYXRlciB0aGFuIGJvdGggJFxhbHBoYSQgPSAwLjEgYW5kICRcYWxwaGEkID0gMC4wNSwgc28gaW4gYm90aCBpbnN0YW5jZXMgd2UgZmFpbCB0byByZWplY3QgdGhlIG51bGwgaHlwb3RoZXNpcyB0aGF0IGhlcmJhbCBzdXBwbGVtZW50cyBkbyBub3RoaW5nLgoKIAoKJFx0ZXh0YmZ7UGFydCAzLiBUd28tc2FtcGxlIHQtdGVzdHN9JAoKIEEgcmVzZWFyY2ggZ3JvdXAgaXMgaW52ZXN0aWdhdGluZyBwaHl0b3JlbWVkaWF0aW9uLCB3aGljaCBpbnZvbHZlcyB0aGUgdXNlIG9mIHBsYW50cyB0byBjbGVhbi11cCBwb2xsdXRhbnRzIGZyb20gdGhlIGVudmlyb25tZW50LiBTb21lIHNwZWNpZXMgb2YgcGxhbnRzIGhhdmUgYW4gYWJpbGl0eSB0byB0b2xlcmF0ZSBhbmQgYWNjdW11bGF0ZSBoZWF2eSBtZXRhbHMgaW4gdGhlaXIgdGlzc3Vlcywgd2hpY2ggY29uc2VxdWVudGx5IHJlbW92ZXMgdGhlIHBvbGx1dGFudHMgZnJvbSB0aGUgZW52aXJvbm1lbnQuIE9uZSB0b3hpbiBvZiBtYWpvciBjb25jZXJuIGlzIGFyc2VuaWMgZHVlIGl0IGlzIHRveGljaXR5IGF0IHZlcnkgbG93IGNvbmNlbnRyYXRpb25zIGFuZCB0aGUgZmFjdCB0aGF0IGl0IGRvZXMgbm90IGJpb2RlZ3JhZGUuCgpUaGlzIHJlc2VhcmNoIGdyb3VwIGNsYWltcyB0aGF0IGEgbmV3bHkgZGV2ZWxvcGVkIHZhcmlldHkgb2Ygd2lsbG93IGFjY3VtdWxhdGVzIGhpZ2hlciBsZXZlbHMgb2YgYXJzZW5pYyAobWVhc3VyZWQgYXMgbWcgb2YgYXJzZW5pYyBwZXIga2cgb2YgcGxhbnQgZHJ5IHdlaWdodCkgdGhhbiBhIGxvY2FsIHNwZWNpZXMgb2YgcG9wbGFyIHRoYXQgaXMgY3VycmVudGx5IHVzZWQgaW4gcGh5dG9yZW1lZGlhdGlvbiBlZmZvcnRzLiBUaGUgcmVzZWFyY2ggZ3JvdXAgY29uZHVjdHMgYW4gZXhwZXJpbWVudCB1c2luZyAyMSByYW5kb21seSBzZWxlY3RlZCB0cmVlcyBmcm9tIGVhY2ggc3BlY2llcyB0aGF0IGFyZSBncm93aW5nIGluIGFyc2VuaWMgY29udGFtaW5hdGVkIHNvaWxzLiBBdCB0aGUgZW5kIG9mIHRoZSBleHBlcmltZW50LCB0aGUgYW1vdW50IG9mIGFyc2VuaWMgKG1nL2tnKSBpbiBlYWNoIHRyZWUgd2FzIG1lYXN1cmVkLiBCZWxvdyBhcmUgdGhlIGRhdGE7IGFzc3VtZSB0aGUgZGF0YSBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgpNZWFzdXJlbWVudHMgdGFrZW4gZnJvbSB0aGUgd2lsbG93IHRyZWVzOgoKYGBge3J9CndpbGxvdyA8LSBjKDU2LjIwLCA1NS44OSwgNTMuMzIsIDU0LjU3LCA1NS41MCwgNTYuMTEsIDU0Ljg4LCA1Ni42MiwgNTQuMzUsIDU2LjcxLCA1My4wMCwgNTQuMzksIDU3Ljc1LCA1My44NCwgNTguMzQsIDU1Ljc3LCA1My43NiwgNTYuNTQsIDU0Ljk5LCA1My4xNSwgNTMuNjcpCmBgYAoKTWVhc3VyZW1lbnRzIHRha2VuIGZyb20gdGhlIHBvcGxhciB0cmVlczoKYGBge3J9CnBvcGxhciA8LSBjKDU0LjYwLCA1NC41MywgNTQuOTMsIDU0LjYxLCA1NC40MywgNTYuMDMsIDUzLjkwLCA1NC40OCwgNTQuMzgsIDU0LjQwLCA1Ni4wNCwgNTYuMTcsIDU1LjIyLCA1My41MSwgNTMuOTQsIDUzLjE4LCA1NS4wOSwgNTQuMjksIDU2LjA1LCA1NC41MSwgNTUuMzEpCmBgYAoKIAoKJFx0ZXh0YmZ7KDNhKX0kIFdyaXRlIHRoZSBudWxsIGFuZCBhbHRlcm5hdGl2ZSBoeXBvdGhlc2VzIGZvciBhIHRlc3Qgb2YgdmFyaWFuY2UgZXF1YWxpdHkgYmV0d2VlbiB3aWxsb3cgYW5kIHBvcGxhciwgYW5kIHN0YXRlIHdoZXRoZXIgdGhpcyBpcyBhIHJpZ2h0LSwgbGVmdC0sIG9yIHR3by10YWlsZWQgdGVzdC4gKDMgcG9pbnRzKQoKJEhfe2F9IFxyaWdodGFycm93JCB2YXIod2lsbG93KSAkXG5lcSQgdmFyKHBvcGxhcilcCiRIX3tvfSBccmlnaHRhcnJvdyQgdmFyKHdpbGxvdykgPSB2YXIocG9wbGFyKVwKRHVlIHRvIHRoZSBpbmVxdWFsaXR5IG9mIHRoZSBhbHQgaHlwb3RoZXNpcywgdGhpcyBpcyBhIHR3by10YWlsZWQgdGVzdC4KCgokXHRleHRiZnsoM2IpfSQgVXNlIFIvUlN0dWRpbyB0byBmaW5kIHRoZSB2YXJpYW5jZSBvZiB0aGUgbGV2ZWxzIG9mIGFyc2VuaWMgYWNjdW11bGF0ZWQgaW4gdGhlIHdpbGxvdyBhbmQgcG9wbGFyIHRyZWVzLiAoMiBwb2ludHMpCgpgYGB7cn0Kd2lsX3ZhciA8LSB2YXIod2lsbG93KQpwb3BfdmFyIDwtIHZhcihwb3BsYXIpCmBgYAoKJFx0ZXh0YmZ7KDNjKX0kIENvbmR1Y3QgYSB0ZXN0IG9mIHZhcmlhbmNlIGVxdWFsaXR5IHVzaW5nIHZhci50ZXN0KCkgaW4gUi9SU3R1ZGlvLiBQYXN0ZSB5b3VyIGNvZGUgYW5kIG91dHB1dCBiZWxvdy4gKDQgcG9pbnRzKQoKYGBge3J9CnZhci50ZXN0KHdpbGxvdywgcG9wbGFyLCBhbHRlcm5hdGl2ZT1jKCd0d28uc2lkZWQnKSkKYGBgCgokXHRleHRiZnsoM2QpfSQgVXNpbmcgYWxwaGEgPSAwLjA1LCBzdGF0ZSB0aGUgc3RhdGlzdGljYWwgZGVjaXNpb24gYW5kIGludGVycHJldGF0aW9uIGZvciB0aGUgdGVzdCBvZiB2YXJpYW5jZSBlcXVhbGl0eT8gKDQgcG9pbnRzKQoKV2l0aCAkXGFscGhhJCA9IDAuMDUsIHdlIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRoYXQgdGhlIHZhcmlhbmNlcyBhcmUgZXF1YWwuCgokXHRleHRiZnsoM2UpfSQgR2l2ZW4geW91ciByZXN1bHRzIGluICgzYykgYW5kICgzZCksIGNvbmR1Y3QgdGhlIGFwcHJvcHJpYXRlIHR3by1zYW1wbGUgdC10ZXN0IHRvIHRlc3QgdGhlIGNsYWltIGZyb20gdGhlIHJlc2VhcmNoIGdyb3VwIHRoYXQgYSBuZXdseSBkZXZlbG9wZWQgdmFyaWV0eSBvZiB3aWxsb3cgYWNjdW11bGF0ZXMgaGlnaGVyIGxldmVscyBvZiBhcnNlbmljIHRoYW4gYSBsb2NhbCBzcGVjaWVzIG9mIHBvcGxhciB0aGF0IGlzIGN1cnJlbnRseSB1c2VkIGluIHBoeXRvcmVtZWRpYXRpb24gZWZmb3J0cy4gUGFzdGUgeW91ciBjb2RlIGFuZCBvdXRwdXQgYmVsb3cgKDUgcG9pbnRzKQpgYGB7cn0KdC50ZXN0KHBvcGxhciwgd2lsbG93LCBhbHRlcm5hdGl2ZSA9IGMoJ3R3by5zaWRlZCcpLCB2YXIuZXF1YWwgPSBGQUxTRSkKYGBgCgokXHRleHRiZnsoM2YpfSQgV2hlbiB1c2luZyBhbHBoYSA9IDAuMDUsIHdoYXQgaXMgdGhlIHN0YXRpc3RpY2FsIGRlY2lzaW9uIGFuZCBpbnRlcnByZXRhdGlvbj8gKDggcG9pbnRzKQoKIFdpdGggJFxhbHBoYSQgPSAwLjA1IHdlIGZhaWwgdG8gcmVqZWN0IHRoZSBudWxsIHRoYXQgdGhlIG5ld2x5IGRldmVsb3BlZCB2YXJpZXR5IG9mIHdpbGxvdyB0cmVlcyBhY2N1bXVsYXRlIGhpZ2hlciBsZXZlbHMgb2YgYXJzZW5pYy4=</div>
 
 
 

@@ -59,7 +59,8 @@ $\textbf{(1e)}$ Test your hypothesis from (1d) using the t.test function in R/St
 t.test(precip, mu = 30.2, alternative = c('greater'))
 ```
 
-$\textbf{(1f)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)
+$\textbf{(1f)}$ When using alpha = 0.05, what is the statistical decision and interpretation? (8 points)\
+
 Our p-value is less than alpha, so we reject the null hypothesis that annual rainfall is at most 30.2 in.
  
 

@@ -1,0 +1,33 @@
+> rep <- c(2,0,5,0,0,38)
+> dem <- c(8,27,14,1,2,55)
+> ind <- c(0,0,0,0,0,1)
+> fem_tot  <- sum(rep + ind + dem)
+> mal_tot <- 535 - fem_tot
+> san_check <- mal_tot + fem_tot
+ 
+(1) You randomly select one member from the 118th United States Congress. What is the probability that this randomly selected member is a female? What is the probability that this randomly selected member is a non-white female? What is the probability that this randomly selected member is a male? Round your answers to three decimal places.
+
+
+prob_fem <-  fem_tot / san_check
+ 
+fem_nonwhite <- sum(dem[-6] + ind[-6] + rep[-6])
+ 
+(2) You randomly select one member from the 118th United States Congress. What is the probability that this randomly selected member is a non-white Republican female? What is the probability that this randomly selected member is a non-white Democratic female? Round your answers to three decimal places. (7.5 points)
+ 
+(3)You randomly select one female member among all the female members in the 118th United States Congress. What is the probability that this randomly selected member is a Republican? What is the probability that this randomly selected member is a Democrat? Round your answers to three decimal places. (7.5 points)
+ 
+(4) You randomly select one member from the 118th United States Congress, and then without replacement randomly select a second member. What is the probability that both are women? Round your answer to three decimal places. (7.5 points)
+ 
+(5) You randomly select one member from the 118th United States Congress, and then without replacement randomly select a second member. What is the probability the first member selected is a man and the second member selected is a Latina/Hispanic woman? Round your answer to three decimal places. (7.5 points)
+ 
+(6) You randomly select four members from the 118th United States Congress one at a time and without replacement. What is the probability that all four members selected are men?  What is the probability that all four members selected are female? Round your answer to three decimal places. (7.5 points)
+ 
+(7) You randomly select two members at the same time from the 118th United States Congress. What is the probability that both members selected are men?  What is the probability that both members selected are female? Round your answer to three decimal places.
+ 
+(8) You randomly select one member from the 118th United States Congress. What is the probability that you selected a member who is a female Republican or a Latina/Hispanic woman? (7.5 points)
+ 
+(9) You randomly select one member from the 118th United States Congress. What is the probability that you selected a member who is an Asian American/Pacific Islander Republican female or an Asian American/Pacific Islander Democratic female? (7.5 points)
+ 
+(10) The ten Asian American/Pacific Islander women (from all parties) want a group photo of themselves in the U.S. Capital building. If there are ten chairs lined up in a row in the Capital for the photo, how many different ways can the women be seated? (7.5 points)
+ 
+
