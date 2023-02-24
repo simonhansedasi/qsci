@@ -135,7 +135,7 @@ summary(model)
 
 **(3b)** Using your output from (3a), what is the estimate of the slope of the linear regression? What is your statistical conclusion and interpretation of the slope estimate when using alpha = 0.05? (4 points)\
 
-The slope is 40.5617. The null hypothesis states $H_{o} \rightarrow$ 40.5617 = 0. The p-value is not less than alpha so we can not reject the null hypothesis. 
+The slope is 5.1072. The null hypothesis states $H_{o} \rightarrow$ 5.1072 = 0. The p-value is less than alpha so we can reject the null hypothesis that says 5 = 0.
 
 **(3c)** Interpret the adjusted R-squared value from your output from (3a). What does this value represent? (4 points)\
 
@@ -169,7 +169,7 @@ abline(object name)
 where object name is the object where your linear regression model was stored when using lm() in (3a). Paste your plot with your line of best fit below. (10 points)\
 
 ```{r}
-plot(LifeSpan, Gestation, pch = 16, main = 'Gestation as a function of LifeSpan', xlab = 'Life Span (years)', ylab = 'Gestation (days)')
+plot(LifeSpan, Gestation, pch = 16, col = 'red',main = 'Gestation as a function of LifeSpan', xlab = 'Life Span (years)', ylab = 'Gestation (days)')
 abline(model)
 ```
 
