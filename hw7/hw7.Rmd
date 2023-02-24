@@ -36,7 +36,7 @@ summary(waste_ANOVA)
 
 **(1d)** When using alpha = 0.01, what is your statistical conclusion and interpretation based on your results in (1c)? (4 points)\
 
-Our P-value is far below the alpha value so we reject the null and accept that at least one mean is different. At least one company has more or less mean wasted hours than the other companies.
+Our P-value is far below the alpha value so we reject the null and accept that at least one mean is different. At least one company has more or fewer mean wasted hours than the other companies.
 
 **(1e)** Now, let's use R/RStudio to make a box-and-whiskers plot of the hours wasted for each company. In a box-and-whiskers plot, the “boxes” for each group represent the IQR, and the solid line through each box is the median. The “whiskers” are the dashed lines below and above each box and represent the range over which approximately 95% of the data are contained. To make a box-and-whiskers plot, use the following command:\
 ```{r}
@@ -58,8 +58,9 @@ Paste your results below. (2 points)
 TukeyHSD(waste_ANOVA)
 ```
 
-**(1h)** Examine your output from the TukeyHSD post hoc test. Using alpha=0.05, which companies significantly differ in the number of hours wasted? Which companies do not significantly differ in the number of hours wasted? (5 points)
+**(1h)** Examine your output from the TukeyHSD post hoc test. Using alpha=0.05, which companies significantly differ in the number of hours wasted? Which companies do not significantly differ in the number of hours wasted? (5 points)\
 
+Company A is significantly different from B C and D, and from the boxplot we know company A has significantly fewer hours wasted. Companies B and C do not significantly differ in hours wasted. Company D is significantly different (more hours wasted) from company C, but not from company B\
  
 
 **Part 2: Correlation**
@@ -72,49 +73,104 @@ LifeSpan = the maximum life span in years
 
 Gestation = the mean gestation period in days
 
- 
+After downloading the dataset and changing your working directory, use the read.csv command to import the dataset, and then attach the data to your R/RStudio workspace:\
 
-After downloading the dataset and changing your working directory, use the read.csv command to import the dataset, and then attach the data to your R/RStudio workspace:
-
+```{r}
 sleep <- read.csv("sleep.csv", head=TRUE)
-
 attach(sleep)
+```
+
 
 **(2a)** Before conducting any analyses, explore the sleep dataset by plotting pair-wise scatterplots using the following command:
 
+```{r}
 plot(sleep)
+```
 
-Paste your pair-wise scatterplot below. (2 points)
+**(2b)** Examine the pair-wise scatterplot in (2a). Which pair of variables, if any, would you expect to be negatively correlated? Which pair of variables, if any, would you expect to be positively correlated. Justify your response. (3 points)\
 
-**(2b)** Examine the pair-wise scatterplot in (2a). Which pair of variables, if any, would you expect to be negatively correlated? Which pair of variables, if any, would you expect to be positively correlated. Justify your response. (3 points)
+From the pair-wise scatter plot it would appear that total sleep is negatively correlated with gestation and life span. Gestation and life span appear to be positively correlated.
 
-**(2c)** Consider the correlation coefficient, R, between all possible pairs of the variables within the sleep dataset. Write the null and alternative hypotheses for r in a correlation analysis. (2 points)
 
-**(2d)** Now, conduct a correlation analysis between all possible pairs of the variables within the sleep dataset. Paste your code and output below for each pair of variables. (6 points)
+**(2c)** Consider the correlation coefficient, R, between all possible pairs of the variables within the sleep dataset. Write the null and alternative hypotheses for r in a correlation analysis. (2 points)\
 
-**(2e)** Using the output from cor.test in (2d), what is the estimate of the correlation coefficient, r, for each pair of variables? (3 points)
+$H_{o}$ = Total Sleep is correlated with Life Span\
+$H_{o}$ = Total Sleep is correlated with Gestation\
+$H_{o}$ = Life Span is correlated with Gestation\
 
-**(2f)** Using alpha = 0.01 and the output from (2d), what is your statistical conclusion and interpretation for each pair of variables? (9 points)
+$H_{a}$ = Total Sleep is not correlated with Life Span\
+$H_{a}$ = Total Sleep is not correlated with Gestation\
+$H_{a}$ = Life Span is not correlated with Gestation\
 
- 
+
+
+**(2d)** Now, conduct a correlation analysis between all possible pairs of the variables within the sleep dataset. Paste your code and output below for each pair of variables. (6 points)\
+
+```{r}
+
+cor.test(TotalSleep, LifeSpan)
+cor.test(TotalSleep, Gestation)
+cor.test(LifeSpan, Gestation)
+
+```
+
+**(2e)** Using the output from cor.test in (2d), what is the estimate of the correlation coefficient, r, for each pair of variables? (3 points)\
+
+r = -0.4201818 $\rightarrow$ TotalSleep and LifeSpan\
+r = -0.6372104 $\rightarrow$ TotalSleep and Gestation\
+r = 0.6311067 $\rightarrow$ LifeSpan and Gestation\
+
+**(2f)** Using alpha = 0.01 and the output from (2d), what is your statistical conclusion and interpretation for each pair of variables? (9 points)\
+
+ All three pairs fail to reject the null hypothesis that there is correlation between the variables. TotalSleep and Lifespan are negatively correlated, and a similar negative, though slightly stronger correlation exists between TotalSleep and Gestation. LifeSpan and Gestation are positively correlated.\
 
 **Part 3: Linear Regression Analysis, Using LifeSpan to predict Gestation**
 
-**(3a)** Use R/RStudio to conduct a linear regression to determine if LifeSpan (independent variable) predicts Gestation (dependent variable) using the dataset from Part 2 (sleep.csv). Fit a linear regression using lm(). Paste your code and output below. (2 points)
+**(3a)** Use R/RStudio to conduct a linear regression to determine if LifeSpan (independent variable) predicts Gestation (dependent variable) using the dataset from Part 2 (sleep.csv). Fit a linear regression using lm(). Paste your code and output below. (2 points)\
 
-**(3b)** Using your output from (3a), what is the estimate of the slope of the linear regression? What is your statistical conclusion and interpretation of the slope estimate when using alpha = 0.05? (4 points)
+```{r}
+model <- lm(Gestation~LifeSpan)
+summary(model)
+```
 
-**(3c)** Interpret the adjusted R-squared value from your output from (3a). What does this value represent? (4 points)
+**(3b)** Using your output from (3a), what is the estimate of the slope of the linear regression? What is your statistical conclusion and interpretation of the slope estimate when using alpha = 0.05? (4 points)\
 
-**(3d)** Use your output from (3a) to write the regression equation. (2 points)
+The slope is 40.5617. The null hypothesis states $H_{o} \rightarrow$ 40.5617 = 0. The p-value is not less than alpha so we can not reject the null hypothesis. 
+
+**(3c)** Interpret the adjusted R-squared value from your output from (3a). What does this value represent? (4 points)\
+
+The R$^{2}$ value represents how much variation the model can explain. Here, the R$^{2}$ value is indicating the model can account for about 1/3 of the variation between the two variables.
+
+**(3d)** Use your output from (3a) to write the regression equation. (2 points)\
+
+Gestation = 40.5617 + 5.1072 * LifeSpan
 
 **(3e)** Use your regression equation from (3d) to predict the Gestation time in mammals that have a LifeSpan = 7, 32, and 68. (3 points)
 
-**(3f)** Plot the relationship between LifeSpan and Gestation using plot(). Plot LifeSpan on the x-axis and Gestation on the y-axis. Add appropriate axis labels and a main title, and a color of your choice.
+```{r}
+g_1 <- 40.5617 + 5.1072 * 7
+g_2 <- 40.5617 + 5.1072 * 32
+g_3 <- 40.5617 + 5.1072 * 68
+
+print(paste('Gestation for lifespan of 7 years =',  g_1, 'days'))
+print(paste('Gestation for lifespan of 32 years =',  g_2, 'days'))
+print(paste('Gestation for lifespan of 68 years =',  g_3, 'days'))
+
+```
+
+**(3f)** Plot the relationship between LifeSpan and Gestation using plot(). Plot LifeSpan on the x-axis and Gestation on the y-axis. Add appropriate axis labels and a main title, and a color of your choice.\
+
+
 
 After making this plot, you can add a line of best fit based on your linear regression using the abline() function in R/RStudio:
 
 abline(object name)
 
-where object name is the object where your linear regression model was stored when using lm() in (3a). Paste your plot with your line of best fit below. (10 points)
+where object name is the object where your linear regression model was stored when using lm() in (3a). Paste your plot with your line of best fit below. (10 points)\
+
+```{r}
+plot(LifeSpan, Gestation, pch = 16, main = 'Gestation as a function of LifeSpan', xlab = 'Life Span (years)', ylab = 'Gestation (days)')
+abline(model)
+```
+
 
