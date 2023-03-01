@@ -1,0 +1,54 @@
+---
+title: "HW8"
+author: "Simon Hans Edasi"
+date: "2023-03-03"
+output: html_document
+---
+
+Multiple Regression: Urban Mortality Rates. In this lab, you will use data from file mortality.csv that is available in Canvas (Files\Lab Datasets). The data contained in this file are from a study in which researchers were studying factors associated with mortality rates in 60 urban areas in the United States in the 1960s; we will be using a subset of the original dataset.
+
+The file contains 7 columns of data collected from each of the 60 urban areas. The columns include:
+
+Size: the mean household size
+
+School: the median number of school years completed by those over 22
+
+Density: Population per square mile
+
+Nonwhite: Percentage of the non-white population
+
+NO: Measure of the levels of nitric oxides as a pollutant
+
+Poverty: Percentage of families with an income below the poverty level
+
+Mort.Rate: the mortality rate per 100,000 residents
+
+We will be using multiple regression to measure the effect of the predictor variables Size, School, Density, Nonwhite, NO, and Poverty on the response variable, Mort.Rate.
+
+(1) Before conducting a regression analysis, let’s explore the dataset by a plotting pair-wise scatterplot using the plot() command (recall your code from Lab 7). Add a color of your choice and paste your plot below. (6 points)
+
+```{r}
+mortality <- read.csv('mortality.csv')
+attach(mortality)
+plot(mortality, pch = 16, col = 'red')
+```
+
+(2) In your pair-wise scatterplot, which, if any, predictor variables appear to be correlated with Mort.Rate? Which, if any, predictor variables do not appear to be correlated with Mort.Rate? (12 points)
+
+Mortality rate appears to be correlated with Poverty, Nonwhite, Density, and School.
+
+(3) Multiple linear regression assumes that the response variable is normality distributed. Plot a histogram of the response variable, Mort.Rate. Include a title and a color of your choice, and paste your histogram below. (6 points)
+
+(4) What is the mean and median of Mort.Rate? Based on a visual assessment of your histogram in (3), and your estimates of the mean and median, do you conclude that Mort.Rate is normally distributed? Why or why not? (9 points)
+
+(5) Regardless of your conclusion in (4), let's assume Mort.Rate is normally distributed, and let's use multiple regression to determine which, if any, of the predictor variables can be used to statistically predict Mort.Rate. Run a multiple regression and include all predictor variables from the dataset when using Mort.Rate as the response variable. Paste your code and output below. (6 points)
+
+(6) Test the null hypothesis, Ho: estimate = 0, for each predictor variable using alpha=0.05, and indicate your statistical conclusion for each (12 points)
+
+(7) Conduct a correlation test between Mort.Rate and each significant predictor variable (when using alpha = 0.05) from your output in (5), and list the correlation coefficients for each below. (6 points)
+
+(8) Interpret the correlation coefficients from (7); how does each significant predictor variable relate to Mort.Rate? (6 points)
+
+(9) Based on your output from (5), what is the final regression equation? (6 points)
+
+(10) Using your output from your multiple regression model in (5), how much of the variation in Mort.Rate is explained by the predictor variables? (6 points)
