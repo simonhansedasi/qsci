@@ -30,25 +30,94 @@ We will be using multiple regression to measure the effect of the predictor vari
 ```{r}
 mortality <- read.csv('mortality.csv')
 attach(mortality)
-plot(mortality, pch = 16, col = 'red')
+plot(mortality, pch = 16, cex = 0.5, col = 'red')
 ```
 
 (2) In your pair-wise scatterplot, which, if any, predictor variables appear to be correlated with Mort.Rate? Which, if any, predictor variables do not appear to be correlated with Mort.Rate? (12 points)
 
-Mortality rate appears to be correlated with Poverty, Nonwhite, Density, and School.
+Mortality rate appears to be correlated with Poverty, Nonwhite, and School.
 
 (3) Multiple linear regression assumes that the response variable is normality distributed. Plot a histogram of the response variable, Mort.Rate. Include a title and a color of your choice, and paste your histogram below. (6 points)
 
+```{r}
+hist(Mort.Rate, col = 'light blue', main = 'Histogram of Mortality Rate')
+```
+
 (4) What is the mean and median of Mort.Rate? Based on a visual assessment of your histogram in (3), and your estimates of the mean and median, do you conclude that Mort.Rate is normally distributed? Why or why not? (9 points)
+
+```{r}
+mean(Mort.Rate)
+median(Mort.Rate)
+```
+
+The mean and median are about the center of the semi-bell curve. There is no heavy skew and kurtosis looks fine. I think this is more-or-less normally distributed.
+
+```{r}
+shapiro.test(Mort.Rate)
+```
 
 (5) Regardless of your conclusion in (4), let's assume Mort.Rate is normally distributed, and let's use multiple regression to determine which, if any, of the predictor variables can be used to statistically predict Mort.Rate. Run a multiple regression and include all predictor variables from the dataset when using Mort.Rate as the response variable. Paste your code and output below. (6 points)
 
+```{r}
+summary(model <- lm(Mort.Rate~Poverty+NO+Nonwhite+Density+School+Size))
+```
+
 (6) Test the null hypothesis, Ho: estimate = 0, for each predictor variable using alpha=0.05, and indicate your statistical conclusion for each (12 points)
+
+Poverty    p_value = 0.04 - reject $H_{o}$ \
+NO         p_value = 0.48 - Fail to reject $H_{o}$ \
+Nonwhite   p_value = 8*10$^{-7}$ - reject $H_{o}$ \
+Density    p_value = 0.33 - Fail to reject $H_{o}$ \
+School     p_value = 0.0021 - reject $H_{o}$ \
+Size       p_value = 0.46 - Fail to reject $H_{o}$ \
 
 (7) Conduct a correlation test between Mort.Rate and each significant predictor variable (when using alpha = 0.05) from your output in (5), and list the correlation coefficients for each below. (6 points)
 
+```{r}
+cor.test(Mort.Rate, Poverty)
+```
+Correlation coefficient between mortality rate and poverty is 0.41, and confidence intervals do not contain 0.
+
+```{r}
+cor.test(Mort.Rate, NO)
+```
+Correlation coefficient between mortality rate and Nitrous Oxide leakage is -0.080 and confidence intervals contain 0.
+
+```{r}
+cor.test(Mort.Rate, Nonwhite)
+```
+Correlation coefficient between mortality rate and nonwhite is 0.64 and confidence intervals do not contain 0.
+
+
+```{r}
+cor.test(Mort.Rate, Density)
+```
+Correlation coefficient between mortality rate and density is 0.27 and confidence intervals do not contain 0.
+
+
+```{r}
+cor.test(Mort.Rate, School)
+```
+Correlation coefficient between mortality rate and school is -.51 and confidence intervals do not contain 0.
+
+
+
+```{r}
+cor.test(Mort.Rate, Size)
+```
+Correlation coefficient between mortality rate and size is 0.38 and confidence intervals do not contain 0.
+
+
+
+
 (8) Interpret the correlation coefficients from (7); how does each significant predictor variable relate to Mort.Rate? (6 points)
+
+Positive values of correlation coefficients mean positive correlation of variables, and distance from 0 represents how much the variables co-vary. From highest to lowest positive correlation with mortality rate we have nonwhite, poverty, size, and density. School is negatively correlated with mortality rate as is nitrous oxide leakage, however NO is very weakly correlated and the confidence intervals include zero, which leads to a possibility that mortality rate and NO is not correlated at all.
 
 (9) Based on your output from (5), what is the final regression equation? (6 points)
 
+mortality rate = (-4.69 * poverty) + (-899.4 * NO) + (5.62 * nonwhite) + (439.4 * density) + (-34.18 * school) + (-40.61 * size) + 1434
+
 (10) Using your output from your multiple regression model in (5), how much of the variation in Mort.Rate is explained by the predictor variables? (6 points)
+
+From the adjusted R$^{2}$ = 0.5861, we can explain about 59% of mortality rate variation with this regression model.
