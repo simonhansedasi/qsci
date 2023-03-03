@@ -2,10 +2,12 @@
 title: "HW8"
 author: "Simon Hans Edasi"
 date: "2023-03-03"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
-Multiple Regression: Urban Mortality Rates. In this lab, you will use data from file mortality.csv that is available in Canvas (Files\Lab Datasets). The data contained in this file are from a study in which researchers were studying factors associated with mortality rates in 60 urban areas in the United States in the 1960s; we will be using a subset of the original dataset.
+Multiple Regression: Urban Mortality Rates. In this lab, you will use data from file mortality.csv that is available in Canvas (Files/Lab Datasets). The data contained in this file are from a study in which researchers were studying factors associated with mortality rates in 60 urban areas in the United States in the 1960s; we will be using a subset of the original dataset.
 
 The file contains 7 columns of data collected from each of the 60 urban areas. The columns include:
 
