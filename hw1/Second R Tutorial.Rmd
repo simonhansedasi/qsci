@@ -1,0 +1,563 @@
+---
+title: "2nd R Tutorial"
+author: "Simon Hans Edasi"
+date: "4/13/2023"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sections to Review
+  
+Please take the time to review pages ix - 21 (up to section 1.8) and save your work in R Markdown frequently.
+
+\vspace{0.25cm}
+
+
+ 
+In this tutorial, please actively read pages 21 (section 1.8) to 47 (to section 2.3.1);
+   pages 48 (section 2.4) till 49;
+   pages 57 - 59 (section 3.1);
+   pages 79 - 92;
+   pages 203 - 218; and 
+   pages 219 - 221.
+ 
+Please make sure to do the exercises in the blue boxes. We will read other pages as we proceed through the course, but these will provide a solid start.  In this tutorial,
+we will also see some additional things that R Markdown can that will make the print out of your work more readable.  Check the R Cheat Sheet for R Markdown for a summary of the available commands.
+
+\vspace{0.95cm}
+
+## Introduction
+ 
+In the prior tutorial, we learned how to manipulate a vector just as we did with algebraic variables. Data  sets are not just vectors and they need to be manipulated as well during analyses.  How do we do that in R?  R has a base level of functions that do that, but over time other R users have created functions that more easily and powerfully provide the manipulation of of tabular data.  These functions can "slice and dice" those data tables in many useful ways.  The current workhorse that does that easily is the "dplyr" package.  Of course, in order to make use of the functionality of "dplyr", one has to learn its syntax and use.
+   
+ \vspace{0.55cm}
+ 
+ 
+In reading through BC&P, you will have loaded package "dplyr" in your scripts without having learned its syntax or use. You will also notice that these tutorials have skipped over the pages in BC&P that thoroughly explore "that package"dplyr".It is a very powerful package for data manipulation, and you should feel free to read it and learn how to use it, but since our goal is not to learn R in depth, We will often use data sets that will have already been formatted as needed. Please read the author's comments on the bottom of page 55 ("Why not rearrange the data in EXCEL....") regarding why they suggest, and if you plan to use R seriously you should, you learn to use "dplyr".
+
+\vspace{0.55cm}
+ 
+Even though we will not explore "dplyr" in any depth, it is a simple and powerful function. Since this is an introductory course in statistics rather than R, it was decided to learn enough R so that we can concentrate on understanding what is behind the the procedures and have R do the tedious calculations. We will learn how to do those calculations by hand, so that know what is going on.  We will decide what procedures to use and what the results mean. But, ultimately R will be used to do the calculations.  
+
+ \vspace{0.55cm}
+  
+At some point you may wish to go back and read the sections in BC&P that were purposely skipped, realizing when you do so that learning to use "dplyr" is not hard.  But trade-offs had to be made and one of those concerned "dplyr". Please feel free to read about "dplyr" and use it if you wish.  It  make take extra time, but it certainly makes data set up and manipulation much easier.  You do not have to do this right now. After having completed these tutorials, you should be able to study it on your own and use the features in that you need. BC&P will walk you through its use with numerous examples.  This is an approach that is often used by people using R for research work.  
+
+ \vspace{0.55cm}
+ 
+As BC&P mention many times, there are many many places you can go to learn how to use a feature in R.  These tutorials just give you a start in how to do that.  From here, nothing can stand in your way of mastering as much of R as you need, or wish. On some occasions in these tutorials and in our class assignments, we will benefit from using some of "dplyr's' features. In these assignments and in the rest of these tutorials we will simply include the needed features of "dplyr" in the scripts as needed and ask that you accept their use. 
+
+ \vspace{0.55cm}
+  
+Once again, you are encouraged to read the corresponding pages in BC&P about these features if you so choose.  Read as much of the rest of BC&P as you like.  If you have questions from your reading, please ask the TAs or me.
+Some of you may go on to take courses that make extensive use of R, e.g., Q SCI 482 and 483.  If you do, please remember that BC&P is a great reference on "dplyr". It is well written with straight forward examples that you can refer back to as needed.  That is one reason this text was selected for our class.
+
+ \vspace{0.55cm}
+  
+Given the importance of using our eyes to do exploratory data analysis before just rushing to attack the data with some computerized statistical procedures, we will make constant use  of the plot function "ggplot" that is found in the package "ggplot2".  As BC&P point out, there are 8,000 such packages available in R, and this list grows everyday.
+ 
+  
+\vspace{0.55cm}
+  
+Over the last 50 years, the mainstream statistical packages have changed and they will change again in our lifetimes. From the 1960's, when packages like BMD, SPSS, and SAS dominated in the mainframe computer era, to the personal computer era when PC/Mac versions of SPSS and SAS became popular. Now packages like R, and Python are more commonly used.  The benefit of learning the basics of R now is that when a new package  replaces it, you will already know how to use a software package. Learning a new package will then be easier than it was the first time you did.
+ 
+\vspace{0.55cm} 
+   
+Completing this tutorial will help you acquire a good working knowledge of R and be ready to use it in this class and others. Refer to BC&P throughout the course to remind yourself about how to do something in R. Ask one of us for help when, after you have tried to figure it out on your own first, you can not figure things out.We are happy to help.We will build on what you will have learned to manipulate data, explore data, perform statistical analyses on the data, and plot the results. Along the way, you will see what is behind many of the analyses you have read about in journal articles and the serious press. 
+
+ 
+ \vspace{0.55cm}
+ 
+ 
+Our class assignments will consist of walking through what we need to do step-by-step, but knowing the basics of R will make that much easier; allowing us to focus on the procedures rather than on the syntax of a Particular Software package. Along the way, you will have acquired a useful skill. Perhaps it will help you get an internship, a spot in someone's lab, or a job after graduation. 
+
+ \vspace{0.55cm}
+ 
+I cannot predict the future.But one thing is clear today, digital-skills jobs will be where there is the greatest demand. Those jobs will be less likely to be affected by things like pandemics. This class is a safe place to explore, learn, practice, and develop those skills.
+ 
+ 
+\vspace{0.55cm}
+
+Use the R script space below as you work your way through the pages in BC&P.  When the authors mention looking through the menus, then please do so.  Explore the four panes as the authors mention various things you can do with the tabs in those menus. Try out the things mentioned and it will help you get comfortable like nothing else can.  The text is good at walking you through much of what RStudio permits you to do.  
+ 
+\vspace{0.55cm} 
+ 
+You can not break anything in R. Make sure to frequently save your work. Computer processors crash and your hard work may be lost if you fail to save it. I have that happen once and you will know why saving your work is a wise idea. If you have questions, please ask us for help. We are happy to help. Remember to start by clearing the memory in your R workspace.Liberally use white space and comments to make your script easy to follow, remember the purpose and use of, and understand. 
+
+ \vspace{0.55cm}
+ 
+All of the data referred to in BC&P will be found on our course Canvas website.  The path is:
+ 
+     Files > R Material and Information  > Getting Started with R 2nd Edition  > Data Sets for BC&P Text.
+ 
+                                                           
+\vspace{1cm}
+
+                                                           
+ 
+## Some other reminders
+
+\vspace{0.55cm}
+ 
+When you use plotting functions in scripts, be sure to click the Plots tab in the lower right pane of RStudio.That is where the plots will appear. The left and right arrows will allow you to see all of the plots that your script has created.
+
+ \vspace{0.55cm}
+    
+When using help functions in the scripts, remember to open the Help tab in the lower right pane of RStudio.
+If you do any work with packages, e.g., installing them, you will need to open the Packages tab in the lower right pane of RStudio.
+
+ 
+                                                           
+\newpage
+                    
+ 
+## Chapter One
+ 
+\vspace{0.55cm}                
+ 
+Use the space below to enter the code on page 18 of BC&P. Run (execute) it and see what is returned.
+Make sue to execute all of the code segments (scripts) you encounter and/or create in this and the other tutorials.
+ 
+\vspace{0.25cm}
+
+ 
+Let's follow the code shown on page 23 of BC&P.  
+Clear the memory (refer to "A First R Tutorial.Rmd" if you forgot how to do this).
+
+\vspace{0.25cm}
+  
+```{r}
+rm(list = ls())
+```
+
+ \vspace{0.25cm}
+ 
+ 
+  Now use R as a calculator. Enter the code from bottom of page 23 of BC&P in the space        below.
+  
+  \vspace{0.25cm}
+  
+```{r}
+1+1
+2*4
+3/8
+11.75 - 4.813
+10^2
+log(10)
+log10(10)
+sin(2*pi)
+x <-seq(1,10,0.5)
+y <- seq( 101,110, 0.5)
+x+y
+
+```
+
+\vspace{0.25cm}  
+ 
+Enter the code to make the packages "dplyr" and "ggplot2" and their associated functions available to use.
+  
+  
+\vspace{0.25cm}  
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+```
+
+\vspace{0.25cm}
+
+  Clear the memory in the space below.
+  
+\vspace{0.25cm}
+  
+```{r}
+rm(list = ls())
+```
+
+\vspace{0.25cm}
+  
+ More practice using R as a calculator.  Cut and paste the code at the bottom of page 23 in the space below and run it.  What happens?
+  
+\vspace{0.25cm}
+  
+```{r}
+1+1
+2*4
+3/8
+11.75 - 4.813
+10^2
+log(10)
+log10(10)
+sin(2*pi)
+x <- seq(1, 10, 0.5)
+y <- seq(101, 110, 0.5)
+x+y
+```
+
+ \vspace{0.25cm} 
+ 
+Enter the code for the discussion in the blue box on pages 25 - 26 of BC&P.  Please run it.
+Read through some of it as the authors discuss.
+ 
+ \vspace{0.25cm} 
+
+
+
+```{r}
+seq()
+```
+
+  \vspace{0.25cm}
+ 
+Building on what we have learned so far, let's do the exercises on page 26 of BC&P. Get the documentation for "qplot()", which stands for quick plot, and read through some of it.
+ 
+ \vspace{0.25cm} 
+
+```{r}
+?qplot()
+```
+
+\vspace{0.25cm}
+
+Get and look through the documentation for "rnorm()".
+
+\vspace{0.25cm} 
+  
+```{r}
+?rnorm()
+```
+
+\vspace{0.25cm}
+ 
+Time for three exercises from BC&P. Please use the suggestions in the text for good formatting of your scripts.  Read pages 25 34 in BC&P .
+ 
+**Again, no page numbers. Please define a chapter heading.**
+\newpage
+
+                          
+ 
+##  Exercise  1 (first bullet point on page 26)
+	
+- Plot a graph with x2 on the y-axis and x on the x-axis.
+
+- Plot a graph with the sine of x on the y-axis and x on the x-axis.
+
+- Plot a histogram of 1000 random normal deviates.
+
+### **#1**
+  
+```{r}
+rm(list = ls())
+library(ggplot2)
+```
+
+  
+```{r}
+x <- seq(-10, 10, 0.1)
+y <- x^2
+qplot(x, y, geom = 'line')
+```
+
+   
+```{r}
+x <- seq(0, 25, .1)
+y <- sin(x)
+qplot(x, y, geom = 'line')
+```
+## Exercise  3 (third bullet point on page 26)  
+
+\vspace{0.25cm}
+
+Place your code below. Later in class, we will learn what a normal distribution is, what is meant by a random normal deviate, and what a histogram  is later in class.
+ 
+ 
+  
+Clear the memory and make the package "ggplot2" and its associated functions available to use.
+
+\vspace{0.25cm}
+  
+```{r}
+
+
+```
+
+ \vspace{0.25cm}
+  
+Generate 1000 deviates from the normal 0,1 distribution. Assign the results to a vector,x.
+
+\vspace{0.25cm}
+  
+```{r}
+x <- rnorm(1000, mean = 0, sd = 1)
+qplot(x)
+```
+
+  
+Just for fun let's generate 1,000,000 random normal deviates.
+
+\vspace{0.25cm}
+ 
+  
+```{r}
+rm(list=ls())
+library(ggplot2)
+x <- rnorm(1000000)
+qplot(x)
+```
+
+  \vspace{0.25cm}
+ 
+Please note: The speed with which the code processes depends on your computer's processor. We will learn to refine histograms later.
+ 
+ 
+The message: "Pick better value with 'binwidth'" is a message (not a warning or error). The person that wrote the code for "ggplot2" is telling you that it is unlikely that the default value the function was programmed to use ('bins = 30') will look the best, so you may want to change the number of bins to see what looks best. 
+ 
+What looks best depends on your data, so there is no rule of thumb to follow.  You can experiment different settings using "binwidth = some number".  Bin width is the width of each bar in the histogram.
+ 
+  
+
+ \newpage
+
+
+                
+ 
+## Chapter Two
+
+ \vspace{0.55cm} 
+  
+  
+As a reminder, all of the data referred to in BC&P will be found on our course Canvas website. The path is:
+ 
+     Files > R Material and Information >
+       > Getting Started with R 2nd Edition > 
+       > Data Sets for BC&P Text.
+       
+Read pages 35 - 50 as you work through this section.      
+All of these files are saved in *.csv (or comma-separated values) format. Please note the suggestions for creating data bases and file folders the authors discuss. Doing this will organize your work and make it easier to find and work with. You are welcome to to set up your data files as you wish, but I suggest you simply copy the data files you need from Canvas and save them to a file on your desktop for ease of use.
+ 
+Feel free to read and explore using the four Methods of entering data into R/RStudio discussed in CB&P.We will just use Method 1 on page 42 of CB&P, "Import Dataset" from the Environment tab of the upper right pane of RStudio, you should choose either "From Text (readr)..."  or "From Text (base)..." , then browse to import .csv data.  There does not appear to be a "From CSV" choice anymore, as mentioned in CB&P, in RStudio. This is not unusual. Books are written at a certain point in time and they do not automatically update. You should also be aware that there are frequent updates issued for R and RStudio.  Once initially downloaded R and RStudio are easily updated using the Help tab above the R Script pane.
+ 
+In R, data sets in the spreadsheet-like format of compensation is referred to as a data frame.  It actually represents something special in R. The other data types in R are vectors (which we have already seen and used), matrices, and lists. We will not go any further into the various data types.  But please feel free to ask for Help to understand the differences among these data types. You can simply write the following R scripts:
+
+ \vspace{0.25cm}
+
+
+```{r}
+# Get help
+?data.frame
+?matrix
+?vector
+?list
+```
+
+ \vspace{0.25cm} 
+
+We will import the compensation data set using "Import Dataset". Please use the path to the data set that you set up. In R and in most other software packages, this path is referred to as a working directory, which is basically the location of the file where your code and data are stored.  BC&P briefly discuss this on pp. 44 - 45 and show you how to set it in RStudio (p. 44). They do not use it in their code since everyone could have a different  working directory. It might be easiest for you if you copy the data files for these tutorials and our other class assignments your desktop, but you are free to create some other location. 
+ 
+  
+Import the compensation data set using "Import Dataset". Assign the data to a data frame named "compensation".  Be sure to include the path to the location where you placed the data in your computer.
+  
+\vspace{0.25cm}
+
+```{r}
+
+df <- read.csv('compensation.csv')
+df
+```
+
+ \vspace{0.25cm}
+  
+  
+When the Import Dataset code runs, you should see another tab open in the Script pane titled "compensation".Open it and you will see the compensation dataset. That is a convenient place to check the structure of your data set, however, think about doing than with a data set of thousands (or more) of entries.  In the class we will also learn some other methods, e.g., graphing the data to find entry errors.  Please take the time to actively AND CAREFULLY read section 2.3 in BC&P.  A lot of time and often money goes into collecting data.  After all of that, it would be a waste to analyze data that is contaminated in someway.  
+ 
+You may want to think about what you would do if in reviewing your own data you should find an an abnormality in it. We call abnormalities outliers. How do you decide if it is an error or something real?  How would you check?  What would you look at?  Execute the follwoing code.
+
+\vspace{0.25cm}
+ 
+```{r}  
+library(readr)
+compensation <- read_csv("compensation.csv")
+View(compensation)
+```
+
+ \vspace{0.25cm}
+ 
+  
+Now we will add the functions mentioned in BC&P (pp. 46 - 47) to your script, we will also add "mode()" and "tail()". Before we do that, let's ask for help about each function, one at a time.  Execute the following Help requests one at a time, then read the Help that is offered. Check the documentation for the functions in the lines below.
+ 
+\vspace{0.25cm}
+
+```{r}
+# Get help
+?mode()
+
+?names()
+
+?head()
+
+?dim()
+
+?str()
+
+?tail()
+
+?glimpse() #This is a function in"dplyr"
+
+?tbl_df() #This is a function in"dplyr"
+```
+
+  \vspace{0.25cm}
+  
+ 
+Now  we will run the functions mentioned in BC&P plus "mode()" and "tail()". 
+Run the following script.
+
+ \vspace{0.25cm}
+  
+```{r}
+library(dplyr)
+mode(compensation)    # Show the data type
+names(compensation)   # Show column names
+head(compensation)    # Show first 6 rows of data
+dim(compensation)     # Show number of rows and columns
+str(compensation)     # Show structure of data set
+tail(compensation)    # Show last 6 rows of data
+glimpse(compensation)  # Shows a horizontal view of the data
+tbl_df(compensation)   # Shows a vertical view of the data
+```
+  
+  \vspace{0.25cm}
+ 
+Notice where the "#" was placed in the lines of code immediately above and that nothing on the rest of the line after the "#" was executed by R. Please make sure to read what appears in the Console after each of the function calls are issued (this is another way of saying after each function is run).  Make sure to read the description of each function in BC&P (pp. 46 - 48).
+ 
+Below are two other interesting R functions, run them separately and see what appears in the Console.  
+ 
+  
+\vspace{0.25cm}
+   
+   
+```{r}
+any(compensation >10)
+which(compensation > 10)
+```
+
+ \vspace{0.25cm}
+  
+ 
+R has a lot of functions like these. They are designed to make serious work easier! Its developers have given considerable thought to what useful functions should be included for those who use the product professionally.  What they did not include, others have created and added to the product after a review process by the r-project.
+
+ \vspace{0.55cm}
+  
+
+Please read section 2.4 and 2.5 of BC&P up to the appendix on page 50.  Pay close attention to the comments on the bottom of page 49 (section 2.5). Read the comments on the bottom of page 55. Since we are not extensively using using "dplyr", we will skip section 2.3.1 and the appendix on pages 50 - 55.  Please read it if you wish.  It is worth your time to do that, but perhaps that suggestion will mean more after you have completed these tutorials.
+ 
+\vspace{0.55cm}
+ 
+The function "dplyr" is very powerful when you are finally working with your own data. Even though "dplyr" is very powerful, we will only  use the basics of it. In the Assignments, the "dplyr" functions will be provided. You should also read and learn the material in section 3.2 - Appendix 3b (pp. 59 - 77).A tutorial, "Dplyr Tutorial.Rmd", that follows along with these sections of BC&P is posted on our course Canvas website to help you.  Be sure to go through it.
+ 
+ 
+ \newpage
+             
+ 
+## Chapter Three 
+
+ \vspace{0.55cm}
+ 
+                      
+Please read pages 57 - 59 (to section 3.2). We will make a good deal of use of this material, so please read it carefully,practice the script, and explore the functions and their documentation. In class, we will cover the descriptive statistics that the summary() function discussed in the text generates.  But doing this tutorial will give you a head start.
+
+ \vspace{0.25cm}
+ 
+I will quote the first few sentences of this section in full for emphasis:
+
+ \vspace{0.25cm}
+ 
+>"Exploring, manipulating, and graphing your data are fundamental parts of data analysis. In fact, we put huge emphasis on spending time developing familiarity with the data you've collected, culminating in a figure that reflects the questions you set out to ask when you actually collected the data. Our workflow starts with making a picture before you do any statistics. Because, surely, what you would love to see is that the patterns you expected to see in your data are actually there." 
+
+ \vspace{0.55cm}
+  
+Please take these words seriously! We will stress this approach in class.Feel free to read the remainder of Chapter 3, but we will not be using it in class. Now, let's work along with the text as we read it. Clear the memory and request that R list the install packages.
+
+ \vspace{0.25cm}
+  
+```{r}
+# Clear memory
+rm(list = ls())
+
+
+# Install packages
+library(readr)
+
+```
+
+ \vspace{0.25cm}  
+ 
+If you have already run your scripts as you have worked through BC&P, the following is redundant, but it will not hurt anything to run it again. Please import the compensation data set in the space below.
+   
+\vspace{0.25cm}
+
+```{r}
+df <- read.csv('compensation.csv')
+
+```
+
+ \vspace{0.25cm}
+  
+Please type a script that lets you look at the documentation for "summary()". Where will you find the documentation? Please take some time to read through it.
+
+
+ \vspace{0.25cm}  
+
+```{r}
+summary(df)
+
+```
+ 
+ \vspace{0.25cm}
+  
+Type the script from the text on the lines below this comment, then execute the script.
+ 
+ 
+ \vspace{0.25cm}  
+
+```{r}
+compensation <- read.csv("compensation.csv")
+glimpse(compensation)  # Just checkin'
+```
+
+ \vspace{0.25cm}
+ 
+  Get summary statistics for the compensation variables
+  
+
+ \vspace{0.25cm}
+ 
+```{r}
+summary(compensation)
+```
+
+ \vspace{0.25cm} 
+ 
+Be sure to study the output and in it,identify the median, mean, interquartile range, minimum, and maximum.  For those of you who know what the mode of data set is (the most frequent observation), ask yourself where is the mode in this output?  
+
+ \vspace{0.55cm}
+ 
+I do not know why it was not made part of the output of the summary function, but you may remember what the mode command is not in R.  Go ahead and type it and see (remember we did this already in the tutorial).It does not provide the most frequent value in a data set. What does it do in R? Someone already used the word mode for another purpose in R.  Personally, I find that odd in a software package that is primarily used for statistical analysis.
+
+ \vspace{0.55cm}
+  
+As an aside,there is a package that we can install, using the library() function in R that will provide what we think of as the mode.  We will try using it later in the class, but omit it for now.  For practice in getting help, try a Google search on "installing 'mfv' in R" and see what you get.This function is part of the package "modeest" (mode estimator). See if you can find the documentation for the package listed in the search results. Once you get the documentation, read through it and notice that there are references the author of "modeest" used to create the code.  We will not read any further, but you may if you wish.
+  
+  \vspace{0.25cm} 
+
+  CONGRATULATIONS!!
+  
+   \vspace{0.25cm}
+  
+  
+You have come a long way and learned a good deal about using R and RStudio.  You will be able to build on this anytime you choose. Do not forget about using BC&P as a reference as you do the assignments in the class. Please go on to "Third R Tutorial.Rmd" where we will learn about plotting data in detail.
+ 
+  

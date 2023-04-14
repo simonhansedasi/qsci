@@ -1,0 +1,1326 @@
+---
+title: "A First R Tutorial"
+author: "Simon Hans Edasi"
+date: "4/13/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Q SCI 381 Introduction to Probability and Statistics: A First R tutorial
+
+\begin{centering}
+WELCOME TO THE FIRST R TUTORIAL!
+\end{centering}
+ In these tutorials we are going to learn to 
+ use a powerful, and currently, the most commonly used
+ software package, R. This package will significantly
+ decrease the tedious calculations that once were a
+ common part of statistical analysis.  After learning
+ how to use R, you will be able to use it in your other 
+ courses and mention the ability to use it on your resume!
+ 
+  NOTE: We are not going to work directly in R. We 
+ will be using an interface, R Markdown. An R Markdown
+ file has an *.Rmd extension wile an R file has an
+ *.R extension in its title.  R Markdown allows us
+ to type and run R script while also making printing 
+ and sharing all of the output of your work with others
+ easier than in R.
+ Using R Markdown permits printing all of the output of
+ the scripts INCLUDING any plots that are created. In R,
+ this requires much more work.  Later in this tutorial, 
+ we will learn how to include plots in R.  
+ You will see why R Markdown is the preferred way of working
+ with what you do in R if you wish to print out the results.
+ 
+ In these tutorials and the assignments, you will read 
+ a reference to the symbol "#" representing a comment
+ or nonexecutable statement in R. Our R Markdown 
+ files have been written so that the "#" is not 
+ necessary for adding comment statements. What you 
+ are now reading is a comment statement in R Markdown.
+ You do not need to precede these lines with a "#".
+ You may add lines like these as you like.
+ 
+ In R, comments are liberally used to explain
+ your code and make it readable.
+ You would be amazed by what you
+ can forget in a short period of
+ time after you have written
+ some code. Don't assume that 
+ you will remember anything about
+ the code when you look at it later.
+
+ 
+ In these tutorials the following will give you an area 
+ to place your code (R script). Type your script between
+ the ```{r} and the closing ```as shown below.
+ If you need more space for writing code,that is easily
+ done by using the "Enter" on your keyboard.
+ 
+
+
+```{r}
+
+# Enter your code (R script) in this space.  Note that I included a "#".
+# See below for the meaning of this symbol.
+
+
+```
+
+ If you want to add a comment statement in an area where you
+ write code in R Markdown, then be sure to precede the statement
+ with a "#" symbol. This is shown in the lines below.
+
+
+```{r}
+# This is a comment statement. I also used it in the code "chunk" above.
+# Notice the three icons to the upper right of this block.  Hover your cursor over
+#each one to see what they allow you to do.
+
+
+```
+
+ An important comment before we begin these
+ tutorials: Save your work often!
+  
+ It is at the very least frustrating to work
+ for a long time to figure out how to write 
+ some instructions only to mistakenly
+ hit the wrong key or have the software package
+ "bomb" or stop working (and that can and 
+ does happen!) and then have to redo everything. Let's begin.
+
+ Please keep something in mind as you embark 
+ learning R (or any software), especially if you
+ have never written a computer command before in
+ as software package: be patient. Take it slow, but keep at it!
+ 
+ We will be here to help you when you need it, but
+ please try to work things out on your own first.  
+ If you do that you will gain confidence and skill.
+ You can always refer back to these tutorials
+ and BC&P throughout the course.
+
+ As our guide to learning the basics of R, 
+ we are going to use: 
+
+    A.  P. Beckerman, D. Z. Childs, and O. L. Petchey. 
+     2017 (2nd Edition). Getting Started with R:
+     An Introduction for Biologists. Oxford.
+
+ We will refer to this text as BC&P.
+
+ I hope that you will find it supportive for a
+ new learner and "user friendly".  The authors are
+ British, so the word "maths" is not a misprint of 
+ "math".  The same is true of "colour".
+ 
+ We will not use all of the text.
+
+ Many people have successfully learned to use
+ R before you and you can do it also!
+
+ Our TAs and I are here to support you.  We 
+ have your back.  Try things on your own first, but
+ when you just don't get it, please ask us for help.
+ We will not use all of the text.
+
+ Before doing this tutorial, please
+ read pages iv - 8 (up to section 1.5) 
+ and pages 219 - 221 in BC&P and you will be
+ asked to reread them after you have completed
+ A Third R Tutorial.
+
+ Pages 219 - 221 are closing remarks, but it
+ may help you to read them now before you start
+ this tutorial.  Reading these pages and 
+ completing these three tutorials will help you 
+ get started. The third tutorial will focus on
+ creating useful plots (graphs) of data.  
+ This will be central to our study of statistics.
+ 
+ Feel free to read everything you like in BC&P
+ beyond what is covered in these tutorials,
+ especially if you think or know that you will
+ be using R in your work or other courses. 
+ R is used in Q SCI 482 and 483 as well as many 
+ courses in BIOL, SAFS, SEFS, and SMEA.
+ In this course, we will only use a samll amount
+ of what R can really do.
+
+ As you read BC&P do it actively, i.e., with RStudio
+ open on your computer.  Use that computer to enter
+ and RUN the scripts (code) in this
+ tutorial and in BC&P.  That active
+ engagement will not only make learning the basics of
+ R easier BUT more interesting!  
+
+ This tutorial will introduce a few  other functions  
+ that are resident in R for your use in doing
+ operations more easily, but not mentioned in BC&P 
+ so that you will have a few more tools
+ available in you R tool box.
+ 
+ As you work along with the text in BC&P, learn
+ the good habits of writing and documenting your
+ script. The text makes a great effort to point 
+ these out. Learning to do this now will permanently
+ pay big dividends to you.
+
+ Welcome to RStudio. The flexible
+ user interface for R.  It consists of four 
+ panes with multiple tabs containing various 
+ options. We will learn to use these panes
+ and many of the options.
+
+ R is the most widely used statisitcal software
+ today.  It is open source and free to download.
+ But, here is a lesson in basic economics.
+ It is free to download, but it is not really free.
+
+ You have to take your time to download it, set it up,
+ learn its syntax and commands, and how to use it productively.
+ That all takes time, and time is the most important 
+ and expensive asset we have.  It can never be replaced or
+ renewed. Economists call these costs opportunity costs.
+ By this they mean that the cost of anything is your 
+ next most favored (preferred) alternative that you gave
+ up to get what you selected.  In this case,
+ that is the time you could have spent doing
+ something else.  But, learning some R will
+ help you later, so it will be worth your time.
+ This ends our economics lesson. :-)
+
+ Many expert users have created functions that 
+ allow us to do data manipulation, statisitcal
+ analyses, and plot our data and results in 
+ publication quality.  If you wish, you can also
+ learn to write your own fucntions to carry out 
+ your own analyses.  Our use of R will be limited
+ in Q SCI 381.  We will not fully explore 
+ its capabilities, but now that you have it
+ you can if you wish.  We will be happy to help you.
+ Since R is so widely used, the more you learn
+ to do with it, the more career opportunities
+ may be opened to you.
+
+ Before we start, go to the toolbar above,
+ click on the "Help" tab (this may be in the lower right depending on 
+ your version of RStudio), then click R Help.
+ Look at the Help tab that opens in the lower
+ right pane of RStudio.  Look at all of the
+ built in help that is available to you;
+ including a "Learning R Online." This help
+ always available to you.  You really are not alone
+ if you are working on these tutorials or the
+ course assignments even at at 3:00 a.m.  Please 
+ have the patience to go to the help files and
+ use them.  you may also use natural language
+ searches in Google for a wealth of worked examples
+ to do almost anything you wish to do.  Really!
+
+ Look at the R Cheat Sheets.  Several of these have
+ already been downloaded to our course Canvas website.
+
+ Finally, click on the "Files" tab In the lower right 
+ pane of RStudio, then click the little house with the
+ red roof.  What do you get?
+ Yes, help is just a click away.
+
+ The developers of R have tried to provide as much
+ information as possible to make learning and using
+ R as easy as possible.
+
+ Liberally use white space 
+ between code segments for ease 
+ of reading and understanding. 
+
+ Don't forget to
+ save your scripts (R Code) 
+ frequently.  As  BC&P point out,
+ the two most important things
+ in R is your data and your script, 
+ which is the code you write to 
+ have R do something with the data.  
+ Keep both them safe! Save often!!
+
+ Rstudio has great flexibility 
+ programmed into it. It will often 
+ prompt you if you have made an error
+ in typing a function or command.
+ It has all of the usability of
+ word processing software. It has its
+ own text editor including "undo", "redo,
+ "cut", "paste", and "copy" operations in
+ the Edit tab above in this pane.
+ Warning!  RStudio does not have a very 
+ sophisticated spell check and no 
+ auto correct feature except for its 
+ built-in commands.  That is tough when
+ you have become use to using those two 
+ features, as I have.
+ 
+ So, check your spelling in your comments!
+ I know that from personal experience :-).
+
+ You may also search for words or phrases
+ in your code by clicking the magnifying
+ glass in the tool bar above.
+
+ Look around each of the panels and 
+ check out what options the tabs
+ provide.  If you lose the 4 panel
+ display, just click 
+ "View > Panels > Show All Panes".
+
+ Always start by clearing the memory
+ of your computer's microprocessor.
+ 
+ R accomplishes this clearing of memory
+ with the command (object or function) "rm()" 
+ in R "rm()" stands for remove 
+ what is in the "()".  This
+ command will help remove anything extraneous
+ and unwanted by you in the memory 
+ of your computer's microprocessor, e.g.,
+ the use of a variable name declared (defined)
+ in some other work that you may have been
+ doing previously that you now want to use for 
+ something else.
+
+ In the space designated for code Below this comment, enter 
+ the following (type it or cut and paste it):
+
+     rm(list=ls())  
+
+ Please execute (run) it.
+ Does anything happen in the Console?
+
+
+```{r}
+rm(list=ls())
+```
+
+ Statements like "rm()" are built-in coded 
+ functions (or commands if you like)in R.
+ Many people have contributed functions for use
+ in R and they are available for our use. 
+ The statements in the "()" of a function are its
+ arguments. They control what the function does.
+ We will learn to use several of these for the 
+ built-in functions in R. R provides a way to
+ find out how to use its functions and what
+ each function's arguments do.  The names
+ of objects (and in R a function is an object)
+ are case sensitive (capital and lower case matter).
+ More about this later in this tutorial.
+
+ One comment "()" are not the only delimiters used
+ in R's syntax.  You have to be careful.  Both "{}"
+ and "[]" are used.  Things like that are common in
+ all software, so it will be good to encounter it
+ here and it will not come as surprise if you
+ use other software programs.
+
+ Learning a little bit of R will be valuable
+ in other courses. That will prove
+ to be a benefit to you by extending what 
+ are able to.  This knowledge with expand your
+ career opportunities and flexibility.
+
+ Set the working directory (where you will save you data and code)
+ below if you like. Use the following code:
+ 
+     setwd("C:/Your/Path/Here")
+
+
+```{r}
+setwd("/home/simonhans/coding/qsci/hw1")
+```
+
+ An example of getting help
+ with functions, objects, and commands.
+ In a line below these comments, type
+
+     ?log  
+
+ What appears in the lower
+ right pane of RStudio after you 
+ click the "Help" tab?  
+ 
+ **A detailed description of the logarithm mathematics and examples of how they are used in R.**
+ 
+ What base does this 
+ log function use? 
+ 
+ **This function by default uses base exp(1), but can be defined with any number base. log10() is used for base 10 and log2() is used for binary bases.**
+ 
+ Look at what arguments
+ this functions can use.   This is the place
+ we can look for help within RStudio.  
+ Of course, you may also
+ use Google and printed books 
+ to get  help.  The point is that 
+ it may take some work, but there
+ are many places to get help.  You are
+ not strictly on your own!
+
+
+```{r}
+?log
+```
+
+ Rstudio can help you complete
+ statements. In an open line below
+ type 
+
+    sub 
+
+ 
+```{r}
+sub
+```
+
+ Press the Tab key
+ on your keyboard.  What appears in
+ the Console below?
+ 
+**A list of potential fuctions that start with the letters 'sub'.**
+
+
+ Remember when we started by
+ executing the function 
+ "rm(list=ls())"? 
+ in a line below this comment
+ type 
+
+     ?ls()
+ and read what appears 
+ under the Help tab in the lower
+ right pane.  By executing 
+ "rm(list=ls())", what is it that 
+ you have asked R to remove?
+
+**That code removes all visible objects and variables from the current environment. The ls() function returns a list of vectors, and by including it as an argument we tell Rstudio to remove everything on that list.**
+
+```{r}
+?ls()
+```
+
+
+
+ After typing a line of code, you can
+ have RStudio run (execute it) by typing
+ Ctrl-Enter together (on a PC).  
+ Let's try this in an open line below this comment,
+
+ type 
+
+    ?sin  
+
+```{r}
+?sin
+```
+
+ When you do this, you will notice that RStudio
+ presents you with several possible choices.
+ Click on the "sin" choice.  See what appears 
+ in help in the lower right pane.  
+ We get some help. Great!
+ Pretty cool, huh?
+
+
+ Note that highlighting the line or lines of 
+ code and clicking Run from the menu above 
+ will also execute the code.  At this point,
+ please click the Code tab above and review
+ the options available to you.
+
+ I will warn you that the people who
+ write the code for these operations,
+ objects, or functions may use different
+ ways of documenting them.
+ There may not be consistency in the documentation.
+
+ Another problem is that those who write the code for
+ these functions get, within certain limitations 
+ regarding special reserved words, to pick the
+ words they use.  Later that will cause us a bit
+ of a problem when we want to find the "mode" of
+ a data set.  Someone used that word for something else
+ and it can not be used by us to find the mode (most 
+ frequent value in a data set).  Nothing really is free!
+
+ We will learn how to create code that will
+ permit us to have R perform
+ many operations on data or other functions.
+
+ This ability of R and Rstudio to create several
+ lines of script (code) allows us to write a program that
+ automates doing an entire statistical analysis of 
+ our data.  To run all of the code, we simply 
+ highlight all of it and click "Run" at the top
+ of the script editor pane (upper left pane).  
+ At this point, explore what options appear in the
+ Code tab above.  Try some of them.
+ Remember how to restore RStudio to its 4 pane
+ view if you should change the view.
+
+ Now type 
+
+     sin  
+
+```{r}
+# sin()
+```
+
+ click the Tab key on
+ your keyboard.  What was added after
+ the sin?
+ 
+ **()**
+ Reenter "sin" in the space below and run the code.
+
+ In the parentheses that appear, type
+
+     pi/2 
+
+ (all lower case), then click Ctrl-Enter or the green arrow in the upper right corner.
+ What appears in the Console?
+ 
+ **1**
+ 
+```{r}
+sin(pi/2)
+```
+
+ In the upper right pane, open the 
+ History pane.  What shows up there when you
+ executed sin(pi/2)?
+ 
+**sin(pi/2)**
+
+ CONGRATULATIONS!! You have
+ just gotten R to calculate something for you!
+ That was pretty easy.  From here on we will 
+ just build on this and add more capabilities.
+
+ Before we move on to working our
+ way through guided instructions in BC&P,
+ let's get R to do some computations for us.
+
+ R can work like a giant calculator.
+ A calculator limit only by the
+ capabilities of your computer's
+ microprocessor.
+
+ In the two lines below this comment, 
+ you will notice that the use of parentheses 
+ and the order of algebraic operations is 
+ important. It is always important. Please  
+ do not ever forget this valuable lesson.
+ The results of the two lines below
+ are different!  Please do not forget your
+ algebra!!
+
+ Type these two lines:
+
+    1+2*(3+4)
+    1+2*(3)+4
+
+ in two lines below this comment
+ and see what results are returned by R
+ in the Console.
+
+```{r}
+1+2*(3+4)
+
+1+2*(3)+4
+```
+
+
+ What happens if we forget the "*"?
+ Try it for yourself. Retype the 
+ following on the lines below this comment: 
+
+    1+2(3+4)
+    1+2(3)+4
+
+If you are looking at the key, you will need to delete the * below.    
+```{r}
+# 1+2(3+4)
+# 
+# 1+2(3)+4
+```
+
+ What appears in the Console?
+ 
+ **Error: attempt to apply non-function**
+ 
+ Are the answers the same?
+ 
+ **no**
+ 
+ Do the indicated algebra by hand
+ and make sure you understand
+ the answers appeared as they did.
+ This is important for you to do
+ for yourself.  Please do it.
+
+ This is pretty cool because we already
+ know how to do this from algebra.  This 
+ is just the order of operations (remember the 
+ mnemonic "Please Excuse My Dear Aunt Sally").
+
+ Now try each of the following 
+ calculations:
+
+    log(4^3+3^(2+1))
+    sqrt((4+3)+(2+1))
+    ((1+2)/(3+4))^2
+
+ Keep track of what appears in the Console.
+
+```{r}
+log(4^3+3^(2+1))
+```
+
+```{r}
+sqrt((4+3)+(2+1))
+```
+
+```{r}
+((1+2)/(3+4))^2
+```
+ Since R is case sensitive (lower and
+ upper cases are important), in a line below this
+ comment type: 
+
+   SQRT((4+3)+(2+1))  
+
+ What appears in the Console?
+ 
+ **Error : could not find function "SQRT"**
+
+```{r}
+# SQRT((4+3)+(2+1))
+```
+
+ On the lines below, please create a complex 
+ expression of your own to evaluate.  Add
+ comments to help you remember what the code does.
+
+```{r}
+# note this can be any expression
+# Logarithm of sum of two trig functions of exponentials whose arguments are gibberish numbers
+
+log(sin(exp((pi/4 * 72)/14) - 89999) + cos(exp((pi/4 * 72)/14) - 89999))
+
+```
+
+ Let's look at an important concept that BC&P 
+ will also cover.  The assignment of values.
+ Above we calculated the "log()".  Once calculated,
+ the value returned is no longer available for us
+ to use in the rest of our code.  What do we do to 
+ keep these values for later use?  
+
+ We assign them to a variable. 
+ We tell R that we are assigning
+ something (including another object) to a variable
+ by using either "<-" or "=" as follows:
+ x<-log() or x=log().  
+ Statements like this are read
+ "x gets (or is assigned) to have the value log()", or
+ whatever appears on the 
+ right hand side (RHS) of the <- or =.  
+ 
+ Notice that "=" is no,longer the equal sign 
+ from algebra.  Instead equal sign is 
+ reserved for something special. 
+ The equal sign you are used to from algebra
+ becomes "==".  This formalism is common
+ in most software and you should become familiar 
+ with.  It is not hard to get used to. We will have
+ an opportunity to use "=="  as we use R later in
+ the course.
+
+ Let's assigning a value to a variable. We will
+ try this in three ways using the "log()" function.
+
+ Enter and execute the following:
+
+    answer1<-log(exp(1))
+    answer1
+    answer2=log(exp(1))
+    answer2
+    answer3=log(exp(1), base=10)
+    answer3
+
+ What appears in the Console?
+ 
+ **> answer1<-log(exp(1)) \ > answer1  \ [1] 1 \ > answer2=log(exp(1)) \ > answer2 \ [1] 1\ > answer3=log(exp(1), base=10) \ > answer3 \  [1] 0.4342945**
+
+```{r}
+answer1<-log(exp(1))
+answer1
+answer2=log(exp(1))
+answer2
+answer3=log(exp(1), base=10)
+answer3
+```
+
+ Another way to view the objects
+ answer1, answer2, and answer3 is by 
+ typing "print()".  Let's try this, but
+ don't forget to highlight these lines of 
+ code and either click "Run" from the
+ above menu or hit the Crtl-Enter keys
+ simultaneously.  What did you get in
+ the Console?
+ 
+ **> print(answer1)[1] 1> print(answer2)[1] 1> print(answer3)[1] 0.4342945**
+ 
+
+```{r}
+print(answer1)
+print(answer2)
+print(answer3)
+```
+
+ When you do one of these actions,
+ your R script is sent to the Console
+ where R carries out the commands in your
+ script.
+
+ Now we let's look at one of the great
+ advantages of assigning things to objects.
+ We are going to manipulate or use the "answer" 
+ objects in other operations, e.g., on a
+ line below type and execute the command:
+    answer1*10 
+ What did you get as an answer in the Console?
+
+**> answer1*10  [1] 10**
+```{r}
+answer1*10
+```
+
+ Did you notice?  We could simply have R do some
+ manipulation on answer1.  Please try your own
+ manipulation of answer1 in the lines below this comment.
+ It is just like algebra! Cool, huh?
+
+ Let's do one more famous operation with 
+ objects. It is famous because every
+ person learning programming has done it.
+
+ Try typing this: 
+
+     MyName<-"Enter your name here"
+
+ on a line below these comments.  Make sure to
+ put your name between the " ".
+ Recall that this says that the object (variable)
+ MyName gets (is assigned to)the value Your name.
+ Follow this code by "print(MyName)" and "MyName".
+ Did you get the same result in the Console?
+ 
+ **yes**
+ 
+
+```{r}
+MyName <-"Simon Hans Edasi"
+print(MyName)
+```
+
+ Let's look at how to list and remove objects
+ in our workspace. First, highlight all of
+ code (script) above and click Run from the 
+ menu above.  Let to code run.  After the code 
+ finishes running, type in a line below this comment 
+ and then execute the function (command) "ls()".
+ You know what "ls" stands for.
+ What appears in the Console below?  How were
+ these objects created?  We created them with
+ our assignments further above in this tutorial.
+
+ **What appears in the console is the list of objects we have created with previous R code**
+
+
+```{r}
+ls()
+
+```
+
+ Now let's remove answer2 from our workspace.
+ On lines below this comment type and execute
+ the following:
+    rm(answer2)
+    ls()
+ What appears in the Console?
+
+
+```{r}
+rm(answer2)
+ls()
+```
+
+ Now we will remove all of the objects
+ from our workspace.  Can you think of
+ how to do this?  You have done it
+ before in this tutorial.
+ On lines below this comment type
+   rm(list=ls()) .
+ What happened?  Where do you look
+ to answer that question?
+ 
+ **look in the environments tab for our variables and see that it is empty**
+
+
+```{r}
+rm(list = ls())
+```
+
+ So how do we get data into R?
+ That would seem to be an important question
+ since in Q SCI 381 we wish to learn 
+ how to explore and analyze data.  More about this
+ will be discussed in Chapter 2 of BC&P.  For now
+ we will consider some simple ways of doing this.
+
+ We can enter data by creating a list or vector 
+ of data values.  We do this by assigning the data
+ values to a variable using the concatenation 
+ function in R.  Concatenation means joining items
+ end-to-end. This effective creates a vector.
+ The syntax is "x<-c()".  the data are 
+ entered within the "()".
+
+ In a line below this comment, type and execute
+ "?c()".  Remember how to execute this line of
+ code.  What shows up in the Help tab in the
+ lower right pane? 
+ 
+ **Documentation for the c() function, which combines values into a vector or list**
+ 
+ Help is useful and always
+ available.
+
+
+```{r}
+
+?c()
+
+```
+
+ Importantly, R has several named functions.  These
+ names are reserved and We can not use them as names for
+ our variables.  R will warn you with an error message
+ if you do violate that constraint.
+
+ The data below are the annual flow measurements of the
+ river Nile at Asswan from 1871 - 1970, in 
+ trillions of cubic meters 
+ (i.e., trillions of cubic meters per year). The data
+ come from Cobb, G. W. Biometrika. 65(2): 243 - 251.
+ They are listed in chronological order.
+
+ 1120, 1160, 963, 1210, 1160, 1160, 813, 1230,
+ 1370, 1140, 995, 935, 1110, 994, 1020, 960,
+ 1180, 799, 958, 1140, 1100, 1210, 1150,
+ 1250, 1260, 1220, 1030, 1160, 774, 840, 874,
+ 694, 940, 833, 701, 916, 692, 1160, 1050, 
+ 969, 831, 726, 456, 824, 702, 1120, 1100,
+ 832, 764, 821, 768, 845, 864, 862, 698, 845,
+ 744, 796, 1040, 759, 781, 865, 845, 944, 984,
+ 897, 822, 1010, 771, 676, 649, 846, 812, 742,
+ 801, 1040, 860, 848, 890, 744, 749, 838, 
+ 1050, 918, 986, 797, 923, 975, 815, 1020, 
+ 906, 901, 1170, 912, 746, 919, 718, 714, 740
+
+ In a line below this comment, enter this data
+ using the "c()" function.  Call your vector
+ RiverNileFlow.  Do this the easy way by
+ cutting and pasting the data above. Copy
+ the entire list and paste it 
+ within the "()". You
+ can cut and paste the variable's (vector's) 
+ name as well!  Nice, huh?
+
+ Notice what shows up in the Console in
+ RStudio.
+
+```{r}
+
+RiverNileFlow<-c( 1120, 1160, 963, 1210, 1160, 1160, 813, 1230,
+ 1370, 1140, 995, 935, 1110, 994, 1020, 960,
+ 1180, 799, 958, 1140, 1100, 1210, 1150,
+ 1250, 1260, 1220, 1030, 1160, 774, 840, 874,
+ 694, 940, 833, 701, 916, 692, 1160, 1050, 
+ 969, 831, 726, 456, 824, 702, 1120, 1100,
+ 832, 764, 821, 768, 845, 864, 862, 698, 845,
+ 744, 796, 1040, 759, 781, 865, 845, 944, 984,
+ 897, 822, 1010, 771, 676, 649, 846, 812, 742,
+ 801, 1040, 860, 848, 890, 744, 749, 838, 
+ 1050, 918, 986, 797, 923, 975, 815, 1020, 
+ 906, 901, 1170, 912, 746, 919, 718, 714, 740)
+
+
+
+
+```
+
+ In a line below this comment type or cut and
+ paste the variable's name, i.e., RiverNileFlow.
+ Execute this variable (object).  
+ What shows up in the Console of RStudio?
+ 
+ **the list of numbers contained in the object named RiverNileFlow**
+ 
+```{r}
+RiverNileFlow
+
+
+
+```
+
+ Now that we have our data in R, only our creativity
+ and what we know about R limits what we can do with it.
+ We can manipulate it; explore it, by plotting it,
+ calculating measures of its central tendency 
+ (mean, median) and dispersion (standard deviation); and 
+ analyze it.  
+
+ In short, we can use the full capabilities 
+ R's built-in functions.  We can even write our own
+ programs to analyze our data.  R can do a great deal.
+ Let me repeat, You are only limited by your creativity
+ and what you know about using R.  
+
+ Since we took the time to enter this data,
+ Let's do something easy with it.  Why not?
+ 
+ Recall that our variable is a vector (an ordered
+ collection of data).  How many values do we have?
+ What is the first value?  What is the last value?
+ This data set is small, and we could answer these
+ questions by just "eyeballing" (looking at) the data.
+ But, would you want to do that if you had 10,000
+ data items?  I wouldn't.
+
+ Guess what, the developers of R and those that 
+ continually contribute functions to its growing inventory
+ of capabilities thought about that and R has functions that
+ will answer those question for us.
+
+ We are going to look at using the functions:
+
+    RiverNileFlow
+    length(RiverNileFlow)
+    RiverNileFlow[1] 
+    RiverNileFlow[length(RiverNileFlow)].
+
+ Consider the function RiverNileFlow[1]. 
+ Notice the "[]" synatx. This function requires that
+ the "[]", and only the "[]", be used with this function.
+ Learning syntax is important in all software, and 
+ it is not consistent among software products.  Sorry!
+ The "1" is an index indicating (requesting, referencing,
+ or pointing to) the first element in
+ the vector (variable) we have named RiverNileFlow.
+ 
+ Knowing this, we can see that length(RiverNileFlow)
+ must represent an index pointing to an element in
+ the vector RiverNileFlow.  What value do
+ you think it is referencing?  The function "length()"
+ produces the number of elements in the object 
+ (vector or other) within the "()".  So, 
+ RiverNileFlow[length(RiverNileFlow)] returns the last value
+ in our variable (or vector) RiverNileFlow.  That is 
+ pretty cool!  R will do that for use in a data 
+ set of millions of data points!  And it does it in seconds!  
+
+ Before going on, look again at that last function.
+ That is a lot of typing and we might
+ mistype the variable name. That is frustrating.
+ You may also notice that the name of the variable
+ is very informative.  The lesson is, you have balance
+ being informative and work of typing.  Personally, 
+ I have always weighted the balance toward informative. 
+ After all, I can use cut and paste!  
+
+ Don't forget about the "undo" operation available
+ in the Edit tab on the tool bar in case you make a mistake. 
+ I have used that more than once!!
+
+ In the lines below this comment, type the name 
+ of our variable (use cut and paste). Execute that line of code
+ and see what appears in the Console in RStudio.
+ R has kept the data available to us.  Very thoughtful!
+ 
+```{r}
+RiverNileFlow
+
+```
+
+ After you do that cut and past the four functions 
+ listed above, execute all four lines of code and look
+ at what appears in the Console.  
+ 
+```{r}
+ 
+RiverNileFlow
+length(RiverNileFlow)
+RiverNileFlow[1] 
+RiverNileFlow[length(RiverNileFlow)]
+
+
+
+```
+
+ The results (output) of the code we execute in R appears 
+ either in that Console or, if it is a plot,
+ in the Plots tab in the lower right pane. 
+ The results in those panes can be cut and pasted 
+ into documents (e.g., WORD documents).  RStudio will
+ also create pdfs.  We will use the cut and paste 
+ operation in the class assignments.
+
+
+ Now run (execute) the following
+ two lines of code below this comment:
+
+    LastValue<-RiverNileFlow[length(RiverNileFlow)]
+    LastValue
+
+ After executing these lines look in the Console
+ of RStudio and see what appears.
+
+```{r}
+LastValue<-RiverNileFlow[length(RiverNileFlow)]
+LastValue
+
+
+```
+
+
+ If we have several vectors (several data sets)
+ R allows us to perform algebraic, logical, and 
+ statistical operations on them.
+
+ R will also let us work with matrices, i.e., data sets
+ consisting of rows and columns of numbers. 
+ If you do not know what a matrix is, 
+ just imagine a spreadsheet with cells.
+ Each cell has a row and column coordinate that
+ uniquely identifies it. 
+ Think about data on 100,000 people
+ (or 100,000 stocks on a stock exchange). In the first case, 
+ there is one row in the matrix for each person, 
+ and stored in each column is a value of a given 
+ characteristic of interest for that person,
+ e. g., information about the person's
+ age, sex, height, weight, eye color, etc. Each column
+ would have a heading describing the characteristic.
+ In the example of a stock, these characteristics
+ might be the price per share of the stock,
+ the number of shares outstanding, the last five years of
+ revenue for the company who issued the stock, 
+ and so forth.
+
+ We will be working with data arranged
+ like that later in this course.
+ We will want to enter the data into RStudio, 
+ manipulate it, explore it, and analysze it using R.
+ R will allow us to do all of that.
+
+ Finally, here is one more way of entering data.
+ Let's enter the integers 1 through 10 in two ways,
+ one of which you already learned.  For the first way
+ will use "c()" and the second way will use "seq()".
+ First, we should find out about the seq() function.
+ How do we do that?  Type and execute it on a line
+ below this comment.
+
+    ?seq()
+
+ What does the documentation about "seq()" tell us
+ about this function.  Among other things, it tells
+ us what goes in the "()"; the arguments of the function.
+ The arguments cause the function what we want from it
+ or what we want it to do.
+ Note that seq() stands for "sequence generation".
+
+```{r}
+
+x<-c(seq(1, 10, 1))
+y<-c(seq(10,1,-1))
+
+
+```
+
+ We will be working with several functions
+ that have parameters.  The "plot()"
+ function will be a very useful function to us.
+ The arguments of plot() make the function very flexible.
+ Take some time and check out the documentation on "plot()".
+
+```{r}
+?plot()
+
+```
+
+ Enter the following lines of code below this comment:
+
+    MyNums1<-c(1,2,3,4,5,6,7,8,9)
+    MyNums1
+    MyNums2=seq(from = 1, to = 10,by = 1)
+    MyNums2
+    MyNums3<-seq(1,10,1)
+    MyNums3
+
+ A note on syntax.  Carefully notice the space in
+ MyNums2=seq(from = 1, to = 10,by = 1)
+ before and after the "=".  The "=" is interpreted
+ as LHS "gets or takes the value" what is on the RHS.
+
+ What appears in the Console?
+ Is there anything special about MyNums2 and MyNums3?
+
+```{r}
+MyNums1<-c(1,2,3,4,5,6,7,8,9)
+MyNums1
+MyNums2=seq(from = 1, to = 10,by = 1)
+MyNums2
+MyNums3<-seq(1,10,1)
+MyNums3
+
+
+
+
+
+
+
+```
+
+ The result of MyNums2 and MyNums3 are the same.  That
+ is because the two statements
+ seq(from = 1, to = 10,by = 1) and
+ seq(1,10,1) are equivalent.  This will often be the case
+ in R, but it is best to check the documentation to be
+ sure that is the case.
+
+ Now on the lines below this comment,
+ type the following code that manipulates
+ the object MyNums3 and see what you
+ get:
+
+    MyNums3TimesTwo=(MyNums3)*2
+    MyNums3Squared=MyNums3^2
+
+ We want to see our results, so we need
+ to result that results be displayed.  Do this
+ as follows:
+
+    MyNums3
+    MyNums3TimesTwo
+    MyNums3Squared
+
+```{r}
+MyNums3TimesTwo=(MyNums3)*2
+MyNums3Squared=MyNums3^2
+
+
+MyNums3
+MyNums3TimesTwo
+MyNums3Squared
+
+
+```
+
+ For another example of what R can do,
+ enter the following lines of code
+ (or cut and paste them) on the lines below:
+
+    library (ggplot2)
+    x<-seq(-10,10,0.1)
+    y=x^2
+    qplot(x,y,geom='line')
+
+ What appears in the lower right pane?\
+ 
+ Note that you may first need to run the following: 
+ 
+ install.packages("ggplot2")
+ 
+ in order to get the above code to run. Once you've installed a package, you will need to    activate it by using the library command.
+
+```{r}
+# install.packages("ggplot2")
+library(ggplot2)
+x<-seq(-10,10,0.1)
+y=x^2
+qplot(x,y,geom='line')
+
+
+
+
+```
+
+ You can export plots to incorporate into the  
+ assignment you turn in.  You may have to experiment
+ with how to do this with the software you are using.
+ We will try to help you with this, but you can always 
+ save the plot to your desktop and then print it as 
+ a separate page and attach it to your solutions.
+
+ If you are using MS WORD, there are at least two ways 
+ can do this: 
+ 
+ [1] You can export this plot for pasting into a WORD document
+     as a PDF.  In the lower right pane of RStudio click "Export" 
+     then select "Save Plot as PDF".  Select the appropriate PDF
+     size for the plot. Select a good size (4.00 x 6.00 may be a good
+     place to start).  Check your plot in "Preview".  When you 
+     think that you have a good plot, select a file name and a 
+     directory in which to save it.  In WORD, select the Insert tab.
+     In the Text group, click Object.  In the Object dialog box,
+     click Create fron File.  Find the file using Browse, then 
+     click Ok.
+ 
+ [2] You can also save the plot as a metafile. To do this, 
+     select "Export", then "copy to Clipboard", 
+     then select "Copy as Metafile".
+     Make the plot have a height of about 600,
+     but you should experiment with this setting to 
+     get a good quality graph that clearly displays
+     the relationships in the plot.
+     
+ You have learned to use R to do a good deal of work.
+ R will be our "work horse". 
+ We use just enough of R's capabilities
+ to do the tedious work we need do to implement
+ the procedures we will learn.
+
+ Since the class is only an introduction
+ to probability and statistics, We will not learn 
+ R in depth.
+
+ The class assignments will guide you through
+ what R you will need. But as you go through the 
+ please take the time to notice just how much R
+ can do, and how much you will have learned to 
+ use R to do.  You may even come to think that R
+ is pretty useful and worth learning more about.
+
+ The BC&P text is "user friendly" and will be 
+ a good beginning reference for the class.
+ Please actively read it.  By actively reading,
+ I mean reading the text with RStudio open on your
+ computer and doing the examples as you read the text.
+ That active reading is what we will do in the 
+ next R tutorial.
+
+ Learning R and the power it can give you to
+ do analysis in depth will be left to other 
+ courses given on the UW campus or online. 
+ However, while you are in 381 please feel free to
+ learn as much as you wish about using R.
+ Our TAs and I will be happy to help you.
+ 
+ Now, take the time to reflect on 
+ just how far you have progressed in
+ starting to use R.  No matter whatever tedious
+ work We use R to do for us, that is all R can do for us. 
+ It can not ever substitute for our thinking! It
+ will be your ability to think that will make you
+ valuable in your careers.
+ 
+ It always will be up to us to figure out
+ what data we need, how to gather it, 
+ what exploration of it we should do, 
+ what assumptions are appropriate,
+ what analyses are appropriate, and finally
+ what does the analysis mean in the 
+ context of our problem. 
+
+ R, like all other software, was programmed 
+ by people to perform certain specified tasks.
+ It does not know if what you are asking it
+ to do is legitimate, if it meets the underlying 
+ assumptions that validate what you are using
+ it to do.  It will gladly violate any and all 
+ assumptions as this violation does not contradict
+ what it is programmed to do.  It will treat
+ integers as real numbers.  It will work with
+ invalid data.  That, is where you come.  
+ You must know that what you are doing is correct.
+ You must know what you expect to come out of
+ the software, and that what you see makes sense.
+
+ In class we will spend time learning the
+ tedious tasks of the calculations that R is
+ doing for us. This is absolutely necessary. 
+ That will help you become a knowledgable
+ user and interpreter of data
+ and the results of its analysis because you
+ will know what is actually being done with
+ the data. But, once we have learned how to
+ do the work, we will make R do most of the tedious  
+ work of the analysis for us; saving most of our
+ for time interpreting the results of that 
+ analysis and drawing conclusions from it.
+ 
+ Never forget that the results of 
+ our efforts are ultimately going to be
+ used by human beings to make decisions.
+ we must do good work so those decisions 
+ may be meaningful and well made.
+
+ These ideas will be emphasized 
+ throughout the rest of the course.
+
+ Please reread pages iv - 8 (up to section 1.5).
+ Then please read section 1.5 thru page 34.
+ some of this new reading will now be review.  
+ That repetition will be beneficial.
+ It also serves to let you know that you 
+ have already learned a good deal about using R.
+ 
+ You will notice that 
+ when we downloaded and opened RStudio, 
+ all four panes appeared, so
+ when you are asked to use the Console, just use it.
+ There is no need to close the Script pane only
+ to reopen it.
+ 
+ Make sure to accompany your reading with
+ using R to reproduce what you are reading.  That
+ is active reading. (Please note that
+ Figure 1.8,on page 20, was done using a Mac, not a PC.)
+
+ Use the area below for your scripts as you
+ work you way through section 1.5 thru page 34.
+ Add more lines as you need them.
+
+ Save your work to your desktop or some other file.
+ DO NOT FORGET TO DO THIS!  You have done a lot of
+ work. Do not lose it.
+
+
+
+
+
+            CONGRATULATIONS!!! 
+
+ Now that you have completed this tutorial.
+ Please go on to "Second R Tutorial"
+
+
+

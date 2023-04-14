@@ -1,0 +1,806 @@
+---
+title: "Tutorial on Dplyr"
+author: "Simon Hans Edasi"
+output: html_document
+date: "4/11/2023"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Libraries to Use
+
+\vspace{0.55cm} 
+
+In this tutorial, we will use two main libraries, and focus mainly on the "dplyr" library.  
+
+## 1. ggplot 
+
+\vspace{0.55cm} 
+
+Useful to visualize data, this designs high-quality and customizable plots. A powerful and flexible tool, ggplot creates a diverse array of visualizations such as scatter plots, line charts, bar plots, histograms, etc.  
+
+\vspace{0.25cm} 
+
+It adopts a layed approach, wherein we build a plot one layer at a time. Each layer comprises of the data, its components such as size, shape; and geometric parts such as bars, points, lines. We can customize it by additing legends, scales, and annotations.
+
+\vspace{0.55cm} 
+
+## 2. dyplr
+
+\vspace{0.55cm} 
+
+It's a helpful library to extract insights from a dataset. Composed of functions that operate on data frames and related data structures, we use to summarize, filter, mutate data, arrange, merge, etc. 
+
+\vspace{0.25cm} 
+
+dplyr is a popular data manipulation package in R that provides a fast and efficient way to perform common data manipulation tasks. The purpose of dplyr is to simplify data manipulation and make it easier for users to extract insights from their data.
+
+\vspace{1cm} 
+
+
+## Let's Begin Coding 
+
+\vspace{0.55cm} 
+
+After the brief overview of the libraries, we will now deploy them and see how they work. Please make sure to run (execute) the R script segments as you follow along reading and rereading Chapter 3 (pp. 57 - 74) in BC&P.
+ 
+\vspace{0.55cm} 
+
+  
+
+  
+```{r}
+# Clear the memory
+rm(list=ls())
+
+# we will use the functions in these libraries
+library(ggplot2) # for high-quality graphs
+library(dplyr)   # for data cleaning/manipulation
+library(readr)  # to import data from CSV files
+
+```
+
+   \vspace{0.55cm}
+  
+  Import the compensation data set using 
+  the path to the data set that you set up.
+  Assign the data to a vector named "compensation".
+  Then view the data set to ensure it downloaded
+  properly.
+  
+  \vspace{0.55cm}
+
+```{r}
+compensation = read_csv("compensation.csv")
+# view(compensation)
+head(compensation) # shows the first 6 observations of each variable in the dataset
+```
+ 
+   \vspace{0.55cm}
+   
+   
+  Using the data that follows we will do what the
+  authors of BC&P do.
+  We used it in the Second R Tutorial.
+  
+  \vspace{0.55cm}
+
+  
+  
+
+  
+```{r}
+# Get the names of the columns in compensation
+names(compensation)
+```
+
+  \vspace{0.55cm} 
+  
+  
+ "dplyr" always takes and gives a data frame as a result.  The "verbs" of "dplyr" are:
+  
+ \vspace{0.55cm}
+ 
+ 
+    ?summary()    Returns the mean, median, IQR, Minimum,
+                  and maximum of a data set
+
+    ?select()     Selects columns of a data set
+
+    ?slice()      Selects rows of a data set
+
+    ?filter()     Selects subsets of rows conditional
+                  upon values in a column.
+             
+                 "-" Leave out a column or row, e.g, 
+                 -Root leave out the Root column 
+                 "$" Refers to a variable inside a data
+                 frame, e.g., compensation$Root
+             
+                 Boolean logical operators that Typically
+                 can be used:
+                "==" equals, e.g., Fruit == 80
+                "!=" does not equal, e.g., Fruit != 80
+                "<", ">', "<=", ">="
+                "|" logical OR
+                "&" logical AND
+                "!" logical NOT
+
+    ?arrange()  Sorting rows
+
+     ?mutate()  Creates a new variable in the data frame
+
+
+\newpage                                   
+ 
+##  Section 3.3 Subsetting a data set
+ 
+                                     
+ \vspace{0.5cm}
+  
+  Select the Fruit column in compensation
+  
+\vspace{0.55cm}
+  
+```{r}
+select(compensation, Fruit)
+```
+
+  \vspace{0.55cm}
+  
+  Select all columns except Root.
+  That is accomplished by "-Root". 
+  
+ \vspace{0.55cm}
+ 
+```{r}
+select(compensation, -Root)
+
+# Grab the second row of compensation data set
+slice(compensation,2)
+
+# Grab rows 2,3, and 10 of the compensation data set
+slice(compensation,c(2,3,10))
+  
+```
+
+ \vspace{0.55cm} 
+ 
+  See what "with()" does by finding all
+  entries in the compensation data set 
+  (data.frame) greater than 80 Kg
+  
+  
+   \vspace{0.55cm}
+
+```{r}
+with(compensation, Fruit > 80)
+```
+
+ \vspace{0.55cm}  
+ 
+  Find the rows where it is true that Fruit is 
+  > 80kg return them as a data frame
+  
+  \vspace{0.55cm}
+   
+```{r}
+filter(compensation, Fruit > 80)
+```
+ 
+ \vspace{0.55cm}
+  
+  Find the rows where it is true that Fruit is > 80 Kg OR < 20, then return the result as a 
+  data frame
+  
+   \vspace{0.55cm}
+  
+```{r}
+filter(compensation, Fruit > 80 | Fruit < 20)
+```
+ 
+ \vspace{0.55cm}
+  
+  Assign the rows where Fruit is > 80 Kg OR < 20 to
+  a variable (object) so the results can be used
+  
+ \vspace{0.55cm}
+ 
+```{r}
+lo_hi_fruit = filter(compensation, Fruit > 80 | Fruit < 20)
+```
+ \vspace{0.55cm}
+  
+  Have the object's values printed out to check if we have what we want
+  
+  \vspace{0.55cm}
+  
+```{r}
+lo_hi_fruit
+```
+ \vspace{0.55cm}
+  
+  Putting this all together in one code chunk, we get:
+  
+
+   \vspace{0.55cm}
+  
+  
+```{r}
+# clear memory
+rm(list=ls())
+
+  
+#  Call the libraries needed (no need to install...)
+library(dplyr)
+library(ggplot2)
+
+  
+#  Enter the desired data set
+ 
+
+compensation = read_csv("compensation.csv") 
+
+  
+#  Check the data: displays the mean, median, std deviation, and number of obs.
+summary(compensation)
+
+  
+#  Start working with "dplyr" and its capabilities
+  
+
+select(compensation, Fruit)   # Gets the Fruit column
+select(compensation, -Root)   # Take Root column out from data rows
+  
+#  Get the 2nd, 3rd & 10th rows of the data set
+slice(compensation, c(2,3,10)) 
+
+  
+#  Gets rows for each given condition, and assign them to an object.
+  
+
+lo_hi_fruit = filter(compensation, Fruit > 80 | Fruit < 20)
+
+  
+#  Run this to see what the above line 'saved' for later use.
+  
+
+lo_hi_fruit
+```
+
+\newpage                            
+ 
+## Section 3.4 Transforming
+ 
+   \vspace{0.5cm}                          
+
+
+  
+  Prior to the transformation, what
+  does compensation look like now?
+ 
+  \vspace{0.55cm} 
+
+```{r}
+head(compensation)
+```
+
+ \vspace{0.55cm}
+ 
+ 
+  Use mutate to create a new column that is
+  "log(Fruit)" add that as the column "logFruit"
+  all of which gets put into the object compensation.
+  The original data set is NOT changed by this.  We
+  are now using a temporary version of the original data set.
+  
+   \vspace{0.55cm}
+  
+```{r}
+compensation = mutate(compensation, logFruit = log(Fruit))
+```
+ 
+ \vspace{0.55cm}
+  
+  Display the first 7 rows of the new compensation
+  data set including the new column "logFruit"
+  
+   \vspace{0.55cm}
+  
+```{r}
+head(compensation, 7)
+```
+`
+ \vspace{0.55cm}
+  
+  Use mutate again to create a column that is
+  10 times Fruit and call it "TentimesFruit"
+   
+   
+\vspace{0.55cm}
+
+
+```{r}
+compensation = mutate(compensation, TentimesFruit = 10*(Fruit))
+```
+
+ \vspace{0.55cm}
+  
+  Display the first 6 rows of the new compensation
+  data set including the new column "TentimesFruit"
+  
+\vspace{0.55cm}
+  
+```{r}
+head(compensation)
+```
+
+ \newpage
+                       
+ 
+## Section 3.5 Sorting
+
+\vspace{0.55cm}
+ 
+                       
+
+```{r}  
+ # clear memory
+rm(list=ls())
+
+  
+#  Start with the original data set
+compensation = read_csv("compensation.csv")
+
+
+ # Display the first 6 rows of the original compensation data set 
+head(compensation)
+
+  
+#  Arrange the Fruit column values of the data set from lowest to highest (the default)
+arrange(compensation, Fruit)
+
+  
+# Arrange the Fruit column values of the data set from highest to lowest by using "dec()"
+arrange(compensation, desc(Fruit))
+```
+
+ \vspace{3cm}                            
+ 
+##  Section 3.6 Mini-summary and two top tips
+ 
+                            
+ \vspace{0.55cm}
+  
+ 
+  Grab only the subset of the data set 
+  for Root values from Fruit > 80 Kg.
+  Read code from inner parentheses to 
+  outer parentheses.  First "filter()" the
+  data to get observations where Fruit
+  production is > 80 Kg, then Select
+  ONLY the Root column and return it.
+  
+\vspace{0.55cm}
+ 
+  
+```{r}
+select(filter(compensation, Fruit > 80), Root)
+```
+  
+ 
+  \vspace{3cm}
+  
+  
+### Piping
+ 
+  Piping symbolized in "dplyr" as "%>%" which
+  means: "put the answer of the left-hand
+  command INTO the function on the right."
+  This is somewhat like a composite function from
+  calculus. When using this command, always start with the data frame.
+  
+   \vspace{0.25cm}
+ 
+  
+  
+  Below is the script for this.
+  Reading from left to right, top to bottom,the
+  command below says: [1] working with the
+  compensation data, [2] "filter()" it based on the 
+  Fruit column, getting all rows where it is
+  TRUE that Fruit > 80 Kg, then pass this 
+  data frame to [3] "select()" and return ONLY 
+  the Root column as the final data frame.
+  This is easier and cleaner than putting
+  functions inside of functions, i.e., true
+  composite functions.
+  
+\vspace{0.55cm}
+ 
+  
+```{r}
+compensation %>%
+  filter(Fruit > 80) %>%
+  select(Root)
+
+  
+#  Assign this to an object "Piped_Compensation" for later use.
+  
+
+Piped_Compensation=compensation %>% filter(Fruit > 80) %>% select(Root)
+Piped_Compensation
+```
+
+ \newpage                                 
+ 
+## Section 3.7
+
+ \vspace{0.55cm}
+
+
+Summarizing data using "dplyr" Calculating summary statistics about groups of data.
+ 
+                                  
+ \vspace{0.25cm}
+  
+ 
+### Steps in this process:
+  
+  1. Declare the data frame and what the grouping variable is.
+  2. Provide some kind of math function with which to summarize the
+     data (e.g. "mean()" or "sd()").
+  3. Provide a meaningful name for the values returned.
+  4. Make R use all of this information.
+ 
+  
+
+\newpage                                         
+  
+## Section 3.7.2
+
+\vspace{0.55cm}
+ 
+### Method 1: Nested functions, no piping
+ 
+                                         
+ \vspace{0.55cm}
+  
+  
+  Below is the code that does what we want.
+ 
+  [1] First we declare what we want to "summarise()"
+  
+   \vspace{0.25cm}
+ 
+  The second line of code has some good 
+  stuff on the 'inside'.
+  
+   \vspace{0.25cm}
+ 
+  [2] The "group_by()" function works with
+      the data frame and declares Grazing as 
+      our grouping variable. If we have more  
+      than one grouping variable, we can add
+      them with commas in between.
+ 
+  \vspace{0.25cm}
+  
+  
+  [3] The third line is where we ask for the 
+      mean to be calculated for the Fruit column. 
+      We can do this, and R knows where to look,
+      because the "group_by()" function has
+      set it all up. 
+      
+ \vspace{0.25cm}
+
+  The object "meanFruit" is some
+  formatting for the output.
+ 
+  "summarise()" returns the results requested.
+  There is no need to ask for it to be displayed.
+ 
+   
+```{r}
+summarise(
+  group_by(compensation, Grazing),
+  meanFruit = mean(Fruit))
+```
+
+ \vspace{0.25cm}
+  
+ 
+  If you want to use the means somewhere else in your code, 
+  use the "=" symbol and assign the result to a new object. 
+  Call it "mean.fruit" as below.
+  
+   \vspace{0.55cm}
+ 
+  
+```{r}
+mean.fruit = summarise(
+  group_by(compensation, Grazing),
+  meanFruit = mean(Fruit))
+
+  
+# Return the result.
+mean.fruit
+```
+
+\newpage
+                                             
+ 
+## Section 3.7.3
+ 
+## Method 2: Piping, no nesting of functions
+ 
+                                             
+\vspace{0.55cm}
+  
+ 
+  This is perhaps more logical in flow than 
+  using nested functions.
+  
+  Start by declaring the data frame.
+  
+  \vspace{0.25cm}
+ 
+  [1] Start with the data, divide it into groups,
+  \vspace{0.25cm}
+  
+  [2] calculate the mean of the fruit data in each group,
+  \vspace{0.25cm}
+  
+  [3] "summarise()" the results.
+  
+  \vspace{0.25cm}
+ 
+  NOTE: We work outside to inside when using piping.
+ 
+  A big difference from nesting is that "summarise()"
+  is now third in the list, rather than on the 'outside'.  
+ 
+  That's the order.
+   
+   \vspace{0.55cm}
+   
+```{r}
+compensation %>%
+  group_by(Grazing) %>%
+  summarise(meanFruit = mean(Fruit))
+
+
+  
+#Assign this to an object for later use
+mean.fruit=compensation %>%
+  group_by(Grazing) %>%
+  summarise(meanFruit = mean(Fruit))
+
+
+# Display the result; the mean
+mean.fruit
+```
+
+
+ \newpage                                          
+ 
+## Section 3.7.4
+
+ \vspace{0.25cm}
+ 
+  summarizing and Extending Summarization
+ 
+  \vspace{0.55cm}                                          
+```{r}
+
+compensation %>%
+  group_by (Grazing) %>%
+  summarise(
+    meanFruit = mean(Fruit),
+    sdFruit = sd(Fruit))
+
+
+  
+# Assign this to an object for later use.
+Fruit.Summary.Statistics = compensation %>%
+  group_by (Grazing) %>%
+  summarise(
+    meanFruit = mean(Fruit),
+    sdFruit = sd(Fruit),
+    cvFruit = sdFruit/meanFruit)
+
+
+  # Display the results.
+Fruit.Summary.Statistics
+```
+
+  \vspace{0.55cm} 
+ 
+  Create a user defined function to calculate
+  the coefficient of variation, "cv".
+  Use the classic R function "$" to 
+  select the desired variable
+  from the data set.  Find the "cv"
+  of the total Fruit variable (not
+  grouped by Grazing).
+  We will also display the results.
+ 
+  \vspace{0.55cm}
+  
+```{r}
+cv = function (data) {
+  cv.value = sd(data)/mean(data)
+  return (cv.value)
+}
+
+cv(compensation$Fruit)
+
+Fruit.Summary = compensation %>%
+  group_by (Grazing) 
+  
+cv = function (data) {
+  cv.value = sd(data)/mean(data)
+  return (cv.value)
+}
+
+Fruit.Summary 
+
+cv(Fruit.Summary$Fruit)
+```
+
+\newpage
+
+
+
+
+                                 
+ 
+## Appendix 3b: Advanced "dplyr"
+ 
+   \vspace{0.55cm}                               
+
+
+  
+ 
+  You can apply transformations to groups of your data.
+  You already know how to summarize groups of your data, 
+  but this is different. Let's say, for example, you want to
+  subtract the mean of each group of your data from 
+  each value in the corresponding group. 
+ 
+ 
+  \vspace{0.25cm}
+  
+  
+  To do this, you first declare the groups, just as before,
+  using the "group_by()" function. 
+  Then you use the "mutate()" function, which you already know 
+  as the function for transforming your data.
+  The following code does this, subtracting the
+  mean fruit production for each grazing
+  treatment from the values for the corresponding 
+  grazing treatment, using piping. This results in mean-centered data.
+ 
+  We will also assign the result to an object for later use.
+ 
+  \vspace{0.55cm}
+  
+```{r}
+compensation_mean_centered = compensation %>%
+  group_by(Grazing) %>%
+  mutate(Fruit_minus_mean = Fruit - mean(Fruit))
+```
+
+ \vspace{0.55cm}
+  
+  Check that the mean of each group of the
+  "Fruit_minus_mean" variable is equal to zero
+  by displaying the results using piping and 
+  "summarise()".
+  
+   \vspace{0.55cm}
+  
+
+```{r}
+compensation_mean_centered = compensation %>%
+  group_by(Grazing) %>%
+  mutate(Fruit_minus_mean = Fruit - mean(Fruit))%>%
+  summarise(mean.Fruit.Minus.Mean = mean(Fruit_minus_mean))
+
+
+  
+# Display the result required.
+  
+
+compensation_mean_centered
+```
+
+  \vspace{0.55cm} 
+ 
+  You can ask for more or less of anything to 
+  be done to a group of your data. For example, 
+  create a linear model for each group. 
+  The new function for this is "do()."
+  
+   \vspace{0.25cm}
+   
+  Here's how we would "do()" a linear model
+  for each grazing treatment:
+  We will need to attach the R package
+  "broom" to accomplish this. The R function
+  "lm()" creates the linear model.
+  
+   \vspace{0.55cm}
+  
+```{r}
+# library(broom)
+# compensation_lms = compensation %>%
+#   group_by(Grazing) %>%
+#   do(tidy(lm(Fruit ~ Root, data=.)))
+```
+
+   \vspace{0.55cm}
+ 
+  Note that we used a function called "tidy()" from 
+  the package "broom" to "tidy()" up the output of the
+  linear model function "lm()". Otherwise, things are
+  rather messy.
+ 
+   \vspace{0.55cm}
+
+  
+  
+  
+```{r}
+# Display the results of the linear model
+# compensation_lms 
+```
+\vspace{0.55cm}
+
+  Another way to see the results
+  NOTE: the "V" is capitalized!!
+  
+    
+```{r}
+# Display the results of the linear model
+# View(compensation_lms)
+```
+
+  
+  
+  \vspace{0.55cm}
+  
+```{r}
+?qf()
+?qt()
+```
+
+
+\vspace{0.55cm}
+                                                  
+ 
+CONGRATULATIONS!!
+
+\vspace{0.25cm}
+ 
+  You have completed the "dplyr" tutorial and
+  now have a better understanding of just
+  how powerful this function is for manipulating 
+  data.  Most importantly, you have learned the 
+  basics of using it. Check out the "dplyr" cheat
+  sheet for a summary of all of its capabilities.
+ 
+ \vspace{0.25cm}
+ 
+  You are well on your way to to being able to
+  use R to analyze your own data or that in 
+  someone's lab.  Now there is nothing stopping 
+  you from becoming a proficient user of R for
+  your own benefit! 
+  
+ 
+                                                  

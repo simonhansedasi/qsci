@@ -1,0 +1,2635 @@
+---
+title: "Third R Tutorial"
+author: "Simon Hans Edasi"
+output: html_document
+date: "4/11/2023"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Chapters to Review
+
+In this tutorial we are going to work along with reading
+ 
+      pages 79 - 92 (Chapter 4);
+      203 - 281 (Chapter 8); and
+      219 - 221 (Chapter 9, Closing Remarks).
+ 
+It will be longer because it is going to help you be able to produce more useful plots than than simply what the defaults produce. The visual display and exploration of data is perhaps the most important thing to learn in statistics! Without this starting point, the mechanics of the calculations can easily be meaningless and the conclusions drawn from them misleading or worse wrong. Humans are very visual creatures. Statistics was created and developed by people to help people make decisions in the face of uncertainty, and that pretty much describes what all of us face almost everyday. BC&P and are going to stress this. Reinforcing that idea is another reason this text was selected for the course. Be patient and work your way through BC&P. We will use cut and paste of code to lessen the work of building our plots.
+
+\vspace{0.5cm}
+ 
+  
+WARNING: Remember to SAVE your work frequently!! Practice good formatting and script documentation. 
+
+\vspace{0.5cm}
+
+## Introduction
+ 
+As we start on this tutorial, let me repeat some statements from p. 57 of BC&P:
+
+\vspace{0.25cm}
+
+ 
+>  "We advocate a very fundamental rule for data analysis.  Never start an analysis with statistical analysis. 
+  Always start an analysis with a picture. Why? If you ... some expected/hypothesized theoretical 
+  relationship underpinned your research effort. You have in your head an expected pattern in your data.
+  Plot your data first. Make the picture that should tell you the answer - make the axes correspond to the theory. If you can do this, and see the pattern you expected, you are in great shape. You will possibly know the
+  answer!"
+  
+  \vspace{0.25cm}
+ 
+We will explicitly follow this advice in class, and you should never fail to do so in your own work. In A First R Tutorial we learned and  used the basic R function, "plot()". That function will do a lot of work for us. If you are interested in seeing how one can use it, to do what we will now do, please look at: 
+
+\vspace{0.25cm}
+  
+     A. P. Beckerman and  Owen L. Petchey. 2012. Getting
+    started with R: An Introduction for Biologists.
+    
+ \vspace{0.5cm}
+    
+    
+The pdf of the chapters in this book are posted on our course Canvas website. As BC&P state in their Preface to the second edition:
+
+>"Over the past five years much has changed ... R 
+  has evolved....Our changes and suggestions take 
+  of some new and very cool, efficient,
+  and straightforward tools.  We think these 
+  changes will help you focus even more on your data 
+  and questions.  This is good...We no longer rely on
+  base [classic] R and graphics for data manipulation and 
+  figure making, instead introducing "dplyr" and ggplot2."
+  
+  \vspace{0.5cm}
+ 
+  Please take the time to reread the Preface in BC&P.So now we will start learning and using a "...popular
+  and new set of tools...." in R.  The "classic" set of base R tools, like plot() and aov(), are still there.  
+  But these newer tools will be both easier to learn, use, and help those of you who may make more extensive use of R get a good start. 
+  
+ 
+ 
+## Let's Begin Coding
+
+
+\vspace{0.5cm}
+
+
+### Q1. Are you wondering about what aov() does? How would you ask R to to tell you about it? Please do it.  
+ 
+ \vspace{0.25cm}
+  
+
+```{r}
+
+?aov()
+```
+
+\vspace{0.95cm}
+ 
+## Chapter Four 
+
+\vspace{0.5cm}
+ 
+```{r}                    
+# Clear the memory
+rm(list = ls())
+
+```
+
+\vspace{0.5cm}
+  
+Make the package "ggplot2" and its associated functions available to use.
+
+\vspace{0.25cm}
+  
+```{r}
+library(ggplot2)
+```
+
+\vspace{0.5cm}
+  
+Since BC&P use it we will add the the "dpylr" package for data cleaning and manipulation.
+
+\vspace{0.25cm}
+  
+```{r}
+library(dplyr)
+
+```
+
+\vspace{0.25cm}
+  
+Import the compensation data set using the path to the data set that you set up. Assign the data to a vector named "compensation".Then view the data set to ensure it downloaded properly.
+  
+
+  
+\vspace{0.25cm}
+
+```{r}
+compensation <- read.csv('compensation.csv')
+
+
+```
+
+\vspace{0.25cm}
+ 
+We will check out the data to follow what BC&P do. We used it in the Second R Tutorial.
+
+\vspace{0.25cm}
+  
+```{r}
+head(compensation)
+```
+
+ \vspace{0.25cm}
+ 
+Let's learn how to make a scatterplot of our data. Use the lines below this comment to type the scripts in section 4.2 of BC&P as you read the text. We will learn how to create a scatterplot of the compensation data. Do not forget to use help, e. g., ?ggplot2, ?aes, and read what appears in the Help tab.  If you will do this, you will become much more comfortable with R and even better at using it. Honestly, the work you will do in both this tutorial and the class will be so much easier, and you will pick up a useful skill to boot.
+Won't that be nice?
+
+\vspace{0.25cm}
+  
+```{r}
+# Get help with "ggplot2" and "aes"
+?ggplot2
+?aes
+```
+
+\vspace{0.25cm}
+   
+Produce a default bivariate scatterplot of the compensation data as done in BC&P.
+
+\vspace{0.25cm}
+  
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+geom_point()
+
+```
+ 
+ \vspace{0.25cm}
+ 
+Your plot should look like the figure in BC&P.
+ 
+As BC&P point out, play special attention to the use of the "+" in the script.Take some time to get help on ggplot to see what customization options are available.  There are many!  For those who may be interested, the course FISH 554 Beautiful Graphics in R explores how to create beautiful scientific graphics in the open-source language R. Covers the theory of visualization, critically examines elements of good and bad graphics,and teaches students how to translate data ... into publication-quality graphics.  Other such courses are also offered on the UW campus.
+
+\vspace{0.55cm}
+ 
+###  Note: 
+  
+The paper referenced at the bottom of page 80 of BC&P is posted on our course Canvas website
+  
+      Files > Lecture Materials > Week 1 > Presenting Data > Related Articles
+      (the Weissgerber article). 
+      
+\vspace{0.25cm}
+   
+   
+  Please read this paper and for your benefit put together a summary of: 
+  
+  \vspace{0.25cm}
+  
+  
+  [1] What the authors state are the problems of bar graphs;
+  
+  \vspace{0.25cm}
+  
+  [2] What they suggest be used in place of them, and
+  
+  \vspace{0.25cm}
+  
+  [3} The reasons they give for why these replacements are superior to bar graphs. This is        what I would like you to take away from your reading.
+  
+  \vspace{0.25cm}
+ 
+Hopefully, by reading this paper you will take away the idea that statistics is not some ossified field of mathematics frozen for all time. It truly was developed by people to help people like us make decisions in the face of uncertainty, and people are constantly remodeling it to better achieve that goal!  Things change when something is not working well.
+ 
+   \vspace{0.55cm}
+ 
+You will probably have not heard of t-tests or ANOVA. Do not let that concern you. We will learn about them 
+in class.  Our text (J. E. Freund and B. M. Perles.2007 (12 edition) Modern Elementary Statistics. Pearson) also
+covers the basics of nonparametric statistics, but we will not cover them in this class. These methods are
+the subject of other courses.  R will be useful for these courses as well! By now we have typed the script shown on page 82 of BC&P. But feel free to redo it.  The practice will will be good. Please do not forget to carefully read the first paragraph of section 4.2.2. It is a good example of how to review a graph of your own data.
+
+   \vspace{0.55cm}
+ 
+### Q2. How do you get help on "theme_bw" before typing the script in BC&P?  Answer that            Question in the space below.
+ 
+   \vspace{0.25cm}  
+
+```{r}
+
+?theme_bw
+```
+
+
+\vspace{0.55cm}
+   
+Now continue reading and working along with what you are reading. I suggest that you enter each script segment as you encounter it in you reading. Put your scripts on the space provided below this comment.
+ 
+\vspace{0.55cm} 
+   
+### For the following script segments, write the appropriate code to achieve the following features of the graph.
+  
+### a)  First script segment:  Get rid of the grey background.
+  
+\vspace{0.55cm}
+  
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+geom_point() + 
+theme_bw()
+
+```
+\vspace{0.25cm} 
+  
+### b)  Second script segment:  Adjust size of the data points.
+
+\vspace{0.25cm} 
+  
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+geom_point(size = 30) + 
+theme_bw()
+```
+\vspace{0.25cm}
+  
+### c)  Third script segment: Alter the x and y axis labels.
+  
+
+\vspace{0.25cm}
+
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+  geom_point(size = 30) + 
+  theme_bw() + 
+  xlab('Root Biomass') + 
+  ylab('Fruit Production')
+```
+\vspace{0.25cm}
+  
+### d)  Fourth script segment:  Adjust colors of the data points for each group to the default colors.  Now they are easy to distinguish from each other.
+  
+\vspace{0.25cm}
+
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing)) +
+  geom_point(size = 30) + 
+  theme_bw() + 
+  xlab('Root Biomass') + 
+  ylab('Fruit Production')
+```
+
+\vspace{0.25cm}
+
+###  e)  Fifth script segment:  Change the shape of the data points to the default values.
+  
+\vspace{0.25cm}
+
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing)) +
+  geom_point() + 
+  theme_bw() + 
+  xlab('Root Biomass') + 
+  ylab('Fruit Production')
+
+
+  
+```
+
+ \vspace{0.25cm}
+  
+ 
+  Please check out the other options for the size, colors, 
+  and shapes of the data points.  What do you do to find
+  these options? We can do something else very nice in R.  We can 
+  create a script and make it a function that we 
+  could use over and over for any data sets.  For example,
+  we could create script that does a basic exploration
+  and convert of data (which is, of course, what we have 
+  been doing) it into a function that would accept its 
+  own arguments. That is part of the power of R for 
+  data analysis.
+ 
+  
+\vspace{0.55cm}
+  
+ 
+### If you like and for practice, feel free to gather all of the scripts we have written into a nice neat, well documented, and formatted script.  This will not take long,  You may use cut and paste to do it. Now you have learned a little secret for writng code in any software package.
+ 
+  
+
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+\vspace{5cm}
+
+
+ 
+                                              
+## Box and Whisker Plots
+
+  Let's learn how to make a box and whisker plot of our data. We will continue to use our     work horse, "ggplot()" (a function in "ggplot2"). 
+ 
+  
+  Use the lines below this comment to type the scripts
+  in section 4.3 of BC&P as you read the text.  We will
+  learn how to create a box and whisker plot of the
+  compensation data.  We will discuss box and whisker
+  plots in class, so do not worry if you have never
+  seen one before.  All will be revealed shortly!
+ 
+###  Use the lines below this comment to type your script. Do not forget to get help on the      new functions that you encounter in these script segments.
+ 
+  \vspace{0.25cm}
+
+
+  
+###  a)  First script segment.
+
+\vspace{0.25cm}
+
+  
+
+```{r}
+ggplot(compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() +
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Grazing treatment") +
+  ylab("Fruit Production") +
+  theme_bw()
+```
+
+\vspace{0.25cm}
+
+  
+###  b)  Second script segment.
+
+\vspace{0.25cm}
+
+  
+```{r}
+
+
+
+
+```
+
+ \vspace{0.25cm}
+
+
+  Good! Your plot should look like the figure in the BC&P.
+  Do not forget to read section 4.3.1!  Please heed
+  the author's comment on page 87, i.e.,
+  "...don't forget to look at the graphs carefully,
+  and biologically."  Answer the questions at the end
+  of section 4.3.1.  Do not leave this section until 
+  you do.  We still do not have a title on our 
+  Scatterplot or box plot, so go back to page 82 to 
+  remind yourself of what the compensation data 
+  represents.  
+  
+### Q1. What is plotted on each axis of the scatterplot?  Do not fail to answer this.
+
+ \vspace{3cm}
+ 
+ 
+ 
+  
+
+
+
+## Histograms                                              
+ 
+  Let's learn how to make a histogram of our
+  data. Guess what we are going to use? Oh, you 
+  guessed it -- ggplot.
+ 
+                                              
+ \vspace{0.25cm}
+
+  
+ 
+  Use the lines below this comment to type the scripts
+  in section 4.4 of BC&P as you read the text.  We will
+  learn how to create a histogram of the
+  compensation data.  We will discuss histograms
+  in class, so do not worry if you have never
+  seen one before.  All will be revealed shortly!
+ 
+  Use the lines below this comment to type your script.
+ 
+  Do not forget to get help on the new functions that
+  you encounter in these script segments.  Do not
+  enter the comments statements.  Wait to see what R
+  prints in the Console as well as the Plots tab.
+ 
+   \vspace{0.25cm}
+
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram()
+
+  
+```
+\vspace{0.25cm}
+ 
+  
+### Note
+
+\vspace{0.25cm}
+
+The number of bins used "bins = 30" is the default.  We can alter it. Isn't that nice?  That ggplot is some kind  of function (actually, the person who wrote the function was thinking about how to use the function.  Thank you whoever you are!) Move on and enter the next lines of script and run them.
+ 
+ \vspace{0.25cm} 
+
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(bins = 10)
+  ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(binwidth = 15)
+```
+ \vspace{0.25cm} 
+ 
+  Run the next lines of script.
+ 
+  
+ \vspace{0.25cm} 
+ 
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(binwidth = 15) +
+  facet_wrap(~Grazing)
+
+```
+
+ \vspace{0.25cm}
+  
+ 
+  Stop for a moment and this reflect on 
+  what we have just seen.Looking at the histograms that we have just
+  asked ggplot to create gives us an important
+  lesson.  Histograms have a weakness that we
+  have to be aware of before we use them.
+  The shape of a histogram is dependent on the 
+  the number of bins and/or the bin size.
+  Nothing is fool proof.  That is just reality.
+  the careful user must simply be aware of this.
+ 
+  
+ \vspace{0.55cm} 
+
+  
+ 
+  Now let's use a feature in "ggplot()" that is really
+  useful to a researcher or analysis.  The idea of 
+  facets.  
+  
+### Q2. What is a facet?  Do not simply enter the script in the text, stop and answer that          question.  A facet is.............
+ 
+ \vspace{5cm} 
+ 
+**A facet is a group within data. In this case grazed or ungrazed**
+
+ 
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(binwidth = 15) +
+  facet_wrap(~Grazing)
+
+```
+
+ \vspace{0.25cm}
+  
+ 
+  WOW! A two-fer!!  How easy was that?
+ 
+  Do not lose sight of the authors' mentioning
+  the "~" (tilda) and the increasing use of it
+  as we continue learning how to use R.  
+  Make sure that you can find the "~" on the
+  keyboard of your computer.
+ 
+  
+\vspace{0.25cm}
+  
+ 
+  Please follow the text and save this final
+  plot.  This is one way to import plots into
+  your work in R. But, we will see that R Markdown
+  is much better. So, practice and get comfort-
+  able with doing it.  When you open the
+  Export window, you use the Directory button
+  to point to where you want the plot to be
+  saved for later use. spend some time now to 
+  adjust the size of your plot so that it looks
+  reasonable when you import it.
+  Now is a good time to practice this.
+  You will be able to cut and paste plots, scripts,
+  and output (from the Console) into WORD documents 
+  for submitting your assignments in other classes.
+  One easy method of doing this is to use:
+ 
+    Export > Copy to Clipboard (adjust imagine as 
+    desired or Maintain Aspect) > Copy as Metafile.
+    
+\vspace{0.25cm}
+
+  Open your WORD document and paste the plot into
+  it.  Try doing it before going on in this
+  tutorial.
+ 
+ \vspace{0.25cm}
+ 
+  Here it should be mentioned that plots with all that 
+  the authors of BC&P refer to as pimping can contain 
+  a great deal of information.  That information takes 
+  computer memory to store.  The R code itself takes very
+  little memory.  No matter how cheap computer memory is, it is
+  still finite. So, as a general practice it is wiser to 
+  store the code that generates the plot and rerun the code
+  whenever you need the plot rather than saving the plot.
+  
+  In the space below, write code to get information about "ggsave". 
+  
+\vspace{0.25cm}
+
+
+```{r}
+?ggsave()
+```
+
+
+\vspace{0.25cm}
+  
+ 
+  Before you move on, here are some questions for you. Do not fail to answer them.
+  
+### Q1. What important feature of our data does a histogram show us?
+
+\vspace{3cm}
+
+**The mean**
+
+ 
+### Q2. Why is it important?
+
+\vspace{3cm}
+
+**It is a representative statistic**
+
+ 
+### Q3. Is a histogram the same thing as a bar chart?  If not, why not?
+
+\vspace{3cm}
+
+**No. A bar chart displays categorical data, whereas a histogram shows frequency of data**     
+
+ 
+CONGRATULATIONS!!!
+
+\vspace{0.25cm}
+ 
+  Just think of what you have now accomplished! Please read and reread the Closing Remarks in 
+  section 4.6.  We will read and use the material in Chapter 5 as we work our way through the course.  
+ 
+                                                   
+\vspace{0.25cm}
+  
+ 
+  WOW! What else can "ggplot()" do?  It is better 
+  to ask What can't "ggplot()" do? We will move on to Chapter 8 and learn some 
+  more features of plotting in R.  By doing that,  
+  will be able to much more easily the 
+  assignments for the course.
+ 
+  
+\newpage
+                                   
+ 
+## Chapter 8 
+
+## Pimping the Plots in "ggplot2"
+ 
+    
+  By example, we will go back and cover the use of "geom_bar()",
+  "geom_line()", and "geom_errorbar()" because these 
+  are covered in the Chapters 5 (which we will read
+  as we go through the class) and 6 (which we will 
+  probably not read, but will be an early part of Q SCI 482).
+  
+  \vspace{0.25cm}
+  
+### Things to Remember
+
+  \vspace{0.55cm}
+ 
+  Please note well the suggestions on page 204 of BC&P
+  concerning resources on the use of RStudio and
+  R and its features.  It is important to remember
+  that when you need help with something in R early one
+  morning, there are several places to go.  Many people
+  including your TAs and I have made use of these
+  resources.  The ubiquity of these resources may help
+  convince you of just how prevelant the use of R is.
+  
+  \vspace{0.25cm}
+  
+ 
+  The cheat sheets for R, RStudio, R Markdown, "dplyr" and "ggplot2"
+  are posted on our course Canvas website:
+ 
+    Files > R Material and Information > R_RStudio Cheat Sheets
+ 
+  
+\vspace{0.25cm}
+
+  
+ 
+  Even though we have most of the libraries and basic
+  set up for a script already by now, assume you are 
+  starting a new script and re-enter all of that.
+  Do not forget to use good formatting of and commenting
+  in your script.  Keep practicing this each time
+  and it will become very easy.
+  
+  \vspace{0.55cm}
+ 
+  The authors have not written out all of this 
+  script for you as they did in previous chapters.
+  At this point, they want you to build up you skills
+  by doing more of this on your own. But,
+  for a reminder about how to create this script,
+  review page 85 in BC&P.  You can always go
+  back in the text and look things up!
+  
+  \vspace{0.55cm}
+ 
+  Please note that we are going to assign
+  each plot to an object so that we can
+  work with that object anywhere we wish in 
+  the script we are writing.  You should also 
+  note easy that it is to add modifications to our plots
+  by simply adding them (using the "+" or "layering") 
+  to the object.  That is cool!  
+  This will make our work much easier!!  It looks
+  like someone was thinking about making things
+  easier for us.
+  
+  \vspace{0.55cm}
+ 
+  Remember what "rm(list=ls())" does, so be
+  careful where you place it in your script.
+  You do not want to erase what you have just 
+  loaded into memory.  Try moving the position
+  of "rm()" and see what happens.  If you loose
+  something, you can always reposition "rm()"
+  and rerun the script. No problem!
+  
+  \vspace{0.55cm}
+  
+  Please use the help capability of R/Rstudio
+  for every new function or function argument 
+  that you encounter in this chapter.  If you
+  continue to do this, you will get much
+  more comfortable with R.
+ 
+  
+  \vspace{0.55cm}
+
+
+  
+ 
+  It is possible to just enter the various standalone
+  scripts the authors create as the teach you how
+  to more fully use the capabilities of "ggplot".  That
+  is how the text intends you to do it.
+  But, in this tutorial we will work to create
+  a script that incorporates all of the standalone scripts
+  that text creates in one large complete script.  
+  In so doing,you will have written a complete R program!!
+  You will be using these scripts, 
+  or modifications of them, for the class assignments. 
+  So work through the text carefully and
+  
+   \vspace{0.25cm}
+  
+                   SAVE YOUR SCRIPTS!!
+ 
+  \vspace{0.55cm}
+
+  
+ 
+Please start working through BC&P.  Read section 8.1 and work your way through section 8.2.Put your script(s) on the lines below this comment. After writing the script(s), run it (them) and see what you make sure that you get the figures in the text.
+ 
+\vspace{0.25cm}
+
+
+```{r}
+
+#   Load libraries of functions that we will need.
+library(gridExtra)
+
+
+```
+
+\vspace{0.25cm}
+  
+  
+  
+
+```{r}
+
+# Clear the memory
+rm(list = ls())
+
+#  Load the desired dataset and check it
+compensation <- read.csv('compensation.csv')
+summary(compensation)
+
+```
+\vspace{0.25cm}
+
+
+###  Generate a base scatterplot. Assign that plot to an object for later use in our script.      Call it "eg_scatter". Display "eg_scatter".
+
+\vspace{0.25cm}
+
+```{r}
+eg_scatter <- ggplot(data = compensation, aes(x = Root, y = Fruit)) +
+  geom_point()
+
+```
+
+ \vspace{0.25cm}
+  
+###  Generate a base box-and-whisker plot. Assign that plot to an object for later use in        our script. Call it "eg_box" and display it.
+  
+\vspace{0.25cm}
+
+```{r}
+eg_box <- ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot()
+
+
+```
+
+\vspace{0.25cm}
+  
+###  Apply a black on a white background theme  to the scatterplot object.  
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter + theme_bw()
+
+```
+
+ \vspace{0.25cm}
+  
+###  Arrange both plots on the one page.
+  
+  \vspace{0.25cm}
+  
+
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+
+```
+
+   \vspace{0.25cm}
+  
+ 
+  Feel free to explore other argument options
+  for these functions.  That is how you will
+  learn R and get comfortable with it.
+ 
+
+  Place your scripts here if you wish.
+  
+\vspace{0.25cm}
+  
+```{r}
+  
+  
+```
+
+\vspace{3cm}
+
+  
+### Q1. What do "gridExtra()", theme_bw()", and "grid.arrange()" do?  How do you find out?          Do it in the space below.
+
+\vspace{0.25cm}
+ 
+  
+```{r}
+?gridExtra() # add an extra grid to the figure
+?theme_bw()    # changes the theme to black and white
+?grid.arrange()    # arrange plots on a grid
+```
+
+\newpage
+
+
+## Section 8.3 of BC&P
+ 
+ \vspace{0.55cm}
+ 
+  Please read this section even though no
+  script is written in it.After doing that, please move on to section 8.4. Copy and paste the script you created above
+  on to the lines below this comment and 
+  modify it as you follow along with the text.Once you have made the modifications, run your script.
+ 
+  
+\vspace{0.25cm}
+  
+
+```{r}
+
+# Load libraries of functions
+
+
+
+
+```
+
+\vspace{0.25cm}
+  
+
+
+```{r}
+
+# clear memory
+
+
+# Load the desired dataset and check it
+
+```
+
+ \vspace{0.25cm}
+  
+###  Generate a base scatterplot. Assign that plot to eg_scatter for later use.
+  
+\vspace{0.25cm}
+ 
+```{r}
+
+
+
+```
+
+ \vspace{0.25cm}
+
+  
+###  Generate a base box-and-whisker plot. Assign that plot to eg_box for later use.
+  
+\vspace{0.25cm}
+
+```{r}
+
+
+
+```
+
+ \vspace{0.25cm}
+  
+###  Apply a black on a white background theme to the scatterplot object and add a few more      features.
+  
+\vspace{0.25cm}
+ 
+```{r}
+eg_scatter + theme_bw() +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  xlim(0, 20) + ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here"))
+```
+
+\vspace{0.25cm}
+  
+  Doing this in another way
+  
+  \vspace{0.25cm}
+  
+```{r}
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+  x = "Root Biomass (appropriate units)", 
+  y = "Fruit Production (Kg)") +
+  xlim(0, 20) + ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here"))
+```
+
+ 
+\vspace{0.25cm}
+  
+  Arrange both plots on the one page.
+  
+\vspace{0.25cm}
+ 
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ 
+ 
+### Q1.  Can you tell what setting "nrow = 1" is doing?
+
+**One row of plots**
+
+\vspace{3cm}
+ 
+### Q2.  What might happen if we used "ncol = 1" instead of "nrow = 1"? Try it in and find           out.
+
+```{r}
+
+
+grid.arrange(eg_scatter, eg_box, ncol = 1)
+
+
+
+```
+
+\vspace{3cm}
+ 
+ 
+ 
+  
+ 
+  Did you get what appears in the text's figures?
+  You should have.
+ 
+  Use the arrow buttons to navigate between plots.
+  If you want a better view of the plots, you may 
+  either pull the lower right pane up ( or down) or 
+  use the two buttons on the far right of the line with
+  the tabs.  Try it.  You can not break anything.
+ 
+  
+\newpage
+
+
+## Section 8.5
+
+\vspace{0.55cm}
+  
+  Once again,copy and paste all of your modified script
+  on lines below this comment and further modify
+  it as you work along with the text.  
+  
+  \vspace{0.25cm}
+  
+  If you are trying to do a full script and not just
+  entering each new script from the text, I suggest
+  that you split the line.
+  
+  \vspace{0.25cm}
+  
+    "xlim(0, 20) + ylim(0, 140) +" after the first "+"
+    
+  \vspace{0.25cm}
+    
+  by placing your cursor after it and hitting "ENTER".
+  Now all you have to do is replace the 
+  "xlim(0, 20)" with the script
+  
+  \vspace{0.25cm}
+  
+    "scale_x_continuous(limits = c(4, 11), breaks = 4:11) +
+   
+   \vspace{0.25cm} 
+    
+  from the text.  We are doing this since that new line 
+  of script is changing the x-axis range and breaks.
+  Run the modified script.  
+        
+        ARE YOU SAVING YOUR WORK?
+ 
+  
+ \vspace{0.25cm}
+  
+ Let's learn more about plotting in R
+
+```{r}
+
+#  Reload the libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+
+# Clear the memory
+rm(list=ls())
+# Enter data set and check it
+compensation = read_csv("compensation.csv")
+View(compensation)
+```
+
+  \vspace{0.25cm}
+  
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+ \vspace{0.25cm}
+ 
+```{r}
+eg_scatter = ggplot(data = compensation, aes(x = Root, y = Fruit)) + geom_point()
+```
+
+ \vspace{0.25cm}
+  
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use in         our script.
+  
+
+\vspace{0.25cm}
+
+```{r}
+eg_box =
+  ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot()
+```
+  \vspace{0.25cm}
+  
+
+###  Apply a black on a white background theme to the scatterplot object along with some         other features.   
+  
+  
+   \vspace{0.25cm}
+
+```{r} 
+eg_scatter + theme_bw() +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) 
+```
+
+  \vspace{0.25cm}
+  
+Doing this in another way
+  
+ \vspace{0.25cm}
+
+```{r}
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomass (appropriate units)", 
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) 
+
+```
+ 
+   \vspace{0.25cm}
+  
+###  Arrange both plots on the one page.
+  
+   \vspace{0.25cm}
+  
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ \vspace{0.25cm}
+ 
+ 
+ 
+  Now continue on by adding color to the 
+  scatterplot as you work along 
+  with the text. You can simply enter the script
+  discussed in the text, but why not try to modify
+  the complete script that hopefully you have
+  been modifying as you read.  Use the space below 
+  and copy and paste the necessary code from BC&P.
+ 
+```{r}
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomass (appropriate units)", 
+       y = "Fruit Production (Kg)",
+       colour = 'Grazing') +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here"))
+
+
+
+
+```
+
+  
+\vspace{0.25cm}
+  Let's do all of this more completely below.
+  You will notice that the authors start 
+  all over each time by writing the script
+
+    "ggplot(data = compensation, aes(.....))....", 
+  
+  but we have already gone to the trouble of
+  assigning the output of ggplot(....) 
+  to an object.  
+  
+  \vspace{0.25cm}
+ 
+  Why not directly modify the object to 
+  which the plot was assigned? 
+  This is using the power of objects and it is how complete
+  plot scripts are written.  It is good to practice it.
+  We will do that in the script segments below.
+ 
+  Run the entire script below, and you should get the plots
+  in the text.
+
+ \vspace{0.25cm}
+ 
+```{r}
+
+# Load libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+# Clear the memory
+rm(list=ls())
+
+compensation = read_csv("compensation.csv") # Load the desired data set
+
+
+```
+
+
+\vspace{0.25cm}
+  
+###  Generate a base scatterplot. Assign that plot to an object for later use in our           script.
+  
+ \vspace{0.25cm}
+
+```{r}
+eg_scatter = ggplot(data = compensation, aes(x = Root, y = Fruit, 
+                                  color = Grazing)) + geom_point()
+```
+
+\vspace{0.25cm}
+  
+###  Generate a base box-and-whisker plot.Assign that plot to an object "eg_box" for later use. 
+  
+ \vspace{0.25cm}
+ 
+```{r}
+eg_box =
+  ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() 
+```
+
+ \vspace{0.25cm}
+  
+###  Apply a black on a white background theme to the scatterplot object and some other              features.  
+  
+ \vspace{0.25cm}
+ 
+```{r}
+eg_scatter + theme_bw() +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+```
+
+ \vspace{0.25cm} 
+
+  
+  Doing this in another way
+  
+  
+   \vspace{0.25cm}
+   
+```{r}
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomassb (appropriate units)", 
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+
+\vspace{0.25cm} 
+
+###  Arrange both plots on the one page.
+  
+ \vspace{0.25cm}
+ 
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ \vspace{0.25cm}
+  
+  This is the end of the plotting script.
+  
+ \vspace{0.25cm}
+  
+ 
+  That was not hard, was it?  Now you have learned
+  something a bit more useful than just what is in the text.
+  You can use versions of this more 
+  complete script for the class assignments (modified, of course,
+  to fit the data and analysis being done on it).
+ 
+  
+ \vspace{0.25cm}
+  
+ 
+  In the space at the end of these comments, go ahead 
+  and make the log transformation discussed on page 211.
+  There is no need to do this in the complete code. 
+  Simply enter the script and run it.  That is what the
+  authors mean by "on-the-fly".  This only works
+  because we have already run the other scripts.
+  
+   \vspace{0.25cm}
+ 
+  If you want to modify the complete script that we
+  have been creating (and saving!!) you would add
+  the script line
+ 
+    " + scale_y_continuous(breaks = seq(from = 10, to = 150, by = 20), trans = "log10")"
+ 
+  to the script lines
+ 
+    "eg_box = ggplot(data = compensation, aes(x = Grazing, y = Fruit)) + geom_boxplot()"
+ 
+  Then rerun the complete script.
+ 
+  The log transformation is a very a important and common
+  transformation that is used in logistic regression.  We 
+  may have the occasion to use it in class.
+ 
+  Please modify the complete script that we have been
+  creating to add the log transformation to the boxplot
+  and rerun the completed script. Do that in the space below.
+  You should get the plot on page 212.  Then continue with 
+  the tutorial.
+ 
+```{r}
+
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomassb (appropriate units)", 
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+                                 
+
+
+```
+ 
+  
+ \vspace{0.25cm}
+  
+ 
+  
+
+ 
+
+```{r}
+
+# Load libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+# Clear the memory
+rm(list=ls())
+
+# Load the desired dataset
+compensation = read_csv("compensation.csv")
+
+```
+
+\vspace{0.25cm}
+ 
+
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+
+ \vspace{0.25cm}
+
+```{r}
+eg_scatter =
+  ggplot(data = compensation, aes(x = Root, y = Fruit, 
+                                  color = Grazing)) +
+  geom_point()
+```
+
+ \vspace{0.25cm}
+ 
+ 
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+\vspace{0.25cm}
+ 
+```{r}
+eg_box =
+  ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() +
+  scale_y_continuous(breaks = seq(from = 10, to = 150, by = 20),
+                     trans = "log10")
+
+```
+
+ 
+\vspace{0.25cm}
+  
+###  Apply a black on a white background theme to the scatterplot object and some other              features.  
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter + theme_bw() +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+ 
+  \vspace{0.25cm}
+  
+  Doing this in another way
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter + theme_bw() +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomass (appropriate units)",
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+
+\vspace{0.25cm}
+  
+  Arrange both plots on the one page.
+  
+\vspace{0.25cm}
+
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+\vspace{0.25cm}
+  
+ 
+  Ask for help on the following:
+  
+\vspace{0.25cm}
+  
+
+```{r} 
+?seq()
+?xlim()
+?labs()
+?annotate()
+?ggtitle()
+?scale()
+?scale_x_continuous()
+?scale_color_manual()
+?theme()
+?xlim()
+?labs()
+?annotate()
+?ggtitle()
+?scale()
+?scale_x_continuous()
+?scale_color_manual()
+?theme()
+?theme_bw()
+```
+
+ \newpage
+ 
+## Section 8.6
+  
+
+  Do not fail to get help on each new
+  function or function argument.
+  Copy and paste the last iteration of
+  the complete R script (program) on the
+  lines below and modify it as you work
+  through the text.
+ 
+  Stop for a moment after you have read to 
+  the bottom of page 214.  What line of R code
+  would you modify in your program to explore 
+  the use of the "theme()" function?  It was
+  used with the section of code that 
+  created the scatterplot. 
+ 
+  
+\vspace{0.25cm}
+
+
+ 
+```{r}
+
+# Load libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+# Clear the memory
+rm(list=ls())
+
+# Load the desired dataset
+compensation = read_csv("compensation.csv")
+
+```
+
+ \vspace{0.25cm}
+  
+###   Generate a base scatterplot. Assign that plot to "eg_scatter"for later use.
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter =
+  ggplot(data = compensation, aes(x = Root, y = Fruit, 
+                                  color = Grazing)) +
+  geom_point()
+```
+
+ \vspace{0.25cm}
+  
+###   Generate a base box-and-whisker plot. Assign that plot to "an object"eg_box" for later          use.
+  
+\vspace{0.25cm}
+```{r}
+eg_box =
+  ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() +
+  scale_y_continuous(breaks = seq(from = 10, to = 150, by = 20),
+                     trans = "log10")
+
+```
+
+  \vspace{0.25cm}
+  
+###   Apply a new theme to the scatterplot object.  
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter + theme(panel.background = element_rect(fill = NA, colour = "black"),
+  panel.grid.minor = element_blank(),
+  panel.grid.major = element_line(colour = "lightblue")) +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+
+ \vspace{0.25cm}
+ 
+  Doing this in another way
+  
+\vspace{0.25cm}
+
+```{r}
+eg_scatter + theme(panel.background = element_rect(fill = NA, colour = "black"),
+  panel.grid.minor = element_blank(),
+  panel.grid.major = element_line(colour = "lightblue")) +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomass (appropriate units)", 
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```  
+  
+\vspace{0.25cm}  
+  
+  Arrange both plots on the one page.
+  
+
+ \vspace{0.25cm}
+
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ \vspace{0.25cm}
+ 
+  Copy and paste your code again on the lines 
+  below this comment and make the modifications
+  discussed as you work through section 8.6.2.
+  In this section, we are going to make changes
+  to the boxplot.  So look in that section of
+  your code to find what to change.
+ 
+  Of course this same change could be made 
+  to the scatterplot and you might try doing that.
+  After run your code make changes to the boxplot
+  you should know what to expect will happen to
+  scatterplot if you make the changes correctly.
+  
+  \vspace{0.25cm} 
+
+ 
+
+ 
+```{r}
+
+# Load libraries of functions
+
+# Clear the memory
+
+
+# Load the desired dataset
+
+
+```
+ 
+  \vspace{0.25cm} 
+ 
+  
+###   Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+ \vspace{0.25cm} 
+ 
+```{r}
+
+```
+
+  \vspace{0.25cm} 
+  
+###   Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+ \vspace{0.25cm} 
+ 
+```{r}
+
+
+
+
+```
+
+  \vspace{0.25cm} 
+  
+###   Apply a new theme to the scatterplot object. 
+  
+   \vspace{0.25cm} 
+
+```{r}
+eg_scatter + theme(panel.background = element_rect(fill = NA, colour = "black"),
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_line(colour = "lightblue")) +
+  xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)") +
+  ggtitle("Scatterplot of Fruit vs. Root Mass") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+
+  \vspace{0.25cm} 
+
+  
+  Doing this in another way
+  
+   \vspace{0.25cm} 
+  
+
+```{r}
+eg_scatter + theme(panel.background = element_rect(fill = NA, colour = "black"),
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_line(colour = "lightblue")) +
+  labs(title = "Scatterplot of Fruit vs. Root Mass ",
+       x = "Root Biomass (appropriate units)", 
+       y = "Fruit Production (Kg)") +
+  scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+  ylim(0, 140) +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here")) +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+
+```
+
+  \vspace{0.25cm}  
+  
+  Arrange both plots on the one page.
+  
+   \vspace{0.25cm} 
+  
+
+```{r} 
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ 
+   \vspace{0.25cm} 
+ 
+  Let's make these same changes to the scatterplot.
+ 
+   \vspace{0.25cm} 
+
+
+
+  
+  Load libraries of functions
+  
+```{r}
+
+# Load libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+# Clear the memory
+rm(list=ls())
+
+# Load the desired dataset
+compensation = read_csv("compensation.csv")
+```
+
+ \vspace{0.25cm}  
+  
+###  Generate a base scatterplot. Assign that plot to "n object"eg_scatter" for later use.
+  
+  \vspace{0.25cm} 
+  
+```{r}
+
+```
+ 
+ \vspace{0.25cm} 
+  
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+  \vspace{0.25cm} 
+  
+
+```{r}
+
+
+
+
+
+
+```
+
+  \vspace{0.25cm} 
+  
+###  Apply a new theme to the scatterplot object.  
+  
+  \vspace{0.25cm} 
+  
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#     size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   xlab("Root Biomass (appropriate units)") + 
+#   ylab("Fruit Production (Kg)") +
+#   ggtitle("Scatterplot of Fruit vs. Root Mass") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+
+
+```
+ 
+ \vspace{0.25cm}  
+ 
+  Doing this in another way
+  
+  \vspace{0.25cm} 
+  
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#     size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   labs(title = "Scatterplot of Fruit vs. Root Mass ",
+#        x = "Root Biomass (appropriate units)", 
+#        y = "Fruit Production (Kg)") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+\vspace{0.25cm} 
+  
+  Arrange both plots on the one page.
+  
+  \vspace{0.25cm} 
+  
+```{r}
+# grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+  \vspace{0.25cm} 
+  
+  Continue doing as you have been doing; copying
+  and pasting our complete R program and modifying
+  it as you work along with your reading of section
+  of 8.6.3. 
+ 
+  Use the lines below this comment to paste the
+  code and make your modifications.
+ 
+   \vspace{0.25cm} 
+   
+```{r}
+
+# Load libraries of functions
+
+
+# Clear the memory
+
+
+# Load the desired dataset
+
+```
+
+  \vspace{0.25cm} 
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+ \vspace{0.25cm} 
+ 
+```{r}
+
+
+
+```
+
+  \vspace{0.25cm} 
+  
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+ \vspace{0.25cm} 
+
+```{r}
+
+
+
+
+
+
+```
+ \vspace{0.25cm} 
+ 
+  
+###  Apply a new theme to the scatterplot object.  
+  
+   \vspace{0.25cm} 
+  
+
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   xlab("Root Biomass (appropriate units)") + 
+#   ylab("Fruit Production (Kg)") +
+#   ggtitle("Scatterplot of Fruit vs. Root Mass") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+
+  \vspace{0.25cm} 
+
+  
+  Doing this in another way
+  
+   \vspace{0.25cm} 
+  
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   labs(title = "Scatterplot of Fruit vs. Root Mass ",
+#        x = "Root Biomass (appropriate units)", 
+#        y = "Fruit Production (Kg)") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+
+   \vspace{0.25cm} 
+  Arrange both plots on the one page.
+  
+   \vspace{0.25cm} 
+  
+```{r}
+# grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+
+  
+  
+  Continue doing as you have been doing; copying
+  and pasting our complete R program and modifying
+  it as you work along with your reading of section
+  of 8.6.4. 
+ 
+  Following the comments in BC&P regarding
+  using the help file for ggplot(), type the
+  script ?ggplot().  Then at the very bottom
+  of that help file click on the hyperlink
+  for "Index" in
+  [Package ggplot2 version 3.3.1 Index].  There are
+  entries for every feature in available in 
+  "ggplot".  Scroll down to "theme" 
+  and open that link.  Notice everything that can
+  be done by using it.  
+  We will follow the text and make the suggested
+  modification.
+ 
+ 
+ 
+  Use the lines below this comment to paste the
+  previous code, make the modification that,
+  removes the boxes around the legend, and 
+  then run the code.
+ 
+  
+
+ 
+```{r}
+
+```
+
+ 
+  Load libraries of functions
+  
+
+
+```{r}
+
+
+
+
+```
+
+ 
+  
+  
+  
+
+ 
+```{r}
+
+# Clear the memory
+rm(list=ls())
+```
+
+ 
+ 
+  
+
+```{r}
+# Load the desired dataset and check it
+
+
+```
+
+
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+
+ 
+```{r}
+
+
+
+
+
+
+```
+
+ 
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+
+```{r}
+
+
+
+
+
+
+
+```
+
+  
+###  Apply a new theme to the scatterplot object.  
+  
+
+ 
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   xlab("Root Biomass (appropriate units)") + 
+#   ylab("Fruit Production (Kg)") +
+#   ggtitle("Scatterplot of Fruit vs. Root Mass") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+ 
+
+  
+  Doing this in another way
+  
+
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   labs(title = "Scatterplot of Fruit vs. Root Mass ",
+#        x = "Root Biomass (appropriate units)", 
+#        y = "Fruit Production (Kg)") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+
+  
+  Arrange both plots on the one page.
+  
+
+
+```{r}
+# grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ 
+  Use the lines below this comment to paste the
+  previous code, make the modification that,
+  removes the legend, and 
+  then run the code.
+ 
+  
+```{r}
+
+ # Load libraries of functions
+
+
+# Clear the memory
+
+
+```
+ 
+ 
+  Load the desired dataset and check it
+  
+
+ 
+```{r}
+
+
+
+```
+
+ 
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+
+```{r}
+
+
+
+```
+
+ 
+  
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+
+ 
+```{r}
+# eg_box =
+  # ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  # geom_boxplot() +
+  # scale_y_continuous(breaks = seq(from = 10, to = 150, by = 20),
+  #                    trans = "log10") +
+  # theme(
+  #   axis.title.x = element_text(colour = "cornflowerblue",
+  #                               size =rel(2)),
+  #   axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+  # scale_x_discrete(limits = c("Ungrazed", "Grazed"),
+  #                  labels = c("Control", "Grazed"))
+```
+ 
+  
+###  Apply a new theme to the scatterplot object.  
+  
+
+
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   xlab("Root Biomass (appropriate units)") + 
+#   ylab("Fruit Production (Kg)") +
+#   ggtitle("Scatterplot of Fruit vs. Root Mass") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+```
+
+ 
+
+  
+  Doing this in another way
+  
+```{r}
+# eg_scatter + 
+#   theme(
+#     axis.title.x = element_text(colour = "cornflowerblue",
+#                                 size =rel(2)),
+#     axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5)) +
+#   labs(title = "Scatterplot of Fruit vs. Root Mass ",
+#        x = "Root Biomass (appropriate units)", 
+#        y = "Fruit Production (Kg)") +
+#   scale_x_continuous(limits = c(4, 11), breaks = 4:11) + 
+#   ylim(0, 140) +
+#   annotate("text", x = c(6,8), y = c(105, 25),
+#            label = c("Text up here...","...and text down here")) +
+#   scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+#                                    "green"))
+
+```
+  
+  Arrange both plots on the one page.
+  
+
+
+```{r}
+# grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ 
+
+  
+ 
+  Take a look at the help for both "theme()" and
+  "ggtheme()".  Do that below this comment with
+  the following script (code):
+ 
+     ?theme()   Get help on "themes()"
+     library(ggthemes)   Load the gghtemes package
+     ??ggtheme()  Get help with "ggtheme()"
+  Copy and paste these below, remove the leading " ",
+  then execute the code.
+ 
+```{r}  
+
+# Get help on "themes()"
+
+
+
+# Load the gghtemes package
+ 
+
+# Get help with "ggtheme()"
+ 
+```
+
+  
+  
+  There are two more graphs that BC&P introduce in
+  Chapters 5 (the bar chart, which the authors do not like
+  except in the case they use as an example) and 6 (the 
+  line graph to which they add error bars).  
+ 
+  We will read the material in Chapter 5 during this Class,
+  so we will cover that graph then.
+   
+  Chapter 6 is more advanced work on ANOVA, and we will not 
+  cover it in this class.  Material in that chapter
+  will be covered in Q SCI 482 and 483.  But we will make
+  of line graphs in class assignments.
+  
+  
+
+  
+ 
+  In this tutorial, we have learned to build a 
+  script that will create a fully formed plot without
+  having to add modifying line of code to a base graph
+  as BC&P have done.  Please notice that BC&P have 
+  demonstrated adding advanced features to graphs by
+  assigning a plot to an object and then modifying the 
+  object. Please notice just how useful objects are in R.
+  Even a plot can become an object.  Everything 
+  in R is an object, and R is just a collection
+  of a large number of functions.  That is one 
+  thing that makes R so powerful.
+ 
+  Yes, there is a good deal of syntax 
+  to learn in R (there is in all software), but if 
+  you forget some syntax, you can always look it 
+  up when you need it. 
+ 
+  
+
+  
+ 
+  Just so you can see the value of being
+  able to create and use objects, below is the code
+  for creating the plots in Chapter 8 
+  as BC&P intended it to be
+  built as you worked along in your reading.
+ 
+  Run all of the initial code and all of the 
+  code segments together, then  erase the plots 
+  in the lower right pane of RStudio. 
+  After that, run each segment of code
+  independently and watch the plots 
+  sequentially appear in the 
+  Plots tab of the lower right pane in RStudio.
+ 
+  
+
+                                     
+###  Initial setup code for generating  modifications to scatterplots and boxplots.
+                                     
+
+  
+
+```{r}
+ # Load libraries of functions
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+```
+
+  
+  
+
+```{r}
+# Clear the memory
+rm(list=ls())
+```
+
+  
+ 
+  
+```{r}
+# Load the "compensation" dataset and check it
+compensation = read_csv("compensation.csv")
+View(compensation)
+```
+
+ 
+  
+###  Generate a base scatterplot. Assign that plot to "eg_scatter" for later use.
+  
+
+```{r}
+eg_scatter =
+  ggplot(data = compensation, aes(x = Root, y = Fruit)) +
+  geom_point()
+```
+  
+###  Generate a base box-and-whisker plot. Assign that plot to "eg_box" for later use.
+  
+
+```{r}
+eg_box =
+  ggplot(data = compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot()
+```
+
+                                      
+###  Generate the modifications of these plots as shown in BC&P.
+                                      
+
+  
+###  Code segment 1
+  
+
+
+```{r}
+eg_scatter + theme_bw()
+```
+
+ 
+
+  
+###  Code segment 2
+  
+
+ 
+```{r}
+grid.arrange(eg_scatter, eg_box, nrow = 1)
+```
+
+ 
+
+  
+###  Code segment 3
+  
+
+ 
+
+```{r}
+eg_scatter + xlab("Root Biomass (appropriate units)") + 
+  ylab("Fruit Production (Kg)")
+```
+
+  
+###  Code segment 4
+  
+
+```{r}
+eg_scatter + ggtitle("My SUPERB title")
+```
+
+ 
+
+  
+###  Code segment 5
+  
+
+ 
+```{r}
+eg_scatter + labs(title = "My useless title",
+                  x = "Root Biomass (appropriate units)", 
+                  y = "Fruit Production (Kg)")
+```
+
+ 
+
+  
+###  Code segment 6
+  
+
+```{r}
+eg_scatter + xlim(0, 20) + ylim(0, 140)
+```
+
+ 
+###  Code segment 7
+  
+
+ 
+```{r}
+eg_scatter +
+  annotate("text", x = c(6,8), y = c(105, 25),
+           label = c("Text up here...","...and text down here"))
+```
+
+ 
+
+  
+###  Code segment 8
+  
+
+```{r}
+eg_scatter + scale_x_continuous(limits = c(4, 11), breaks = 4:11)
+```
+
+ 
+
+  
+###  Code segment 9
+  
+
+```{r}
+ggplot(data = compensation, aes(x = Root, y = Fruit, colour = Grazing)) +
+  geom_point() +
+  scale_colour_manual(values = c(Grazed = "brown", Ungrazed =
+                                   "green"))
+```
+
+ 
+
+  
+###  Code segment 10
+  
+
+```{r}
+eg_box +
+  scale_y_continuous(breaks = seq(from = 10, to = 150, by = 20),
+                     trans = "log10")
+```
+
+ 
+  
+###  Code segment 11
+  
+
+
+```{r}
+eg_scatter +
+  theme(
+    panel.background = element_rect(fill = NA, colour = "black"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "lightblue")
+  )
+
+```
+
+
+
+  
+###  Code segment 12
+  
+
+```{r}
+eg_box +
+  theme(
+    axis.title.x = element_text(colour = "cornflowerblue",
+                                size =rel(2)),
+    axis.text.x = element_text(angle = 45, size = 13, vjust = 0.5))
+```
+
+
+  
+###  Code segment 13
+  
+
+```{r}
+eg_box + scale_x_discrete(limits = c("Ungrazed", "Grazed"),
+                          labels = c("Control", "Grazed"))
+```
+
+ 
+  
+###  Code segment 14
+  
+
+ 
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing)) +
+  geom_point() +
+  theme(legend.key = element_rect(fill = NA))
+```
+
+
+  
+###  Code segment 15
+  
+
+ 
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing)) +
+  geom_point() +
+  theme(legend.position = "none")
+```
+
+ 
+###  End of plot modifications for Chapter 8. 
+                             
+
+                                                                                        
+
+  
+ 
+  One final plot not covered in BC&P
+  The stem and leaf diagram.  The R package
+  ggplot2() does not have a function that 
+  creates a stem and leaf diagram, but the
+  core R package does have such a function.
+  Hey, nothing is perfect, but at least we can
+  commingle core R functions with the functions
+  in the R extensions.  Be sure to run the code
+  as you read it and understand what it is doing.
+  
+  
+
+
+  
+ 
+```{r}
+# Clear the memory
+
+```
+
+  
+  We will use a data set that is contained in R;
+  the Old Faithful geyser data set, "faithful".
+  Let's read about it
+  
+```{r}
+?faithful
+??faithful
+```
+
+  
+
+```{r}
+# Now, look at the data in the "faithful".
+View(faithful)
+
+nrow(faithful)
+ncol(faithful)
+names(faithful)
+```
+
+  
+###  Create stem and leaf diagram of the duration of the eruptions.  Select the data in              eruption durations from the "faithful" data set
+  
+
+```{r}
+duration = faithful$eruptions
+View(duration)
+```
+
+  
+###  Create a stem and leaf diagram for the duration data.
+  
+
+```{r}
+stem(duration)
+```
+
+ 
+  
+ 
+  Please read Chapter 9, Closing Remarks, in
+  BC&P.  It is very helpful.  Use the (now expanded)
+  17 workflow steps in the analyses
+  we will practice in this course.  The good
+  habits you form by following them will
+  pay huge dividends in all of your future work.
+  Even if you do not actively use statistics in your
+  future work, the well thought out way of approach
+  work will be beneficial.
+ 
+ 
+             Two final questions.
+ 
+  [1] What do you always start an analysis with?
+ 
+  [2] Why?
+ 
+  Please take the time to write your answers to
+  those questions below.  Learn this well!
+ 
+  
+
+ 
+
+
+
+  Please enter your answers here.
+
+
+
+ 
+
+
+  
+ 
+  Before we end this tutorial consider two comments:
+ 
+  [1] Computers are controlled by microprocessors and these
+      are physical devices that may incur errors.  Software
+      runs on microprocessors and it does not always do what
+      you expect it to do, but it always does what it was
+      programmed to do even if that was unintentional by the
+      people that wrote the code.  Go back and review section
+      2.4 (Basic troubleshooting while importing data).
+ 
+  [2] R does a lot, but it does not always do what you 
+      need. For those of you who believe that computer
+      software will solve all of your quantitative 
+      problems, please consider the following from the 
+      FISH 559 website:
+ 
+ 
+     "Most fisheries and other wildlife professionals 
+      who are tasked with providing scientific advice 
+      to decision makers often find existing software 
+      tools insufficient for their needs, requiring 
+      the development of purpose-built computer programs.
+      Numerical techniques should not be applied "cookbook"
+      style. It is necessary to understand the mathematical
+      basis for the technique. Furthermore, numerical 
+      techniques frequently involve expert judgment 
+      regarding choices (e.g. for tolerances, initial values).
+      The best way to learn a numerical technique therefore
+      involves knowing its theoretical basis and spending 
+      time practicing it.."
+ 
+  Please keep comment[2] in mind as we begin the study of
+  statistics.
+  
+  
+
+
+                                                     
+ 
+         CONGRATULATIONS!!
+ 
+    YOU DID IT!  YOU DID IT!
+ 
+  You have learned a great deal about using
+  R for your benefit.  The more you use R, 
+  the more comfortable you will become
+  with it.  YOU CAN DO IT!! 
+  There are now no limits to your ability to use R.
+   
+  Now go on to the "Dpylr Tutorial.Rmd" 
+                                                     
+
+
