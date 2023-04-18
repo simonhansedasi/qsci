@@ -1,0 +1,966 @@
+---
+title: "Assignment 2"
+output:
+  pdf_document: default
+date: "`r Sys.Date()`"
+geometry: margin=1.5cm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+In this assignment, we will explore a few datasets to understand the the basic descriptive statistics, and visualize the data by constructing plots such as histograms, boxplots, etc that best represent the variables. We will also learn how to interpret the output from R, and understand the meaning of each of line code we write by commenting them.
+
+\vspace{0.25cm}
+
+```{r}
+# clear the environment or space: removes all the variables and data stored, if any
+rm(list = ls())
+```
+
+
+
+```{r }
+# load the packages "dplyr" and "ggplot2" and their associated functions
+# install.packages("dplyr")
+# install.packages("ggplot2")
+# install.packages("ggfortify")
+# install.packages("readr")
+
+
+library(dplyr)
+library(ggplot2)
+library(ggfortify)
+library(readr)
+```
+\vspace{0.25cm}
+
+Here is a data set that was entered into an EXCEL spreadsheet that were copied from field data notes collected on the length of 490 individual of Northern pike (northern pike (Esox lucius) in cm. We will practice exploring the data.
+
+Enter data set and view it. Please assign this file to the object "Lengthdata" so that the rest of the code works properly! Remember to run the script and SAVE YOUR WORK!!
+
+\vspace{0.25cm}
+
+```{r}
+
+library(readr)
+
+# Enter data set and view it.
+Lengthdata = read_csv("Lengthdata.csv")
+
+# uncomment to code below to view the dataset 
+View(Lengthdata)
+```
+
+
+```{r}
+# number of rows and columns in the dataset
+nrow(Lengthdata) # 490 rows
+ncol(Lengthdata) # 2 columns
+names(Lengthdata) # variable names
+
+```
+\vspace{0.25cm}
+
+Calculating summary statistics enables us to explore the data.This entails the components of Tukey's five number summary.The following segment of R code (script) will produce the desired result.
+
+\vspace{0.25cm}
+
+```{r}
+sumData = Lengthdata %>%
+    summarise(
+            count = n(), # Number of pike
+            meanLEN = mean(length.pike), # Mean
+            medianLEN = median(length.pike), # Median
+            sdevLEN = sd(length.pike), # Standard deviation
+            semLEN = sd(length.pike)/sqrt(n()), # Standard error of the mean (SEM)
+            sem_altLEN = sd(length.pike)/sqrt(sum(!is.na(length.pike))), # Alternative
+                                                                         # SEM if there are
+                                                                         # missing values
+            iqrLEN = IQR(length.pike), # Interquartile range
+            quant_25 = quantile(length.pike, 0.25), # First quartile
+            quant_50 = quantile(length.pike, 0.50), # The median
+            quant_75 = quantile(length.pike, 0.75), # Third quartile
+            minLEN = min(length.pike), # Minimum
+            maxLEN = max(length.pike)) # Maximum
+
+# add title
+print ("Summary Statistics for Length of Pike")
+```
+
+
+```{r}
+sumData # displays the summary statistics
+
+```
+
+
+
+\vspace{0.25cm}
+
+### Q1. From these summary statistics, what do you conclude about the data?  Please place your reply in the space provided below. In this case, you might consider comparing the min and the max to both the mean the median. 
+
+\vspace{0.25cm}
+
+
+
+
+\vspace{0.25cm}
+
+```{r}
+# Visually explore the data.
+
+# Produce a histogram of the data.
+print(Length_histogram <-
+  ggplot(data = Lengthdata, aes(length.pike)) +
+  geom_histogram(bins = 20, binwidth = 5))
+
+```
+
+```{r}
+
+# Produce a scatterplot of the data.
+print(Length_scatterplot <-
+  ggplot(data = Lengthdata, aes(x=individual,y=length.pike)) +
+  geom_point())
+
+```
+
+\vspace{0.25cm}
+
+### Q2. What conclusions about the data do you draw from these graphs? Write them below.
+
+\vspace{3cm}
+
+
+
+
+Box plots are a quick way to visualize and explore data to check for potential abnormalities.
+
+\vspace{0.5cm}
+
+```{r}
+# Create the box plot
+print(Length_box_plot <-
+  ggplot(data = Lengthdata, aes(length.pike)) +
+  geom_boxplot()+
+  coord_flip())
+
+```
+
+\vspace{0.5cm}
+
+### Q3. What do you infer about the data from the box plot? 
+
+\vspace{3cm}
+
+
+### Q4. Does this agree with what the histogram and/or scatterplot demonstrate?
+
+\vspace{3cm}
+
+
+
+
+## Outliers.
+
+\vspace{0.75cm}
+
+Check for outliers using a rule of thumb in a user defined function that we have seen before.Do not forget the old adage: Rules of thumb are often dumb.  They will pick out whatever you create them to detect, but they can not tell you what the outlier they detect means or if it is an error. Only someone familiar with the data can decide what outliers mean and what to do with them.
+
+We will use a user defined function to help us locate outliers, then you will have to decide what to do with them.
+
+\vspace{0.5cm}
+
+This script introduces the idea of a user created R function named "is_outlier". Such functions are highly useful for creating code that can be used many times within a larger R script. Doing this saves rewriting a similar piece of code many times within the larger script.Learning how to create R functions is beyond what we will learn of R in this course, but perhaps you may now be able to dissect the script to see how it works.
+
+\vspace{0.5cm}
+
+```{r}
+# Create user defined function to identify the the existence of a potential outlier.
+is_outlier = function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+
+```
+
+
+\vspace{0.5cm}
+
+### Q5. Please dissect this function and state what you think it is defining an outlier to be.
+
+\vspace{3cm}
+
+
+
+```{r}
+print(outlier <- is_outlier(Lengthdata$length.pike))
+```
+
+
+```{r}
+
+print(outlier <- as.numeric(is_outlier(Lengthdata$length.pike)))
+
+?as.numeric
+
+Indivdual_Num = which(Lengthdata$length.pike>=700)
+
+```
+
+\vspace{0.5cm}
+
+Locate the position in data set of any potential outliers.
+
+\vspace{0.5cm}
+
+```{r}
+?which()
+
+which(is_outlier(Lengthdata$length.pike))
+
+```
+
+\vspace{0.5cm}
+
+Locate the outlier(s) in the data set and identify its value(s) based on using the rule of thumb.  This requires putting together some R functions to accomplish this, but it works very well.
+
+\vspace{0.25cm}
+
+### Q6.What does this analysis identify as potential outliers in this data set? 
+
+\vspace{0.5cm}
+
+```{r}
+Lengthdata[c(which(is_outlier(Lengthdata$length.pike))),]
+```
+
+\newpage
+
+
+
+
+## Exercise 2
+
+\vspace{0.55cm}
+
+## Introduction
+
+\vspace{0.75cm}
+
+We know that no two individuals are exactly alike. This variation between individuals and populations is a central fact in biology.  Variation is central to evolution in that it underlies all evolutionary change. Variation is important in paleontology and stations is one of the most important procedures for describing and analyzing variation among individuals within a population and variation among similar populations.
+
+Quantitative measures are the most common form of data in the study of the fossil record (populations).
+Beyond this is the the central importance of size to all living organisms.  A few articles related to importance of size in biology are posted on our course Canvas website.  In addition, two excellent books on the subject are:
+
+\vspace{0.5cm}
+
+     John Tyler Bonner. 2006. Why Size Matters: From Bacteria to Blue whales. Princeton University Press.
+     
+\vspace{0.25cm}
+
+     Steven vogel. 1988. Life's Devices: The Physical World of Animals and Plants. Princeton University Press.
+
+\vspace{0.75cm}
+
+##  The Problem
+
+\vspace{0.5cm}
+
+You have been hired by the Director, Center for Biodiversity and Conservation, at the America Museum of Natural History in New York City to help a create a public exhibit of the variability in the sizes of organisms.  You will work on the sizes of three organisms:
+
+\vspace{0.25cm}
+
+1. Ants (length measured in millimeters), 
+
+\vspace{0.25cm}
+2. Humans (height measured in inches), and 
+
+\vspace{0.25cm}
+
+3. Whales (length measured in meters). 
+
+\vspace{0.25cm}
+
+The Director wants you to analyze the variability among these three species and summarize your results for 
+inclusion in the public exhibit. The museum staff has collected data on 100 individuals of each organism, and entered it into an EXCEL file named "Sizes.csv". The data has been entered in the natural units for each organism.
+
+\vspace{0.55cm}
+
+### Q1. The data has been entered in the natural units for each organism. Does this pose a problem for analyzing the variability?  What measures did we learn about that both rescales data and renders them unitless to make comparisons of data having different natural dimensions possible?
+
+\vspace{3cm}
+
+
+
+### Q2. Before you start this part of the assignment, which species do you think will exhibit the greatest variation in size? There are no wrong answers here. Please place you answer in the space below.
+
+\newpage
+
+
+
+
+##  The Report
+
+\vspace{0.5cm}
+ 
+### Report Guidelines: 
+
+\vspace{0.25cm}
+
+The goal will be to write a narrative report that answers the questions posed making explicit reference to, and use of, only the output of your analysis that supports your conclusions and comments. 
+
+Please address your report to the Director, Center for Biodiversity
+and Conservation, The American Museum of Natural History, 
+New York, New York. Include your name and date.
+
+Only include or refer to those well # labeled graphs, data,
+tables, and statistics that you directly need to justify your
+conclusions.
+
+Provide summary tables of R output statistics where appropriate rather than just cutting and pasting from R, unless the output itself provides a good succinct summary. Number each page of your report and place a cover page on its front. 
+
+The report should be 1-2 pages, double spaced, not including 
+the graphs/visuals. Your report should not just be filled with
+visuals and data, but little explanation and reasoning.
+
+
+Time is precious to those reading your report, so develop a narrative that is succinct, direct, and plainly written so that the reader can easily follow your arguments and understand your conclusions. 
+
+\vspace{0.5cm}
+
+
+The report should include the following three sections: 
+
+1. The definition of the problem. 
+
+\vspace{0.25cm}
+
+2. Description of your methods of analysis (and reasoning for using those methods). You may address
+   the transformations that you used and why you used them.
+
+\vspace{0.5cm}
+
+
+3. Discussion of your results and conclusions. 
+  Explicitly refer to the results of the analysis you did using 
+  R and in the body of the narrative include references to the 
+  graphs, data, and statistics, so that the reader is shown exactly 
+  how your are supporting your conclusions. 
+
+
+
+
+
+
+\vspace{0.85cm}
+
+## Exploratory Analysis of the Original Data:
+
+\vspace{0.55cm}
+
+As always, you will start by exploring the data. Using the exploratory data analysis methods we have studied in class and worked with in last week's lab, plot the original data for each organism in a meaningful way and provide several quantitative measures of location and spread that would be useful for this data.You may refer to these in your lab report, so be sure to save the output. 
+
+
+
+## Exploratory Analysis of the Transformed Data:
+
+As we go through the analysis, there are some things 
+you may wish to make note of to include in your report:
+
+
+  
+1. What transformations you did to the data (give the formula), why you did it, and then compare the shape, center,  standard deviation, and range of the histograms of the original data to those for the standardized data.
+
+\vspace{0.5cm}
+
+2. Explicitly address how the transformation of the original data, i.e., the standardization, changed the mean, range,   standard deviation, and the shape of the histogram for the standardized variables compared to that of the histogram of     the original data.Was there a change? If so, what changed? How did the mean of the distribution of the original data (represented by the histogram) change when it was transformed (standardized)? Why  does standardizing the data make comparing the data convenient?
+
+\vspace{0.75cm}
+
+## Comparison of the Variability among the Organisms:
+
+\vspace{0.75cm}
+
+To compare the variability of the size of each organism, we will use the C.V (coefficient of variance). Using the values from your analysis,create a well labeled EXCEL table for your report that shows for each 
+organism the components that go into calculating the C.V. and the calculated value. In your report you will state the formula for the C.V. Also, you should clearly state what property of the C.V. makes it an ideal measure for comparing the variability of our three organisms when the units of measurement used are very different. State which organism is more variable in size using the calculated C.V. values.
+
+\vspace{0.25cm}
+
+```{r}
+# Clear the memory
+
+
+```
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(ggfortify)
+library(readr)
+library(datasets)
+
+```
+\vspace{0.5cm}
+
+Enter data set and view it.Please assign the data file to an object named "Sizedata" so the rest of the code works properly.
+
+\vspace{0.5cm}
+
+```{r}
+library(readr)
+Sizedata <- read_csv("Sizes.csv")
+
+# uncomment the code below to view the data
+# View(Sizedata)
+
+
+```
+\vspace{0.5cm}
+
+```{r}
+# Examine the data set.
+
+
+```
+
+
+\vspace{0.5cm}
+
+```{r}
+glimpse(Sizedata)
+
+```
+
+\vspace{0.5cm}
+
+
+In the space below, please answer the following questions:
+
+### Q7. How many columns and rows are in the data set?
+
+\vspace{3.25cm}
+
+
+### Q8. What are the names of the columns?
+
+\vspace{3.25cm}
+
+
+
+```{r}
+# Get summary statistics for the compensation variables including the five number summary.
+
+
+```
+
+
+
+```{r}
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+
+```
+
+
+
+
+```{r}
+
+ # Explore the ant lengths using a boxplot.
+print(Ant_box_plot <-
+  ggplot(data = Sizedata, aes(Ant)) +
+  geom_boxplot() +
+  xlab("Ant lengths in mm") +
+  coord_flip())
+
+```
+
+
+
+```{r}
+
+#  Search for potential outlier ant lengths.
+print(outlier <- is_outlier(Sizedata$Ant))
+
+print(outlier <- as.numeric(is_outlier(Sizedata$Ant)))
+
+?as.numeric
+
+```
+
+
+
+```{r}
+# Locate the position in data set of any potential outliers.
+?which()
+
+which(is_outlier(Sizedata$Ant))
+
+
+```
+
+\vspace{0.5cm}
+
+### Q9. In  the space below, please comment on what this analysis discloses.
+
+\vspace{3.25cm}
+
+
+```{r}
+# Explore the human heights.
+
+
+
+```
+
+\vspace{0.5cm}
+```{r}
+#  Search for potential outlier human heights.
+
+```
+\vspace{0.5cm}
+
+```{r}
+
+# Locate the position in data set of any potential outliers.
+
+
+```
+
+\vspace{0.5cm}
+
+### Q10.In  the space below, please comment on what this analysis discloses.
+
+\vspace{3.25cm}
+
+
+
+```{r}
+# Explore the whale lengths.
+
+
+```
+
+\vspace{0.5cm}
+
+```{r}
+
+#  Search for potential outlier whale lengths.
+
+
+```
+
+
+```{r}
+# Locate the position in data set of any potential outliers
+
+
+```
+
+\vspace{0.5cm}
+
+### Q11. In  the space below, please comment on what this analysis discloses.
+
+\vspace{3.25cm}
+
+
+
+\vspace{0.55cm}
+
+Locate the outlier(s) in the data set and identify its value(s) based on 
+using the rule of thumb.  This requires putting together some R functions
+to accomplish this, but it works very well.
+
+This is a quick method, but values for the other organisms are also displayed. 
+These values are what appear for these other organisms in the row where the 
+presumed outlier for the organism of interest is located.
+
+However, we would like to just display the presumed outliers only for the organism
+of interest. We will use the following code to accomplish this.
+
+
+\vspace{0.5cm}
+
+```{r}
+print(OUTLIER_Ant <- Sizedata[c(which(is_outlier(Sizedata$Ant))),])
+print(OUTLIER_Human <- Sizedata[c(which(is_outlier(Sizedata$Human))),])
+print(OUTLIER_Whale <- Sizedata[c(which(is_outlier(Sizedata$Whale))),])
+
+
+```
+
+
+\vspace{0.5cm}
+
+Now, display the presumed outliers only for the organism of interest.  We will use the "select()" function in "dplyr" to do this. These scripts appear complex, but try to dissect them to understand what they do.  Just go at it piece-by-piece. The "( x,-c(a,b))" effectively removes the columns a and b from the data set x.  If you do not recall what "select()" does, then use "help" to see what it does.
+
+\vspace{0.5cm}
+
+```{r}
+?select()
+
+```
+
+
+
+```{r}
+# Display the presumed outlier for ants only.
+Ant_Size_Data <- select(Sizedata, -c(Human, Whale))
+
+
+# uncomment the code below to view the data
+#View(Ant_Size_Data)
+
+print(OUTLIER_Ant_Only <- Ant_Size_Data[c(which(is_outlier(Ant_Size_Data$Ant))),])
+
+```
+
+\vspace{0.5cm}
+
+### Q12. In the space below, please report the value selected.
+
+\vspace{0.5cm}
+
+
+```{r}
+# Display the presumed outlier for humans only.
+Human_Size_Data <- select(Sizedata, -c(Ant, Whale))
+
+# uncomment the code below to view the data
+# View(Human_Size_Data)
+
+
+print(OUTLIER_Human_Only <- Human_Size_Data[c(which(is_outlier(Human_Size_Data$Human))),])
+
+
+```
+
+
+```{r}
+# Display the presumed outlier for whales only.
+Whale_Size_Data <- select(Sizedata, -c(Ant, Human))
+
+# uncomment the code below to view the data
+# View(Whale_Size_Data)
+print(OUTLIER_Whale_Only <- Whale_Size_Data[c(which(is_outlier(Whale_Size_Data$Whale))),])
+
+
+```
+
+\vspace{0.5cm}
+
+### Q13. In the space below, please report the value selected.
+
+\vspace{3.25cm}
+
+
+
+\vspace{0.25cm}
+
+### Q14.Analyze the variation in sizes of the three organisms.
+
+\vspace{3.25cm}
+
+
+
+\vspace{0.25cm}
+
+### Q15. In the space below, please report the mean, standard deviation, and CV calculated by the script.
+
+\vspace{0.5cm}
+
+```{r}
+
+# Calculate and display the mean, standard deviation,
+# the coefficient of variation for the ant data
+
+print(Mean_Ant <- mean(Sizedata$Ant))
+print(SD_Ant <- sd(Sizedata$Ant))
+CV <- SD_Ant/Mean_Ant
+print(CV)
+
+```
+
+\vspace{0.5cm}
+
+### Q16. Calculate and display the z score for ants. There are 100 of these, so we will not report them a second time.  Please make sure to run the script.
+
+\vspace{0.5cm}
+
+```{r}
+
+print(Z_Ant <- (Sizedata$Ant-Mean_Ant)/SD_Ant)
+```
+
+\vspace{0.5cm}
+
+### Q17. In the space below, please report the mean, standard deviation, and CV calculated by the script.
+
+\vspace{0.5cm}
+
+
+```{r}
+
+# Calculate and display the mean, standard deviation,
+# the coefficient of variation for the human data.
+
+
+
+```
+
+
+```{r}
+# Calculate and display the z-score for humans 
+print(Z_Human <- (Sizedata$Human-Mean_Human)/SD_Human)
+
+```
+
+\vspace{0.5cm}
+
+
+### Q19. In the space below, please report the mean, standard deviation, and CV calculated by the script.
+
+\vspace{0.5cm}
+
+```{r}
+
+# Calculate and display the mean, standard deviation,
+# the coefficient of variation for the whale data.
+
+
+
+```
+
+\vspace{0.5cm}
+
+### Q20. In the space below, please summarize the CV's calculated for each organism.
+
+\vspace{3.25cm}
+
+
+
+\vspace{0.25cm}
+
+### Q21. Based on the calculated CV's, which organism exhibits the greatest variability in size?
+
+\vspace{3.25cm}
+
+
+
+
+\vspace{0.5cm}
+
+```{r}
+# Calculate and display the z-score for whales. 
+Z_Whale <- (Sizedata$Whale-Mean_Whale)/SD_Whale
+
+```
+
+\vspace{0.5cm}
+
+Above we created and used a user created function to identify potential outliers.  Now. we are going to create another such function to calculate the z-score for the data set input = x.
+
+This script creates another user defined function named "Z_Transform".We are going to use it several times within the following R script. Doing this saves rewriting a similar piece of code many times within the larger script. Learning how to create R functions is beyond what we will learn of R in this course, but perhaps you may now be able to dissect the script to see how it works. You may want to create some of your own functions in subsequent assignments.
+
+\vspace{0.5cm}
+
+
+```{r}
+# Apply z-score transformation to the columns of "Sizedata".
+Z_Transform  = function(x) {
+  (x-mean(x))/sd(x)
+}
+
+```
+
+\vspace{0.5cm}
+
+Apply this user function to the three columns of "Sizedata" simultaneously using the "lapply()" function.  
+Make sure to run the scripts and view the results.We would still like to add the newly created z-score columns of data to "Sizedata", but the script below does not do that. We will create some script to do that shortly.
+
+\vspace{0.5cm}
+
+```{r}
+Sizedata_Z_transformed = as.data.frame(lapply(Sizedata[1:3],Z_Transform))
+
+# uncomment the code below to view the data
+# View(Sizedata_Z_transformed)
+
+
+```
+
+
+\vspace{0.5cm}
+
+### Q22. What does "lapply()" do?  Get help.
+
+\vspace{0.5cm}
+
+```{r}
+?lapply()
+
+```
+
+\vspace{0.5cm}
+
+Now we will calculate the z-score transformation for all of the columns of "Sizedata" using the functions in the "dplyr" package.  The we will add those newly calculated columns of z-scores to "Sizedata" for further exploration. Calculate a z-score for each column using the user defined function, "Z_Transform", add the new
+calculated columns to the original "Sizedata" set, then display the new data set, "Sizedata_Z".
+
+\vspace{0.5cm}
+
+```{r}
+Sizedata_Z = Sizedata %>%
+  mutate_all(funs(Z = Z_Transform))
+
+```
+
+\vspace{0.5cm}
+
+Display the resulting data set and notice that it now includes all of the z-score transformed data.  The package "dplyr" is very powerful.
+
+\vspace{0.5cm}
+
+```{r}
+# View the data set to check that this function did what we wanted. Once you
+# have done this, remember to comment out the "View()".
+
+# View(Sizedata_Z)
+
+```
+
+
+```{r}
+
+# Now use "ggplot()" to graph the data to aid our analysis.
+# Produce independent histograms of the original data for each organism.
+
+
+print(Sizedata_histogram_Ants <-
+  ggplot(data = Sizedata_Z, aes(Ant)) +
+  labs(x="Ant Lengths (mm)") +
+  geom_histogram())
+
+print(Sizedata_histogram_Humans <-
+  ggplot(data = Sizedata_Z, aes(Human)) +
+  labs(x="Human Heights (inches)") +
+  geom_histogram())
+
+print(Sizedata_histogram_Whales <-
+  ggplot(data = Sizedata_Z, aes(Whale)) +
+  labs(x="Whale Lengths (meters)") +
+  geom_histogram())
+
+```
+
+\vspace{0.5cm}
+
+### Q23.From these histograms, what is the mean for the data from each organism?  Enter your answer in the space below.
+
+\vspace{3.5cm}
+
+
+
+\vspace{0.5cm}
+
+Produce independent histograms for the z transformed data for each organism.
+
+\vspace{0.5cm}
+
+```{r}
+print(Sizedata_histogram_Ants_Z <-
+  ggplot(data = Sizedata_Z, aes(Ant_Z)) +
+  labs(x="Z Score Transformed Ant Lengths (mm)") +
+  geom_histogram())
+
+print(Sizedata_histogram_Humans_Z <-
+  ggplot(data = Sizedata_Z, aes(Human_Z)) +
+  labs(x="Z Score Transformed Human Heights (inches)") +
+  geom_histogram())
+
+print(Sizedata_histogram_Whales_Z <-
+  ggplot(data = Sizedata_Z, aes(Whale_Z)) +
+  labs(x="Z Score Transformed Whale Lengths (meters)") +
+  geom_histogram())
+```
+
+\vspace{0.5cm}
+
+### Q24. What do you notice has happened to the mean for the  histogram for each organism?  Please place your answer in the space below.
+
+
+\vspace{3.5cm}
+
+
+\vspace{0.75cm}
+
+
+Produce histograms for easier comparison.  Requires the package "gridExtra()" already downloaded. Notice the usefulness assigning scripts to objects!
+
+\vspace{0.5cm}
+
+```{r}
+
+# Produce histogram pairs, transformed and transformed) side-by-side
+# for each organism.
+
+grid.arrange(Sizedata_histogram_Ants,Sizedata_histogram_Ants_Z,nrow=1)
+
+grid.arrange(Sizedata_histogram_Ants,Sizedata_histogram_Humans_Z, nrow=1)
+
+grid.arrange(Sizedata_histogram_Whales,Sizedata_histogram_Whales_Z, nrow=1)
+```
+
+\vspace{0.5cm}
+
+Produce histogram pairs, transformed and transformed) above each other for each organism .
+
+\vspace{0.5cm}
+
+```{r}
+grid.arrange(Sizedata_histogram_Ants,Sizedata_histogram_Ants_Z,ncol=1)
+
+grid.arrange(Sizedata_histogram_Ants,Sizedata_histogram_Humans_Z, ncol=1)
+
+grid.arrange(Sizedata_histogram_Whales,Sizedata_histogram_Whales_Z, ncol=1)
+```
+
+\vspace{0.5cm}
+
+Compare the histograms for z-score transformed data for each organism.
+Notice how easy it now is to compare the size distributions of these organisms.  
+You may also notice how we can break this long line of code at a break point
+(a comma in this case) to make it easier to see without having to scroll
+across the computer screen.
+
+\vspace{0.5cm}
+
+```{r}
+grid.arrange(Sizedata_histogram_Ants_Z,Sizedata_histogram_Humans_Z,
+             Sizedata_histogram_Whales_Z,ncol=1)
+```
+
+\vspace{0.5cm}
+
+### Q25. By studying these histograms stacked above each other and what you learned from the analysis above, what observations would you make about the relative variation in the sizes of these organisms? Hint: Consider the spreads of the histograms.
+
+\vspace{3.5cm}
+
+
+
+
+\vspace{0.5cm}
+
+## Please write your report in the area below. Add lines as needed to this space. Use the information we have discovered in our analysis fo this.   
+
+
+\vspace{5cm}
