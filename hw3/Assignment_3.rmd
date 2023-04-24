@@ -1,0 +1,1459 @@
+---
+title: "Assignment 3"
+output:
+  pdf_document: default
+date: "`r Sys.Date()`"
+geometry: margin=1.5cm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+R has built-in functions for calculating probabilities from all known probability  distributions and the capability for writing user defined functions for custom distributions. We will explore the use of these for the discrete and continuous distributions discussed in class. This means that we can create probability tables for all of these distributions for any values of their parameters.  That means these functions completely replace the paper tables we have learned to use in class. However, we will need to learn to draw pictures for probability problems because we still need to use algebraic combinations of areas under the probability distributions to solve these problems; just as we did in class.
+
+\vspace{0.5cm}
+
+Each distribution function comes with a prefix.These prefixes are (where *** represent the R 
+name, or R stem) for the distribution, which we will discuss below):
+
+\vspace{0.5cm}
+
+   d***(x,) returns the density or value on the vertical
+           (y-) axis of a probability distribution for
+           a discrete value of x and other arguments.
+           
+\vspace{0.5cm}
+
+  p***(x,) by default this returns the cumulative density 
+           function or the area under the graph of the 
+           distribution's curve to the LEFT (lower tail) 
+           of an x value on a probability distribution curve 
+           and other arguments. This finds P(X <= x).  You
+           can set this to return the upper tail (see if you
+           can figure out how by reading the documentation),
+           but for simplicity we will use the default.  
+           
+\vspace{0.5cm}
+
+  q***(x,) returns the quantile value (standardized z-value) 
+           for x and other arguments. The quantile function is the
+           inverse of the cumulative probability function.  
+           The p-quantile is the value of a random variable with
+           the property that there ia a probability p of getting
+           a value less than or equal to it.  For example, the
+           median is defined to be the 50% quantile.
+           
+ \vspace{0.5cm}
+ 
+  r***(n,) returns a random deviate (simulation value) of
+           size n from the given distribution and other arguments.
+
+\vspace{0.5cm}
+ The R functions the we will consider in this assignment are:
+ 
+ \vspace{0.5cm}
+
+   binom() the binomial distribution with parameters 
+           n ( of trials), 
+           p (probability of success on each trial)
+           
+ \vspace{0.5cm}
+ 
+   pois()  the Poisson distribution with parameter lambda
+   
+\vspace{0.5cm}
+
+   norm()  the normal distribution with parameters 
+           the mean and standard deviations.
+           
+\vspace{0.5cm}
+
+You should read the help documentation for each of these probability distributions and their prefixes.For example run "help(pbinom)".
+
+
+
+\vspace{0.25cm}
+
+```{r}
+help(pbinom)
+
+```
+
+\vspace{0.25cm}
+
+For completeness, R stem for the multinomial distribution is multinom() with parameters of the number of possible outcomes for each trial, their probabilities of being drawn, and the number of outcomes of each kind, and for the hypergeometric distribution, the R stem is hyper() with parameters of the number of objects drawn, the number of objects of one kind (a success),the number of objects of a second kind (a failure)
+
+ \vspace{0.25cm}
+ 
+ Later in the course we will use: 
+  
+    *t() Student's t distribution with parameters 
+         the degrees of freedom
+
+    *chisq() the chi-squared distribution with
+          parameters the degrees of freedom
+
+    *f()   the F-distribution with parameters of
+           numerator degrees of freedom and denominator
+           degrees of freedom. We will use this
+           distribution when we study ANOVA and simple 
+           linear regression.
+           
+\vspace{0.25cm}
+
+We will only explore the binomial, Poisson, and the normal distributions in this assignment.
+Ask for help on the core R statistics package, "stats". Take some time to look at the documentation for the various distributions (go to the bottom of the R Documentation that appears in the lower right pane in RStudio, then click "index").
+
+\vspace{0.25cm}
+
+```{r}
+?'stats-package'
+```
+
+\vspace{0.25cm}
+
+ Running the script below will give a list of all of the distributions available in R.
+
+\vspace{0.25cm}
+
+```{r}
+library(help = "stats")
+```
+
+
+\vspace{0.25cm}
+
+# Exercises
+ 
+## The binomial distribution
+
+Please run the indicated scripts and post the results in the space provided.
+
+## Example 1
+
+### Q1. Find the probability, value of the cumulative distribution function at (the probability to the left of) a given number.
+
+\vspace{0.25cm}
+
+
+ Below we find the probability of getting 5 or fewer success in 20 trials with a probability 
+ of success of 0.2 on each trial.  Check the results by using Table V in F & P.
+
+\vspace{0.25cm}
+
+```{r}
+x = 5
+n = 20
+p = 0.2
+pbinom(x,size=n,prob=p)  # size = number of trials,
+                         # prob = probability of success on each trial.
+```
+
+ \vspace{0.25cm}
+
+YOUR ANSWER TO Q1 HERE
+
+\vspace{0.25cm}
+
+### Q2. Find the probability of more than 5 successes in 20 trials with a probability of success of 0.2 on each trial. Check this result using Table V in F & P. 
+
+\vspace{0.25cm}
+
+```{r}
+x = 5
+n = 20
+p = 0.2
+1-pbinom(x,size=n,prob=p)
+```
+
+\vspace{0.25cm}
+
+YOUR ANSWER TO Q2 HERE
+
+\vspace{0.25cm}
+
+
+### Q3. Why did we use the script 1-pbinom(x,size=n,prob=p) to answer this problem?  Please reply in the space below.  
+
+\vspace{0.25cm}
+
+YOUR ANSWER TO Q3 HERE
+
+
+\vspace{1.5cm}
+
+##  Example 2 
+
+### Q1. Find the probability, value of the cumulative distribution function at (the probability to the left of) a set (vector) of numbers.
+
+
+\vspace{0.25cm}
+
+```{r}
+x = c(0,1,2,5,8,10,15,20)
+n = 20
+p = 0.2
+```
+
+\vspace{0.25cm}
+
+YOUR ANSWER TO Q1 HERE
+
+
+\vspace{1.5cm}
+
+## Example 3
+
+### Q1. Find the probability, that in 60 tosses of a fair coin the tail comes up (occurs) as follows.
+
+ 20, 25, or 30 times.
+
+\vspace{0.25cm}
+
+```{r}
+x = c(20,25,30)
+n =60
+p= 0.5
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+
+ Less than 20 times.
+
+\vspace{0.25cm}
+
+```{r}
+x = 19
+n =60
+p = 0.5
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+
+
+
+ 20 times or less.
+
+\vspace{0.25cm}
+
+```{r}
+x = 20
+n = 60
+p = 0.5
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+
+
+
+ Between 20 and 30 times.
+
+\vspace{0.25cm}
+
+```{r}
+n = 60
+p = 0.5
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+
+
+ Getting 4 or less tails in two equivalent ways.
+
+
+
+\vspace{0.25cm}
+
+```{r}
+# First method.
+x = 4
+n = 60
+p = 0.2
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+ 
+
+
+```{r}
+# Second method.
+n = 60
+p = 0.2
+dbinom(0,size=n,prob=p)+
+  dbinom(1,size=n,prob=p)+
+  dbinom(2,size=n,prob=p)+
+  dbinom(3,size=n,prob=p)+
+  dbinom(4,size=n,prob=p)
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.25cm}
+
+
+## Example 4
+
+### Q1. Find the complete probability distribution when n = 5 and p = 0.1. Check this result by referring to Table V in F & P.
+
+\vspace{0.25cm}
+
+```{r}
+x = c(0:5)
+n = 5
+p = 0.1
+
+```
+
+YOUR ANSWER HERE
+
+\vspace{0.5cm}
+
+
+
+##    Example 5
+
+Generate 8 random values (i.e., generate a random sample of size 8) from a binomial distribution n = 150 and p = 0.4. These values a often called random deviates. This procedure is a fundamental part of creating widely used probabilistic simulations that you may have heard referred to as Monte Carlo or MCMC (Markov Chain Monte Carlo) models.  Try a GOOGLE Search to learn a bit about these simulations.
+
+### Note:
+ 
+The values generated are generated by a computer with a finite memory. The values you see printed out appear as integers.  That is because the program that created the values either truncated or rounded the values actually computed.  When you look at the histogram, it probably was generated from the values actually calculated and not the ones that are printed, e.g., if a 12 is displayed by the print function, may have been calculated as 11.65 or 12.2.  Do not forget this!!
+
+Also do a GOOGLE search on random number generators to learn a little about them. After you do that you should be able to answer the question: Are random numbers truly random?
+
+\vspace{0.25cm}
+
+### Q1. What did you find out about the randomness of random numbers? Please put your conclusions in the space below.
+
+YOUR ANSWER TO Q1 HERE
+
+\vspace{5cm}
+
+Get help.
+
+\vspace{0.25cm}
+
+```{r}
+help(rbinom)
+```
+ 
+\vspace{0.25cm}
+
+The script below will generate a different set of values from a binomial distribution with
+n = 150 and p = 0.4 each time it is run. To see this, run the script a few times in succession and see the results.Make sure to run the histogram  script as well. 
+
+### Q2. Did it change?
+
+\vspace{0.25cm}
+
+
+```{r}
+x = 8
+n = 150
+p = 0.4
+rbinom(x,size=n,prob=p)
+binomial = rbinom(x,size=n,prob=p)
+```
+
+ANSWER TO Q2 HERE
+
+\vspace{0.25cm}
+
+### Q3. Create a quick histogram from this sample using the core R function "hist()".
+
+\vspace{0.25cm}
+
+```{r}
+hist(binomial, main="A histogram of a simulated binomial distribution")
+```
+
+\vspace{0.25cm}
+
+ What mean does the histogram appear to have? Please place your answer in the space below.
+
+
+ANSWER HERE 
+
+\vspace{0.25cm}
+
+
+
+ The following script will always return the same set of values anytime it is run.  The "set.seed()" function is what causes that.  It is telling R to start at the same point each time it draws the random sample.
+ 
+### Q4. Can you think of a situation where being able to always generate the same set of random deviates might be useful? Run the script a few times in succession and see the results.Make sure to run the histogram  script as well.Did it change?
+
+```{r}
+set.seed(5172013)
+x = 8
+n = 150
+p = 0.4
+rbinom(x,size=150,prob=0.4)
+binomial = rbinom(x,size=150,prob=0.4)
+
+```
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+ Create a quick histogram from this sample using the core R function "hist()".
+
+\vspace{0.25cm}
+
+```{r}
+hist(binomial, main="A histogram of a simulated binomial distribution")
+
+```
+
+\vspace{0.25cm}
+
+What mean does the histogram appear to have? Please place your answer in the space below.
+
+
+ANSWER HERE 
+
+\vspace{0.25cm}
+
+##    Example 6
+
+ Just for fun! Run the following script.
+
+We discussed the normal approximation to the binomial distribution. The R code below
+will give you an opportunity to explore binomial distribution and see how well he approximation does.
+
+
+\vspace{0.25cm}
+
+```{r}
+# Clear the memory
+rm(list = ls())
+```
+
+\vspace{0.25cm}
+
+ Make the packages "dplyr" and "ggplot2" and their associated functions available to use.
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+```
+
+\vspace{0.25cm}
+
+ Load some necessary R packages.
+ 
+ \vspace{0.25cm}
+
+
+```{r}
+#install.packages("Rtools")
+#install.packages("manipulate")
+library(manipulate)
+```
+
+\vspace{0.25cm}
+ 
+Generate a binomial distribution using the core R function for a histogram, "hist()".
+
+\vspace{0.25cm}
+
+```{r}
+generate.binomial = function(nreps, ntrials, p){
+  y = rbinom(n=nreps,size=ntrials,prob=p)
+  hist(y, breaks=ntrials, xlim=c(0,ntrials), las=1,xlab="x",
+       ylab="Frequency", col="red",
+       main=NA)
+}
+```
+
+\vspace{0.25cm}
+
+ The R script creates an interactive histogram graph of the binomial distribution.  You can
+ alter the variable "ntrials", "nreps", and "p" and change the histogram.
+
+To work with this graph interactively, click on the wheel-like symbol in the upper left corner of the plot window and use the sliders to change the number of trials ("ntrials"), the number of times to run the experiment ("nreps"), and the probability of success ("p").
+
+\vspace{0.25cm}
+
+```{r}
+manipulate(generate.binomial(nreps, ntrials, p),
+           nreps=slider(10, 100000, initial=20),
+           ntrials=slider(3,1000,initial=5),
+           p=slider(0, 1, initial=.5))
+```
+ 
+\vspace{0.25cm}
+
+### Q1. What is the expected value (center of the distribution)? Does the graph you create show the correct mean?  To make this easy to see, set "ntrials" and "nreps" to their maximums and pick "p" = 0.5.
+
+ANSWER HERE
+
+\vspace{5cm}
+
+### Q2. Does the expected value agree with what we learned in class about the binomial distribution? 
+
+ANSWER HERE
+
+
+\vspace{5cm}
+
+ End of binomial distribution Examples.
+
+\vspace{2cm}
+
+
+
+
+ Now it is your turn.Please do the following exercises writing and running the appropriate
+ R scripts. Do not forget to draw pictures of the problem!!
+
+\vspace{0.25cm}
+
+
+```{r}
+ # Clear the memory
+rm(list = ls())
+```
+
+ \vspace{5cm}
+
+       Problem 1
+
+Note: You have done this problem before, so you should be able to verify that your answers to these questions are correct!
+
+A medical doctor finds that 5% of mothers admit to having one or more glasses of wine per day during pregnancy.Fifteen (15) pregnant mothers are randomly selected  (with replacement) from admission at a hospital.  If X = a random variable that represents the number of mothers who admit to having one or more glasses of wine per day during pregnancy, then:
+ 
+\vspace{0.25cm}
+
+### Q1. What probability distribution would you assume as a model for the outcomes of this experiment, i.e., what is the probability distribution of ?
+
+ANSWER HERE 
+
+\vspace{0.25cm}
+
+ In the scripts you write to answer these questions, assigning the variables as follows:
+
+
+
+ x = 5
+ n = 15
+ p = 0.05
+
+ may make your work easier.
+
+\vspace{0.25cm}
+
+### Q2. Using that distribution, what is the probability that exactly five (5)  mothers will admit to drinking one or more glasses of wine during their pregnancy?
+
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+
+### Q3. Using that distribution, what is the probability that none of the mothers will admit to drinking one or more glasses of wine during their pregnancy?
+
+\vspace{0.25cm}
+
+
+```{r}
+
+```
+
+
+\vspace{0.25cm}
+
+
+### Q4. Based on this sample of 15 pregnant mothers, what is the expected number of mothers who admit to drinking one or more glasses of wine during their pregnancy? 
+
+\vspace{0.25cm}
+ 
+```{r}
+
+```
+
+\vspace{0.25cm}
+ 
+### Q5. What is the standard deviation about this expected (mean) value?
+ 
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+ 
+ 
+The following are examples on Poisson distribution. Please run the indicated scripts.
+
+ \vspace{0.25cm}
+ 
+```{r}
+# Clear the memory.
+rm(list = ls())
+```
+
+## Example 1
+
+### Q1. Find the probability, value of the cumulative distribution function at (the probability to the left of) a set (vector) of numbers.
+
+ \vspace{0.25cm}
+
+```{r}
+x = c(0,1,2,5,8,10,15,20)
+lambda = 6
+```
+
+\vspace{0.25cm}
+
+Write the code that calculates the probability. Make sure to display the result.
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+
+##     Example 2
+
+ A random variable, X, has a Poisson distribution with mean (lambda,the parameter of the distribution) of 7.
+
+ F &P do not provide a tables for the Poisson distribution.So use the calculator found at
+ https://stattrek.com/online-calculator/poisson.aspx to check your results.
+ 
+  \vspace{0.25cm}
+
+### Q2.Find the probability that:
+
+###  X is less than or equal to 5.
+
+
+  \vspace{0.25cm}
+
+```{r}
+
+```
+
+  \vspace{0.25cm}
+
+### X is less than 5.
+
+
+  \vspace{0.25cm}
+```{r}
+
+```
+  \vspace{0.25cm}
+
+
+### X is strictly greater than 10.
+
+
+  \vspace{0.25cm}
+```{r}
+
+
+```
+
+  \vspace{0.25cm}
+
+### X is between 4 and 16.
+
+
+  \vspace{0.25cm}
+  
+```{r}
+
+```
+\vspace{0.25cm}
+
+## Example 3
+
+Generate 30 random values (i.e., generate a random sample of size 30, n) from a Poisson distribution lambda = 7. 
+
+\vspace{0.25cm}
+
+```{r}
+ # Get help.
+help(rpois)
+```
+
+\vspace{0.25cm}
+
+### Q1. The script below will generate a different set of values from a Poisson distribution with n = 30 and lambda = 7 each time it is run. To see this, running the script a few times in succession and see the results.  Make sure to run the histogram script as well.  Did it change?
+
+
+\vspace{0.25cm}
+
+```{r}
+events = 30
+lambda = 7
+rpois(events,lambda)
+poisson = rpois(events,lambda)
+```
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+Create a quick histogram from this sample using the core R function "hist()".
+
+\vspace{0.25cm}
+
+```{r}
+hist(poisson, main="A histogram of a Poisson distribution")
+```
+
+\vspace{0.25cm}
+
+### Q2 What mean does the histogram appear to have? Please place your answer in th espace below.
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+
+ The following script will always return the same set of values anytime it is run.  The "set.seed()" function is what causes that.  It is telling R to start at the same point each time it draws the random sample.
+
+
+\vspace{0.25cm}
+
+```{r}
+set.seed(5172013)
+events = 30
+lambda = 7
+rpois(events,lambda)
+poisson = rpois(events,lambda)
+```
+
+\vspace{0.25cm}
+
+
+ Create a quick histogram from this sample using the core R function "hist()".
+
+\vspace{0.25cm}
+
+```{r}
+hist(poisson, main="A histogram of a simulated Poisson distribution")
+```
+
+\vspace{0.25cm}
+
+### Q3. What mean does the histogram appear to have? Please place your answer in the space below.
+
+ANSWER HERE
+
+\vspace{0.5cm}
+
+## Example 4
+
+\vspace{0.25cm}
+
+ The following data represent the total number of aberrant crypt foci (abnormal growths in the colon) observed in 7 rats after being tested the carcinogen azoxymethane.
+
+ 87, 53, 72, 90, 78, 85, 83.  
+ 
+ ### Q1. Compute the sample mean and variance.  
+
+\vspace{0.25cm}
+
+```{r}
+Data_Values = c(87, 53, 72, 90, 78, 85, 83) 
+```
+
+Your code here:
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+
+
+### Q2. Is the Poisson distribution a good model for the population from which these data come?
+
+ We will perform a simulation experiement to try to answer this question.Later in the course, we will study a statistical procedure for answering such questions.
+
+
+Notice the use of the "c()" to both do the calculation and print the results in on command.  You could do this in multiple steps just as well.  For example, the following
+ would work also, but it just does not print the results in columns with headings without the added "print()". Run the first three (3) lines of the code, see what results, then run the two (2) "print()" functions and paste the results in the space after the script.
+
+\vspace{0.25cm}
+
+```{r}
+
+Data_Values = c(87, 53, 72, 90, 78, 85, 83) 
+Mean = mean(Data_Values)
+Variance = var(Data_Values)
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+We know that the mean and variance of the Poisson distribution are equal. From these results, it is unlikely that these data are from a Poisson distribution, So, it is  doubtful that the Poisson distribution is a good model for this data.
+
+
+\vspace{0.25cm}
+
+ 
+```{r}
+# Clear the memory.
+rm(list = ls())  
+```
+
+\vspace{0.25cm}
+ 
+
+# Problem 1
+
+Assume that average car traffic crossing the Tacoma Narrows bridge during a normal weekday morning is 25 cars per minute. 
+ 
+\vspace{0.25cm}
+
+### Q1. What probability distribution would you assume as a model for the outcomes of this experiment, i.e., what is the probability distribution of the number of cars crossing the brige per minute? Please add the units as well.
+
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+### Q2.  Find the probability that 30 or fewer cars will cross the bridge in any particular minute. 
+
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+### Q3.  Find the probability that more than 30 or cars will cross the bridge in any particular minute. 
+
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+
+
+ 
+## Normal distribution
+
+
+
+
+ Examples: Please run the indicated scripts.
+
+\vspace{0.25cm}
+
+```{r}
+# Clear the memory
+rm(list = ls())
+```
+
+\vspace{1.5cm}
+
+## Example 1
+
+### Find the probability, value of the cumulative distribution function at (the probability to the left of) a set (vector) of numbers.
+
+\vspace{0.25cm}
+
+
+```{r}
+x = c(-2.1,-1.6,0,1.8,2.3,5.0,6.1,13.5)
+Mean = 22
+variance = 25
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{1.5cm}
+
+## Example 2
+
+### A random variable, X, has a normal distribution with mean = 22 and variance = 25. Find the probability that:
+
+### X lies between 16.2 and 27.5.
+
+\vspace{0.25cm}
+
+```{r}
+Mean = 22
+variance = 25
+Std_Dev = sqrt(variance)
+xupper = 27.5
+xlower = 16.2
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+  
+
+### X > 29.
+
+\vspace{0.25cm}
+
+```{r}
+Mean = 22
+variance = 25
+Std_Dev = sqrt(variance)
+x = 29
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+
+### X < 17.
+
+
+\vspace{0.25cm}
+
+```{r}
+Mean = 22
+variance = 25
+Std_Dev = sqrt(variance)
+x = 17
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+### X less than 15 OR greater than 25.
+
+\vspace{0.25cm}
+
+
+```{r}
+Mean = 22
+variance = 25
+Std_dev = sqrt(variance)
+xupper = 25
+xlower = 15
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{1.5cm}
+
+## Example 3
+
+### Generate 30 random values (i.e., generate a random sample of size 30, n) from a normal distribution with mean = 5 and variance = 1. 
+
+
+
+\vspace{0.25cm}
+ 
+
+
+
+```{r}
+# Get help.
+help(rnorm)
+```
+
+\vspace{0.25cm}
+
+The script below will generate a different set of 30 values from a normal distribution with
+mean = 5 and variance = 1 each time it is run. To see this, run the script a few times in 
+succession and see the results.  Make sure to run the histogram script as well.  Did it change?
+
+\vspace{0.25cm}
+
+```{r}
+events = 30
+Mean = 5
+variance = 1
+Std_Dev = sqrt(variance)
+rnorm(events,Mean,Std_Dev)
+normal = rnorm(events,Mean,Std_Dev)
+```
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+
+Create a quick histogram from this sample using the core R function "hist()". 
+
+
+```{r}
+hist(normal, main="A histogram of a normal distribution")
+```
+
+
+
+What mean does the histogram appear to have? 
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+
+The following script will always return the same set of values anytime it is run.  The "set.seed()" function is what causes that.  It is telling R to start at the same point each time it draws the random sample. Make sure to run the histogram script as well. Did it change?
+
+\vspace{0.25cm}
+
+```{r}
+set.seed(5172013)
+events = 30
+Mean = 5
+variance = 1
+Std_Dev = sqrt(variance)
+rnorm(events,Mean,Std_Dev)
+normal = rnorm(events,Mean,Std_Dev)
+```
+
+ANSWER HERE
+
+
+\vspace{0.25cm}
+
+### Create a quick histogram from this sample using the core R function "hist()". 
+
+ \vspace{0.25cm}
+
+```{r}
+hist(normal, main="A histogram of a simulated normal distribution")
+```
+
+\vspace{0.25cm}
+
+What mean does the histogram appear to have?
+ 
+ANSWER HERE
+
+
+\vspace{1.5cm}
+
+     
+## Example 4
+
+A very important probability distribution is standard normal distribution, i.e., the normal distribution with mean = 0 and variance = 1. In other words, a random variable $$ X $$ is normally distributed as 
+
+$X \sim \mathcal{N}(0,1)$
+
+\vspace{0.5cm}
+
+### Generate 1000 random values (i.e., generate a random sample of size 1000, n) from a normal distribution with mean = 0 and variance = 1. 
+
+
+\vspace{0.5cm}
+
+
+The script below will generate a different set of 1000 values from a normal distribution with
+mean = 0 and variance = 1 each time it is run. To see this, run the script a few times in 
+succession and see the results.  Make sure to run the histogram script as well.  Did it change?
+
+
+\vspace{0.5cm}
+
+```{r}
+events = 1000
+Mean = 0
+variance = 1
+Std_Dev = sqrt(variance)
+rnorm(events,Mean,Std_Dev)
+normal = rnorm(events,Mean,Std_Dev)
+```
+
+\vspace{0.5cm}
+
+There are 1,000 values generated, so there is no need to cut and paste them here.  Notice how fast R generated them. Do review the histogram and think of how long it might take to do this
+with a calculator!
+
+Create a quick histogram from this sample using the core R function "hist()".  
+ 
+\vspace{0.5cm}
+
+```{r}
+hist(normal, main="A histogram of a normal distribution")
+```
+
+\vspace{0.25cm}
+
+What mean does the histogram appear to have? Please place your answer in the space below.
+
+\vspace{0.25cm}
+
+ANSWER HERE
+ 
+ \vspace{0.25cm}
+ 
+ The following script will always return the same set of values anytime it is run.  The "set.seed()" function is what causes that.  It is telling R to start at the same point each time it draws the random sample.
+
+ Make sure to run the histogram script as well.  Did it change?
+
+
+\vspace{0.25cm}
+
+```{r}
+set.seed(5172013)
+events = 1000
+Mean = 0
+variance = 1
+Std_Dev = sqrt(variance)
+rnorm(events,Mean,Std_Dev)
+normal = rnorm(events,Mean,Std_Dev)
+```
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+ Create a quick histogram from this sample using the core R function "hist()".  
+
+
+\vspace{0.25cm}
+```{r}
+hist(normal, main="A histogram of a simulated normal distribution")
+```
+
+\vspace{0.25cm}
+
+What mean does the histogram appear to have?
+
+ANSWER HERE
+
+
+
+\vspace{1.5cm}
+
+## Example 5
+
+### If a random variable is distributed as N(10,25), what is the probability that it will take on a value between 12 and 15?
+
+\vspace{0.25cm}
+
+
+```{r}
+Mean = 10
+variance = 25
+Std_Dev = sqrt(variance)
+xupper = 15
+xlower = 12
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+
+Now, let's resolve this problem, but this time employ the method of converting to standard units.  Please check this against Example 9.5 in F & P.
+
+$z = \frac{\bar{x} - \mu}{\frac{\sigma}{\sqrt{n}}}$
+
+where $z \sim \mathcal{N}(0,1)$
+
+
+\vspace{0.25cm}
+
+Transform the data values and print the results.For this example,
+ 
+ $$ z = \frac{x-10}{\sqrt{25}}$$
+ 
+ Specifically, $$ z_{upper} = \frac{15 - 10}{5} $$, 
+ 
+ and $$ z_{lower} = \frac{12 - 10}{5} $$
+ 
+\vspace{0.25cm}
+
+Please place the results of the intermediate steps of this transformation in the spaces provided after the steps.
+
+\vspace{0.25cm}
+
+```{r}
+zupper = (xupper-Mean)/Std_Dev
+zlower = (xlower-Mean)/Std_Dev
+```
+
+Show the results using code
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+
+ Transform the population mean and standard deviation.
+
+
+```{r}
+TransformedMean = 0
+TransformedStd_Dev = 1
+```
+
+
+### Calculate the probability.
+
+
+```{r}
+
+```
+
+
+### What do you notice about the two solutions? Is that surprising?  Why or why not?
+
+ \vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.5cm}
+
+
+## Example 6
+
+Later in the course we will learn that the normal distribution is a key assumption of several important statistical procedures.  Since we always explore our data instead of simply attacking it with various statistical procedures, it would be good to have a way to check that this assumption is at least approximately true.  We will learn more about this later, but for now we will explore an R function that does this,"qqnorm()".  This function produces what called a Q-Q plot.
+ 
+ It plots the quantiles of our sample data against the theoretical quantiles of any normal distribution,including the N(0,1) distribution. Our sample data can be assumed to come from any distribution and "qqnorm()" will help us see it our data is approximately normally distributed.
+
+ Below is an R script that creates this plot. 
+ 
+
+\vspace{0.25cm}
+
+
+```{r}
+stdnormsample = rnorm(1000,mean=0)
+normsample = rnorm(1000,mean=5)
+binomsample = rbinom(1000,size=20,prob=0.25)
+poissample = rpois(1000,5)
+
+par(mfrow=c(2,2))   # array plots 2 x 2 on the page
+
+qqnorm(stdnormsample, main="Normal Q-Q Plot: N(0,1) Samples")
+qqline(stdnormsample,col=2)
+
+qqnorm(normsample, main="Normal Q-Q Plot: N(50,1) Samples")
+qqline(normsample,col=2)
+
+qqnorm(binomsample, main="Normal Q-Q Plot: Bin(20,0.25) Samples")
+qqline(binomsample,col=2)
+
+qqnorm(poissample, main="Normal Q-Q Plot: Poisson(5) Samples")
+qqline(poissample,col=2)
+```
+
+
+
+ Departures from the straight red line (the red color is obtained by setting the parameter "col=2" in "qqline()") indicates the sample data departure from the assumption of normality.
+ 
+### Knowing what you know about algebra, what does that straight line represent with regarded to the two variables plotted on the axes?
+
+ 
+ANSWER HERE
+
+
+
+\vspace{0.5cm}
+
+
+We can also use the R function "qqplot()" to plot sample quantiles for a given sample against the sample quantiles of another sample as follows:
+
+\vspace{0.25cm}
+
+```{r}
+?qqplot()
+
+par(mfrow=c(1,2))
+
+qqplot(stdnormsample,normsample,xlab='N(0,1) Samples',
+   ylab='N(5,1) Sample')
+
+qqplot(stdnormsample, binomsample,xlab='N(0,1) Samples',
+   ylab='Bin(20,0.25) Sample')
+```
+
+\vspace{0.25cm}
+
+We examine these plots to see if the data from the sample data lies along a straight line.  Departure from that straight line relationship indicates the sample data is unlikely to be distributed as the theoretical distribution, which in these two cases is N(0,1).
+
+\vspace{1.25cm}
+
+## Exercies
+
+\vspace{0.25cm}
+
+ Now it is your turn.Please do the following exercises writing and running the appropriate
+ R scripts.Do not forget to draw pictures of the problem!!
+
+\vspace{0.25cm}
+
+```{r}
+# Clear the memory.
+rm(list = ls()) 
+```
+
+\vspace{0.25cm}
+ 
+
+## Problem 1
+
+ The mean and variance of the weights of NFL (National Football League) players are 248.5 lb and 278.89 square lb, respectively.Assume that the population is approximately normally distributed.  
+ 
+### Q1. If you select a player at random, what is the probability that he is heavier than 270 lb.? 
+
+\vspace{0.25cm}
+
+ NOTE: I STRONGLY suggest you draw that picture first to help you solve the problem!  Make sure to check your solution to this problem using Table I in F & P!
+
+\vspace{0.25cm}
+  
+  
+###  a. Define the random variable in the space below.
+
+ANSWER HERE
+
+
+\vspace{0.5cm}
+
+### b. What probability distribution would you assume as a model for the outcomes of this experiment?
+
+ANSWER HERE
+
+ 
+\vspace{0.5cm}
+
+### c.  Find the probability that that the weight of an NFL player is greater than 270 lb. State the problem in probability terms.
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+Solve this problem without and with using the standard normal transformation. Compare your results.
+
+Place your code below. Make sure to show the numerical results.
+```{r}
+
+```
+
+Calculate the desired probability.
+
+```{r}
+
+```
+\vspace{0.25cm}
+
+ Using the standard normal transformation, we seek to find $P(Z > z) $. 
+ 
+\vspace{0.25cm}
+
+Place your code below. Make sure to show the numerical results.
+```{r}
+
+```
+
+
+\vspace{0.25cm}
+
+### Q2. Create an R script defining a population mean and standard deviation to be equal to 0 and 1, respectively, then demonstrate that what you did was correct. If you wish, you may call these variables (assigned objects) "StandardMean" and "StandardStd_Dev", respectively, but feel free to  create your own variable (object) names.
+
+
+\vspace{0.25cm}
+
+Place your code below.
+
+```{r}
+
+```
+
+ 
+\vspace{0.25cm}
+
+
+Using the objects (variables) you created above, create an R script to calculate the desired probability and paste the result in the space below.
+
+\vspace{0.25cm}
+
+Place your code below.
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+
+
+### Q3. In a few sentences, please write a comparison of the results in the space below.
+
+ANSWER HERE
+
+
+
+
+
+The End of Assignment #3.
+ 
+
+
+
+
+
+
+
+
+
+
