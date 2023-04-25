@@ -153,7 +153,7 @@ pbinom(x,size=n,prob=p)  # size = number of trials,
 
  \vspace{0.25cm}
 
-YOUR ANSWER TO Q1 HERE
+probability of getting 5 or fewer successes is 0.8042078
 
 \vspace{0.25cm}
 
@@ -170,7 +170,7 @@ p = 0.2
 
 \vspace{0.25cm}
 
-YOUR ANSWER TO Q2 HERE
+probability of more than 5 successes is 0.1957922
 
 \vspace{0.25cm}
 
@@ -179,7 +179,7 @@ YOUR ANSWER TO Q2 HERE
 
 \vspace{0.25cm}
 
-YOUR ANSWER TO Q3 HERE
+Because the probability of all outcomes sum to 1. So, by subtracting the probability of 5 or fewer from the total probability, we are left with the probability of the other binary option, or the complement.
 
 
 \vspace{1.5cm}
@@ -195,11 +195,12 @@ YOUR ANSWER TO Q3 HERE
 x = c(0,1,2,5,8,10,15,20)
 n = 20
 p = 0.2
+pbinom(x,size=n,prob=p)
 ```
 
 \vspace{0.25cm}
 
-YOUR ANSWER TO Q1 HERE
+0.01152922 0.06917529 0.20608472 0.80420779 0.99001821 0.99943659 0.99999999 1.00000000
 
 
 \vspace{1.5cm}
@@ -216,11 +217,14 @@ YOUR ANSWER TO Q1 HERE
 x = c(20,25,30)
 n =60
 p= 0.5
+pbinom(x,size=n,prob=p)
 
 ```
 
-YOUR ANSWER HERE
-
+ P{20} = 0.006744647,
+ P{25} = 0.122530417,
+ P{30} = 0.551289087
+ 
 \vspace{0.25cm}
 
  Less than 20 times.
@@ -231,10 +235,11 @@ YOUR ANSWER HERE
 x = 19
 n =60
 p = 0.5
+pbinom(x,size=n,prob=p)
 
 ```
 
-YOUR ANSWER HERE
+P{<20} = 0.003108801
 
 \vspace{0.25cm}
 
@@ -248,10 +253,11 @@ YOUR ANSWER HERE
 x = 20
 n = 60
 p = 0.5
+pbinom(x,size=n,prob=p)
 
 ```
 
-YOUR ANSWER HERE
+P{<=20} = 0.006744647
 
 \vspace{0.25cm}
 
@@ -262,12 +268,19 @@ YOUR ANSWER HERE
 \vspace{0.25cm}
 
 ```{r}
+x1 = 19
 n = 60
 p = 0.5
+left_tail = pbinom(x1, n, p)
 
+x2 = 30
+right_tail = 1 - pbinom(x2, n, p)
+
+between = 1 - right_tail - left_tail
+print(between)
 ```
 
-YOUR ANSWER HERE
+P{20 <= i <= 30} = 0.5481803
 
 \vspace{0.25cm}
 
@@ -283,10 +296,10 @@ YOUR ANSWER HERE
 x = 4
 n = 60
 p = 0.2
-
+pbinom(x,n,p)
 ```
 
-YOUR ANSWER HERE
+P{<4} = 0.003932593
 
 \vspace{0.25cm}
  
@@ -304,7 +317,7 @@ dbinom(0,size=n,prob=p)+
 
 ```
 
-YOUR ANSWER HERE
+P{<4} = 0.003932593
 
 \vspace{0.25cm}
 
@@ -319,10 +332,10 @@ YOUR ANSWER HERE
 x = c(0:5)
 n = 5
 p = 0.1
-
+pbinom(x,n,p)
 ```
 
-YOUR ANSWER HERE
+0.59049 0.91854 0.99144 0.99954 0.99999 1.00000
 
 \vspace{0.5cm}
 
@@ -342,11 +355,10 @@ Also do a GOOGLE search on random number generators to learn a little about them
 
 ### Q1. What did you find out about the randomness of random numbers? Please put your conclusions in the space below.
 
-YOUR ANSWER TO Q1 HERE
+Are you kidding me? You want me to go google something as an assignment? I thought this was a college course, I can't believe I'm being told to do self learning a THIRD OF THE WAY through this massive assignment.
 
-\vspace{5cm}
+I already know about random numbers. They are not truly random. There is always a seed and limitations to memory.
 
-Get help.
 
 \vspace{0.25cm}
 
@@ -372,7 +384,7 @@ rbinom(x,size=n,prob=p)
 binomial = rbinom(x,size=n,prob=p)
 ```
 
-ANSWER TO Q2 HERE
+Yes the numbers change.
 
 \vspace{0.25cm}
 
@@ -389,8 +401,11 @@ hist(binomial, main="A histogram of a simulated binomial distribution")
  What mean does the histogram appear to have? Please place your answer in the space below.
 
 
-ANSWER HERE 
+The mean appears to be between 55 and 60 
 
+```{r}
+mean(binomial)
+```
 \vspace{0.25cm}
 
 
@@ -409,7 +424,7 @@ binomial = rbinom(x,size=150,prob=0.4)
 
 ```
 
-ANSWER HERE
+It did not change. It would be useful to save the seed if you are performing a bootstrap approach to solving a problem and needed the seed for reproducibility
 
 \vspace{0.25cm}
 
@@ -427,7 +442,11 @@ hist(binomial, main="A histogram of a simulated binomial distribution")
 What mean does the histogram appear to have? Please place your answer in the space below.
 
 
-ANSWER HERE 
+```{r}
+mean(binomial)
+```
+
+The mean appears to be between 60 and 65
 
 \vspace{0.25cm}
 
@@ -497,26 +516,24 @@ To work with this graph interactively, click on the wheel-like symbol in the upp
 \vspace{0.25cm}
 
 ```{r}
-manipulate(generate.binomial(nreps, ntrials, p),
-           nreps=slider(10, 100000, initial=20),
-           ntrials=slider(3,1000,initial=5),
-           p=slider(0, 1, initial=.5))
+# manipulate(generate.binomial(nreps, ntrials, p),
+#            nreps=slider(100000 - 1, 100000, initial=100000 - 1),
+#            ntrials=slider(1000 - 1,1000,initial=1000 ),
+#            p=slider(0, 1, initial=.5))
 ```
  
 \vspace{0.25cm}
 
 ### Q1. What is the expected value (center of the distribution)? Does the graph you create show the correct mean?  To make this easy to see, set "ntrials" and "nreps" to their maximums and pick "p" = 0.5.
 
-ANSWER HERE
+500
 
-\vspace{5cm}
 
 ### Q2. Does the expected value agree with what we learned in class about the binomial distribution? 
 
-ANSWER HERE
+Yes
 
 
-\vspace{5cm}
 
  End of binomial distribution Examples.
 
@@ -536,7 +553,6 @@ ANSWER HERE
 rm(list = ls())
 ```
 
- \vspace{5cm}
 
        Problem 1
 
@@ -544,11 +560,11 @@ Note: You have done this problem before, so you should be able to verify that yo
 
 A medical doctor finds that 5% of mothers admit to having one or more glasses of wine per day during pregnancy.Fifteen (15) pregnant mothers are randomly selected  (with replacement) from admission at a hospital.  If X = a random variable that represents the number of mothers who admit to having one or more glasses of wine per day during pregnancy, then:
  
-\vspace{0.25cm}
+\vspace{0.25cm}                                                                                                                                                                                                                                                                        
 
 ### Q1. What probability distribution would you assume as a model for the outcomes of this experiment, i.e., what is the probability distribution of ?
 
-ANSWER HERE 
+I would assume a binomial distribution, number of mothers along the x and frequency of admittance on the y axis.
 
 \vspace{0.25cm}
 
@@ -569,7 +585,10 @@ ANSWER HERE
 \vspace{0.25cm}
 
 ```{r}
-
+ x = 5
+ n = 15
+ p = 0.05
+ pbinom(x, n, p) - pbinom(4,n,p) 
 ```
 
  \vspace{0.25cm}
@@ -580,7 +599,10 @@ ANSWER HERE
 
 
 ```{r}
-
+ x = 5
+ n = 15
+ p = 0.05
+ pbinom(0,n,p) 
 ```
 
 
@@ -592,8 +614,11 @@ ANSWER HERE
 \vspace{0.25cm}
  
 ```{r}
-
+0.05 * 15
 ```
+
+Less than likely that one of them will admit it.
+
 
 \vspace{0.25cm}
  
@@ -625,7 +650,7 @@ rm(list = ls())
 
 ```{r}
 x = c(0,1,2,5,8,10,15,20)
-lambda = 6
+lambda = 6     
 ```
 
 \vspace{0.25cm}
@@ -633,7 +658,7 @@ lambda = 6
 Write the code that calculates the probability. Make sure to display the result.
 
 ```{r}
-
+dpois(x,lambda)
 ```
 
  \vspace{0.25cm}
@@ -655,7 +680,7 @@ Write the code that calculates the probability. Make sure to display the result.
   \vspace{0.25cm}
 
 ```{r}
-
+ppois(5,lambda)
 ```
 
   \vspace{0.25cm}
@@ -665,7 +690,7 @@ Write the code that calculates the probability. Make sure to display the result.
 
   \vspace{0.25cm}
 ```{r}
-
+sum(dpois(0:4, lambda))
 ```
   \vspace{0.25cm}
 
@@ -675,8 +700,7 @@ Write the code that calculates the probability. Make sure to display the result.
 
   \vspace{0.25cm}
 ```{r}
-
-
+sum(dpois(10:999, lambda))
 ```
 
   \vspace{0.25cm}
@@ -687,7 +711,11 @@ Write the code that calculates the probability. Make sure to display the result.
   \vspace{0.25cm}
   
 ```{r}
+left_tail = ppois(3,lambda)
+right_tail = 1 - ppois(16, lambda)
 
+between = 1 - left_tail - right_tail
+print(between)
 ```
 \vspace{0.25cm}
 
@@ -698,8 +726,8 @@ Generate 30 random values (i.e., generate a random sample of size 30, n) from a 
 \vspace{0.25cm}
 
 ```{r}
- # Get help.
-help(rpois)
+rand_pois = rpois(30, 7)
+print(rand_pois)
 ```
 
 \vspace{0.25cm}
@@ -716,7 +744,7 @@ rpois(events,lambda)
 poisson = rpois(events,lambda)
 ```
 
-ANSWER HERE
+yes it changes.
 
 \vspace{0.25cm}
 
@@ -732,7 +760,7 @@ hist(poisson, main="A histogram of a Poisson distribution")
 
 ### Q2 What mean does the histogram appear to have? Please place your answer in th espace below.
 
-ANSWER HERE
+The mean appears to be around 6
 
 \vspace{0.25cm}
 
@@ -765,7 +793,7 @@ hist(poisson, main="A histogram of a simulated Poisson distribution")
 
 ### Q3. What mean does the histogram appear to have? Please place your answer in the space below.
 
-ANSWER HERE
+7
 
 \vspace{0.5cm}
 
@@ -787,7 +815,11 @@ Data_Values = c(87, 53, 72, 90, 78, 85, 83)
 
 Your code here:
 ```{r}
+data_mean = mean(Data_Values)
+data_var = var(Data_Values)
 
+print(data_mean)
+print(data_var)
 ```
 
 \vspace{0.25cm}
@@ -814,8 +846,11 @@ Variance = var(Data_Values)
 Show the results using code
 
 ```{r}
-
+print(Mean)
+print(Variance)
 ```
+[1] 78.28571
+[1] 159.9048
 
 \vspace{0.25cm}
 
@@ -844,7 +879,7 @@ Assume that average car traffic crossing the Tacoma Narrows bridge during a norm
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Poisson distribution (cars / minute)
 
 \vspace{0.25cm}
 
@@ -853,7 +888,7 @@ ANSWER HERE
 \vspace{0.25cm}
 
 ```{r}
-
+ppois(30, 25)
 ```
 
 \vspace{0.25cm}
@@ -863,7 +898,7 @@ ANSWER HERE
 \vspace{0.25cm}
 
 ```{r}
-
+1 - ppois(30,25)
 ```
 
  \vspace{0.25cm}
@@ -902,7 +937,7 @@ variance = 25
 Show the results using code
 
 ```{r}
-
+pnorm(x,Mean,variance)
 ```
 
 \vspace{1.5cm}
@@ -918,15 +953,16 @@ Show the results using code
 ```{r}
 Mean = 22
 variance = 25
+sd = sqrt(variance)
 Std_Dev = sqrt(variance)
-xupper = 27.5
-xlower = 16.2
+xupper = 1 - pnorm(27.5, Mean, sd)
+xlower = pnorm(16.2, Mean, sd)
 ```
 
 Show the results using code
 
 ```{r}
-
+1 - xupper - xlower
 ```
 
 \vspace{0.25cm}
@@ -947,7 +983,7 @@ x = 29
 Show the results using code
 
 ```{r}
-
+pnorm(x-1, Mean, Std_Dev)
 ```
 
 \vspace{0.25cm}
@@ -968,6 +1004,7 @@ x = 17
 Show the results using code
 
 ```{r}
+pnorm(x-1, Mean, Std_Dev)
 
 ```
 
@@ -981,15 +1018,16 @@ Show the results using code
 ```{r}
 Mean = 22
 variance = 25
-Std_dev = sqrt(variance)
-xupper = 25
-xlower = 15
+sd = sqrt(variance)
+xupper = 1-pnorm(25, Mean, sd)
+xlower = pnorm(15, Mean, sd)
+
 ```
 
 Show the results using code
 
 ```{r}
-
+1 - xupper - xlower
 ```
 
 \vspace{1.5cm}
@@ -1027,8 +1065,8 @@ rnorm(events,Mean,Std_Dev)
 normal = rnorm(events,Mean,Std_Dev)
 ```
 
-ANSWER HERE
-
+ [1] 4.377839 5.060023 4.595939 3.740225 3.807574 4.181845 4.959602 4.711864 6.031924 4.453320 5.208427 6.010354 5.385390 3.904802 6.015521 3.679307 6.736186 5.810683 5.169641 5.587027
+[21] 4.978661 3.800848 4.272091 3.681215 3.392807 4.912227 4.517569 5.230486 4.464720 3.681855
 \vspace{0.25cm}
 
 
@@ -1043,7 +1081,7 @@ hist(normal, main="A histogram of a normal distribution")
 
 What mean does the histogram appear to have? 
 
-ANSWER HERE
+The mean appears to be between 4 and 5
 
 \vspace{0.25cm}
 
@@ -1062,8 +1100,7 @@ rnorm(events,Mean,Std_Dev)
 normal = rnorm(events,Mean,Std_Dev)
 ```
 
-ANSWER HERE
-
+No changes
 
 \vspace{0.25cm}
 
@@ -1078,9 +1115,9 @@ hist(normal, main="A histogram of a simulated normal distribution")
 \vspace{0.25cm}
 
 What mean does the histogram appear to have?
- 
-ANSWER HERE
 
+
+4.745332
 
 \vspace{1.5cm}
 
@@ -1113,6 +1150,7 @@ variance = 1
 Std_Dev = sqrt(variance)
 rnorm(events,Mean,Std_Dev)
 normal = rnorm(events,Mean,Std_Dev)
+print('')
 ```
 
 \vspace{0.5cm}
@@ -1134,8 +1172,8 @@ What mean does the histogram appear to have? Please place your answer in the spa
 
 \vspace{0.25cm}
 
-ANSWER HERE
- 
+The mean appears around 0.
+
  \vspace{0.25cm}
  
  The following script will always return the same set of values anytime it is run.  The "set.seed()" function is what causes that.  It is telling R to start at the same point each time it draws the random sample.
@@ -1155,7 +1193,7 @@ rnorm(events,Mean,Std_Dev)
 normal = rnorm(events,Mean,Std_Dev)
 ```
 
-ANSWER HERE
+No change
 
 \vspace{0.25cm}
 
@@ -1171,8 +1209,7 @@ hist(normal, main="A histogram of a simulated normal distribution")
 
 What mean does the histogram appear to have?
 
-ANSWER HERE
-
+Again around zero
 
 
 \vspace{1.5cm}
@@ -1185,17 +1222,19 @@ ANSWER HERE
 
 
 ```{r}
-Mean = 10
+mean = 10
 variance = 25
-Std_Dev = sqrt(variance)
+sd = sqrt(variance)
 xupper = 15
+right_tail = 1 - pnorm(15, mean, sd)
 xlower = 12
+left_tail = pnorm(12, mean, sd)
 ```
 
 Show the results using code
 
 ```{r}
-
+1 - right_tail - left_tail
 ```
 
 
@@ -1223,14 +1262,15 @@ Please place the results of the intermediate steps of this transformation in the
 \vspace{0.25cm}
 
 ```{r}
-zupper = (xupper-Mean)/Std_Dev
-zlower = (xlower-Mean)/Std_Dev
+zupper = (xupper-mean)/sd
+zlower = (xlower-mean)/sd
 ```
 
 Show the results using code
 
 ```{r}
-
+zupper
+zlower
 ```
 
 \vspace{0.25cm}
@@ -1249,7 +1289,9 @@ TransformedStd_Dev = 1
 
 
 ```{r}
-
+right_tail = 1 - pnorm(zupper, TransformedMean, TransformedStd_Dev)
+left_tail = pnorm(zlower, TransformedMean, TransformedStd_Dev)
+1 - right_tail - left_tail
 ```
 
 
@@ -1257,7 +1299,7 @@ TransformedStd_Dev = 1
 
  \vspace{0.25cm}
 
-ANSWER HERE
+They are the same. Not surprising because all we did was normalize the data.
 
 \vspace{0.5cm}
 
@@ -1302,8 +1344,7 @@ qqline(poissample,col=2)
 ### Knowing what you know about algebra, what does that straight line represent with regarded to the two variables plotted on the axes?
 
  
-ANSWER HERE
-
+The two variables are equal along the straight line.
 
 
 \vspace{0.5cm}
@@ -1363,15 +1404,13 @@ rm(list = ls())
   
 ###  a. Define the random variable in the space below.
 
-ANSWER HERE
-
+Random variable X is weight
 
 \vspace{0.5cm}
 
 ### b. What probability distribution would you assume as a model for the outcomes of this experiment?
 
-ANSWER HERE
-
+Normal distribution
  
 \vspace{0.5cm}
 
@@ -1379,21 +1418,29 @@ ANSWER HERE
 
 \vspace{0.25cm}
 
-ANSWER HERE
+```{r}
+1 - pnorm(270, 248.5, sqrt(278.89))
+```
+
+P{w_NFL > 270} = 0.09897307
 
 \vspace{0.25cm}
 
 Solve this problem without and with using the standard normal transformation. Compare your results.
 
 Place your code below. Make sure to show the numerical results.
-```{r}
 
+```{r}
+z = (270 - 248.5) / sqrt(278.89)
+print(z)
+tx_mean = 0
+tx_sd = 1
 ```
 
 Calculate the desired probability.
 
 ```{r}
-
+1 - pnorm(z, tx_mean, tx_sd)
 ```
 \vspace{0.25cm}
 
@@ -1417,7 +1464,10 @@ Place your code below. Make sure to show the numerical results.
 Place your code below.
 
 ```{r}
-
+z = (270 - 248.5) / sqrt(278.89)
+print(z)
+tx_mean = 0
+tx_sd = 1
 ```
 
  
@@ -1431,6 +1481,7 @@ Using the objects (variables) you created above, create an R script to calculate
 Place your code below.
 
 ```{r}
+1 - pnorm(z, tx_mean, tx_sd)
 
 ```
 
@@ -1439,8 +1490,7 @@ Place your code below.
 
 ### Q3. In a few sentences, please write a comparison of the results in the space below.
 
-ANSWER HERE
-
+The answers are the same. The probabilities do not change because the relationships within the data have not changed. They have only been transformed, which can be helpful when plotting large ranges of data.
 
 
 
