@@ -1,0 +1,211 @@
+\documentclass{article}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{cadmiumgreen},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\usepackage[margin=0.75in]{geometry}
+\setlength\parindent{0pt}
+
+\title{QSCI 381 HW 3}
+\date{4/27/2023}
+\author{Simon-Hans Edasi}
+
+\begin{document}
+
+	\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Define the following:}
+
+
+\begin{enumerate}
+\item (2 points) Independent events (requires both a written definition and mathematical
+formulas – several are possible).
+
+\textbf{Two events are independent if one event (A) does not affect another event (B)}
+
+
+$P\{A|B\} = P\{A\}$
+
+$P\{B|A\} = P\{B\}$
+
+$P\{A,B\} = P\{A\} \cdot P\{B\}$ \\
+
+\item (2 points) Mutually exclusive events (requires both a written definition and
+mathematical formulas – several are possible).
+
+\textbf{Two events are mutully exclusive if they cannot occur at the same time. The probability of two events occuring must be zero} \\
+\textbf{Example}
+
+\textbf{Let $A = \{1,2,3,4\} $ and $ B = \{3,4,5,6\}$, then draw numbers one at a time at random. We see:}
+
+\[
+P\{A\} = 1/4 \quad ; \quad P\{B\} = 1/4 \quad ; \quad P\{A,B\} = \frac{1}{3} \neq 0
+\]
+
+\textbf{The probability of A and B occuring at the same time is non-zero, so events A and B are not mutually exclusive} \\
+
+\item{(3 points) For the binomial distribution:}
+	\begin{enumerate}
+	\item (1 point) What are the assumptions we make to use it as a model for the
+outcome of an experiment?
+	\textbf{
+		\begin{enumerate}
+		\item Each trial has two possible outcomes
+		\item Each trial is independent 
+		\item Each outcome has the same probability occuring in each trial \\
+		\end{enumerate}
+		} 
+	
+	\item (1 point) What are the parameters (define them in writing), expected value,
+and standard deviation of the binomial distribution?
+
+	\textbf{
+		\begin{itemize}
+		\item Parameters: n = number of trials; p = probability of outcome
+		\item Expected value is mean of the distribution for variable X. It is the product of the number of trials and probability of X occuring. 
+		\item Standard Deviation is a measure of the spread of data, it is an indicator of how close a value is to the expected value. It is the square root of the product of number of trials $\left(n\right)$, probability of X $\left(P\{X\}\right)$, and $\left( 1 - P\{x\}\right)$  \\
+		\end{itemize}
+		} 
+		
+	 
+
+	\item (1 point) What is the formula for the probability of getting x successes in
+n independent trials with probability p of success on each trial? \\	
+
+	\textbf{$P\{x\} = \sum^{x}_{n} \binom{n}{x} \cdot p^{x} \cdot \left[ 1 - p^{\left(n-x\right)} \right] $} \\
+	\end{enumerate}
+	
+\item (4 points) For the Poisson distribution:
+
+	\begin{enumerate}
+	
+	\item (2 points) What are the assumptions we make to use it as a model for the
+outcome of an experiment?
+
+	\textbf{
+		\begin{enumerate}
+		\item Number of events can be counted.
+		\item Events occur independently.
+		\item Event occurence rate is calculable.
+		\item Timing of events does not coincide. \\
+		\end{enumerate}
+		} 
+
+	\item (1 point) What is the parameter (define it in writing), expected value, and
+standard deviation of the Poisson distribution?
+
+	\textbf{Answer} \\
+	\item (1 point) What is the formula for the probability of the number of times,
+x , an event occurs in a given interval of time, length, or volume?
+
+	\textbf{Answer} \\
+	\end{enumerate}
+	
+\item (6 points) For the normal distribution:
+
+	\begin{enumerate}
+	
+	\item (4 points) What are the four properties of the normal distribution?
+	
+		\begin{itemize}
+		
+		\item \textbf{Mean = Median = Mode}
+		\item \textbf{symmetric about mean}
+		\item \textbf{$|Skewness|$ and $|Kurtosis| < 1.96$}
+		\item \textbf{68.25\% of data falls in $1 \sigma$, 95\% within $2 \sigma$, and 99\% of data within $3 \sigma$.\\}
+
+		\end{itemize}
+	
+
+	\item(1 point) What are the parameters of the normal distribution?
+	
+		\begin{itemize}
+		\item \textbf{Mean}
+		\item \textbf{Standard Deviation}\\
+		\end{itemize} 
+	
+	\item (1 point) What is the formula for the probability distribution (probability density function) of a normally distributed random variable? \\
+	
+	$f\left(x\right) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{\left(x - \mu\right)^{2}}{2 \sigma^{2}}}$\\
+
+
+	
+	\end{enumerate}
+	
+	
+\item (5 points) Which of the following random variables are discrete and which are
+continuous?
+
+	\begin{enumerate}
+	
+	\item The number of students in a section of a statistics course.
+	
+	\textbf{discrete} \\
+	\item The air pressure in an automobile tire.
+	
+	\textbf{continuous} \\
+	\item The number of osprey chicks living in a nest.
+	
+	\textbf{discrete} \\
+	\item The weight in kg of bear cubs.
+	
+	\textbf{continuous} \\
+	\item The miles per gallon of randomly selected vehicles on a highway. 
+	
+	\textbf{discrete} \\
+	
+	\end{enumerate}
+	
+
+	
+	
+	
+
+	
+\item (2 points) Is the following a binomial experiment? Why or why not?
+
+A committee of 8 men and 3 women wish to select a chairperson and a recorder.
+They do this by placing their names in a hat and draw two names; the first person
+whose name is drawn will be the chairperson and the second will become the
+recorder. We then ask: What is the probability that both positions will be held by
+women?
+		
+\textbf{No, this is not a binomial experiment, at least not yet. We would need to set up multiple trials and define the possible outcomes. Possible outcomes being (A) both positions are fulfilled by women or (B) at least one man is chosen. }
+	
+	
+	
+	
+	
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\end{document}
