@@ -35,12 +35,12 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Define the following:}
+
 
 
 \begin{enumerate}
 \item (2 points) Independent events (requires both a written definition and mathematical
-formulas – several are possible).
+formulas – several are possible). \\
 
 \textbf{Two events are independent if one event (A) does not affect another event (B)}
 
@@ -52,10 +52,11 @@ $P\{B|A\} = P\{B\}$
 $P\{A,B\} = P\{A\} \cdot P\{B\}$ \\
 
 \item (2 points) Mutually exclusive events (requires both a written definition and
-mathematical formulas – several are possible).
+mathematical formulas – several are possible). \\
 
-\textbf{Two events are mutully exclusive if they cannot occur at the same time. The probability of two events occuring must be zero} \\
-\textbf{Example}
+\textbf{Two events are mutually exclusive if they cannot occur at the same time. The probability of two events occuring simultaneously must be zero.} \\
+
+\textbf{Example:}
 
 \textbf{Let $A = \{1,2,3,4\} $ and $ B = \{3,4,5,6\}$, then draw numbers one at a time at random. We see:}
 
@@ -83,8 +84,8 @@ and standard deviation of the binomial distribution?
 	\textbf{
 		\begin{itemize}
 		\item Parameters: n = number of trials; p = probability of outcome
-		\item Expected value is mean of the distribution for variable X. It is the product of the number of trials and probability of X occuring. 
-		\item Standard Deviation is a measure of the spread of data, it is an indicator of how close a value is to the expected value. It is the square root of the product of number of trials $\left(n\right)$, probability of X $\left(P\{X\}\right)$, and $\left( 1 - P\{x\}\right)$  \\
+		\item Expected value is the expected mean of variable X if $n\rightarrow \infty$. $E\{X\} = n \cdot P\{X\}$. 
+		\item Standard Deviation is a measure of the spread of data, it is an indicator of how close a value is to the expected value. $\sigma = \sqrt{n \cdot p \cdot q}$ \\
 		\end{itemize}
 		} 
 		
@@ -113,13 +114,28 @@ outcome of an experiment?
 		} 
 
 	\item (1 point) What is the parameter (define it in writing), expected value, and
-standard deviation of the Poisson distribution?
+standard deviation of the Poisson distribution? 
 
-	\textbf{Answer} \\
+	\textbf{
+		\begin{itemize}
+		\item Parameter $\lambda$ is defined as the expected value and variance of variable $X$.
+		\item Expected value is the expected mean of variable X if $n\rightarrow \infty$. $E\{X\} = \lambda$
+		\item Standard Deviation is a measure of the spread of data, it is an indicator of how close a value is to the expected value. 	$\sigma = \sqrt{\lambda}$\\
+		\end{itemize}
+		}
+
+
 	\item (1 point) What is the formula for the probability of the number of times,
-x , an event occurs in a given interval of time, length, or volume?
+x , an event occurs in a given interval of time, length, or volume? \\
 
-	\textbf{Answer} \\
+\textbf{Let $X$ represent our event, and $k$ represent the number of times event $X$ occurs. The formula is:}
+
+
+\[
+P\{X|k\} = \frac{e^{-\lambda} \cdot \lambda^{k}}{k!}
+\]
+
+
 	\end{enumerate}
 	
 \item (6 points) For the normal distribution:
@@ -185,18 +201,37 @@ continuous?
 	
 \item (2 points) Is the following a binomial experiment? Why or why not?
 
-A committee of 8 men and 3 women wish to select a chairperson and a recorder.
-They do this by placing their names in a hat and draw two names; the first person
-whose name is drawn will be the chairperson and the second will become the
-recorder. We then ask: What is the probability that both positions will be held by
-women?
+A committee of 8 men and 3 women wish to select a chairperson and a recorder. They do this by placing their names in a hat and draw two names; the first person whose name is drawn will be the chairperson and the second will become the recorder. We then ask: What is the probability that both positions will be held by women?
 		
-\textbf{No, this is not a binomial experiment, at least not yet. We would need to set up multiple trials and define the possible outcomes. Possible outcomes being (A) both positions are fulfilled by women or (B) at least one man is chosen. }
+\textbf{No, this is not a binomial experiment, at least not yet. We would need to set up multiple trials and define the possible outcomes. Possible outcomes being (A) both positions are fulfilled by women or (B) at least one man is chosen. } \\
 	
+
+\item (6 points) A medical doctor finds that 5\% of mothers admit to having one or more glasses of wine per day during pregnancy. Fifteen (15) pregnant mothers are randomly selected (with replacement) from admission at a hospital. If X = a random variable represents the number of mothers who admit to having one or more glasses per day during pregnancy, then:
+
+	\begin{enumerate}
+	\item (2 points) What probability distribution would you assume as a model for the outcomes of this experiment, i.e., what is the probability distribution of X ? What are the values of the parameters of this distribution? \\
 	
+	\textbf{Each trial has two possible outcomes, yes or no. Each trial is independent, as the consumption of alcohol by one pregnant woman is not dependant on the consumption of alcohol by another. Each outcome has the same probability, 5\% of admittance. For these reasons I would use a binomial distribution to model these probabilities. The values of the parameters for this distribution are $n = 15$, $p = 0.05$.} \\
 	
+	\item (1 point) Using that distribution and the appropriate table in F \& P, what is the probability that exactly five (5) mothers will admit to drinking one or more glasses of wine during their pregnancy? \\
 	
+	\textbf{$P\{X=5\} = 0.00056$} \\
 	
+	\item (1 point) Using that distribution and the appropriate table in F \&P, what is the probability that none of the mothers will admit to drinking one or more glasses of wine during their pregnancy?\\
+	
+	\textbf{$P\{X=0\} = 0.46329$} \\
+	
+	\item (1 point) Based on this sample of 15 pregnant mothers, what is the expected number of mothers who admit to drinking one or more glasses of wine during their pregnancy?\\
+	
+	\textbf{$E\{X\} = n \cdot p = 15 \cdot 0.05 = 0.75$} \\
+	
+	\item (1 point) What is the standard deviation about this expected (mean) value? \\
+	
+	\textbf{$\sigma = sqrt{n \cdot p \cdot \left( 1-p \right)} = \sqrt{15 \cdot 0.05 \cdot 0.95} = 0.844$}
+	\end{enumerate}
+
+
+
 \end{enumerate}
 
 

@@ -627,7 +627,8 @@ Less than likely that one of them will admit it.
 \vspace{0.25cm}
 
 ```{r}
-
+sigma = sqrt(15 * .05 * 0.95)
+print(sigma)
 ```
 
  \vspace{0.25cm}
