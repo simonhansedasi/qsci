@@ -1,0 +1,573 @@
+---
+title: "Assignment 4"
+output:
+  pdf_document: default
+date: "`r Sys.Date()`"
+geometry: margin=1.5cm
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+  \vspace{0.5cm} 
+ 
+In this assignment, we are going to analyze some sample data collected by a researcher named Tammy.
+ 
+Please do the following exercises writing and/or running the given R scripts, and answers the questions asked as you proceed.
+  
+ \vspace{0.5cm} 
+
+  
+ 
+##  Introduction
+ 
+In some parts of the U.S., black cherry trees are an important agricultural crop. Tammy is a forestry researcher who studies cherry tree diseases. She hypothesizes that cherry trees in the Allegheny Mountains of West Virginia grow to 76 ft. on average, with a standard deviation of about 6 ft.
+ 
+Furthermore, she believes that the wild black cherry tree heights are normally distributed. She randomly measured the height (in feet) of 1000 black cherry trees in the Jefferson National Forest (JNF) of West Virginia to test her hypotheses.
+ 
+  
+Clear the memory.
+
+\vspace{0.25cm}
+  
+```{r}
+rm(list = ls())
+```
+
+\vspace{0.25cm}
+  
+Make the packages "dplyr" and "ggplot2"and their associated functions available to use. Do not forget to run these functions.
+
+\vspace{0.25cm}
+  
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggfortify)
+library(readr)
+```
+
+  \vspace{0.25cm}
+ 
+In the space below, please enter the data set "cherry_trees.csv" and view it.
+ 
+Do not forget to run (execute) the script! Please assign this data frame,"cherry_trees.csv", to the object "cherry_trees".
+
+\vspace{0.25cm}
+ 
+```{r}  
+library(readr)
+cherry_trees <- read_csv("cherry_trees.csv")
+# View(cherry_trees)
+```
+ 
+ \vspace{0.25cm}
+ 
+ 
+##  Part 1
+ 
+First, as always, we will explore and plot the data.Notice that this is a large amount of data; 1,000 trees.Examining this data by eye is too difficult and time consuming. Even if we did explore it that way, we may miss something anyway.
+ 
+  \vspace{0.125cm}
+  
+ 
+##  Explore the data.
+
+ \vspace{0.25cm}
+ 
+Explore what is in the data using what we learned in Tutorial  2. Run the following scripts. Then in the space below, briefly describe in 1 - 2 well written sentences the data set using its name, data type, its number of rows and columns, column headings, and the number of data items in the data set. You might start with:
+
+```{r}
+mode(cherry_trees)   # Show the data type
+names(cherry_trees)   # Show column names
+head(cherry_trees)   # Show first 6 rows of data
+dim(cherry_trees)   # Show number of rows and columns
+str(cherry_trees)   # Show structure of data set
+tail(cherry_trees)   # Show last 6 rows of data
+glimpse(cherry_trees)   # Shows a horizontal view of the data
+tbl_df(cherry_trees)  # Shows a vertical view of the data
+```
+
+ \vspace{0.25cm}
+ 
+### Q1. What do the 1000 observations in the data frame on cherry_trees consist of?
+ 
+  \vspace{0.25cm}
+  
+ANSWER HERE
+ 
+ 
+\vspace{0.50cm}
+  
+ 
+### Q2  Suggest two (2) plots that we might use to explore the data for its approximate distributional form and two plots that we may use to check for outliers.
+
+\vspace{0.25cm}
+ 
+ANSWER HERE
+  
+\vspace{0.25cm}
+
+
+The script below creates and prints a quick histogram.
+  
+  \vspace{0.25cm}
+  
+  
+```{r}
+bin <- 50   # Set the number of bins
+bw <- 2   # Set the binwidth
+print(Height_histogram <-
+        ggplot(data = cherry_trees, aes(x=Treeheight)) +
+        geom_histogram(bins = bin, binwidth = bw) +
+        scale_x_continuous(name = "Tree Height (ft)"))
+
+```  
+ 
+ \vspace{0.25cm}
+ 
+The more complicated script below creates and prints the same histogram while overlaying a normal distribution on it. From the code, can you tell what the mean and standard deviation of the overlaid normal distribution are?
+ 
+  
+
+```{r}
+bin = 50  # Set the number of bins
+bw = 2    # Set the binwidth
+
+n_obs <- sum(!is.na(cherry_trees$Treeheight))  # Find the number of observations
+n_obs
+
+Height_histogram <-
+  ggplot(data = cherry_trees, aes(x=Treeheight)) +
+  geom_histogram(aes(y = ..density..), binwidth = bw) +
+  stat_function(fun = dnorm, args = list(mean = mean(cherry_trees$Treeheight),
+                sd = sd(cherry_trees$Treeheight)),color="red") +
+  scale_x_continuous(name = "Tree Height (ft)")
+
+Height_histogram    # Print the modified histogram
+```
+  
+ 
+\vspace{0.25cm}
+  
+### Q3. From the histograms what do you conclude about the normality of the data? About outliers?
+  
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.25cm}
+
+
+##  Explore the data for outliers.
+  
+```{r}
+print( Height_Boxplot <- ggplot(cherry_trees, aes(y=Treeheight)) +
+         geom_boxplot() +
+         ylab("Treeheight (ft)") +
+         theme_bw())
+```
+
+\vspace{0.25cm}
+ 
+We will use a function from Assignment 2 to locate and identify potential outliers.  You are welcome to create your own method for doing this.
+ 
+ \vspace{0.25cm}
+  
+```{r}
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+```
+  
+\vspace{0.25cm}
+
+Locate the outlier knowing some thing about the data set and an analysis of the box plot.  Run the scripts below.Make sure to use help on the components of the following functions that you do not know.
+
+\vspace{0.25cm} 
+  
+```{r}
+Input <- cherry_trees$Treeheight
+
+print(outlier <- is_outlier(Input))
+
+print(outlier <- as.numeric(is_outlier(Input)))
+
+?as.numeric
+```
+
+\vspace{0.25cm}
+ 
+The script below will identify individual data values that are larger or equal to 91 ft or (the "|" = "or") smaller than or equal to 60 feet.  Trees can certainly be very short, so the second test is really needed.But this script was written to show how you might create a search based on two conditions.  Please feel free to alter it to correspond to your interpretation of what appears in the boxplot.
+ 
+\vspace{0.25cm}
+
+```{r}
+
+Indivdual_Num <- which(Input >= 91 | Input <= 60)
+
+# Locate the position in data set of any potential outliers.
+    
+?which()
+
+which(is_outlier(Input))
+```
+
+\vspace{0.25cm}
+
+Locate the outlier(s) in the data set and identify its value(s) based on using the rule of thumb.  This requires putting together some R functions to accomplish this, but it works very well.
+ 
+ \vspace{0.25cm} 
+
+```{r}
+cherry_trees[c(which(is_outlier(Input))),]
+```
+
+  
+ 
+### Q4.  What does this analysis identify as potential outliers in this data set? 
+
+ANSWER HERE
+ 
+ \vspace{0.5cm}
+  
+ 
+### Q5. Please mention what you would do to review these identified data values to see if they are "good" data or represent errors. One thing would be to check how high cherry trees can grow. You may also notice that the results from the boxplot agree with what the histograms displayed.  The boxplot makes it easiest to discover outliers.
+  
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+
+  
+ 
+As we learned in class, a helpful tool for assessing the normality of data is the Q-Q plot. Please refer to the analysis section in Assignment  3 to recall using a Q-Q plot for assessing the normality of data. In that assignment, we generated data from various probability distributions.  Now we are going to use a Q-Q plot to assess the normality of experimental or sampled data.
+ 
+When we study the ANOVA later in the course, we will learn a set of functions to simultaneously produce four diagnostic plots to check for normality, but until then we will use the two core R functions "qqnorm()" and "qqline()" do this. We will compare the quantiles from Tammy's sample data to the quantiles for data generated from a theoretical normal distribution. 
+ 
+Please run the script below and answer the questions asked after it.
+ 
+  \vspace{0.25cm}
+
+```{r}  
+#  Get help.
+  
+
+?qqnorm()
+
+qqnorm(Input, main="Q-Q Plot for Tammy's Cherry Tree Data",
+       xlab="Theoretical Normal Quantitles",
+       ylab="Sample Data Qunatiles")
+qqline(Input,col = "red")
+
+  
+#  Plot the Q-Q plot and the histogram together.
+  
+
+qqnorm(Input, main="Q-Q Plot for Tammy's Cherry Tree Data",
+       xlab="Theoretical Normal Quantitles",
+       ylab="Sample Data Qunatiles")
+qqline(Input,col = "red")
+
+Height_histogram    # Print the modified histogram 
+
+```  
+ 
+\vspace{0.25cm}
+   
+Given the histogram of the data and what you know about Q-Q plots from Assignment 3 and class:
+  
+### Q6.Can we assume that these data fit the normal distribution? Use the histogram plot of your data and the Q-Q plot to back up your answer.
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.25cm}
+ 
+### Q7. Do we need to use the central limit theorem in this case? If you do, what assumptions are you making?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.25cm}
+ 
+### Q8. Why have we gone to all of the effort checking the normality of this data?  If it had turned out that the data was not at least approximately normally distributed, what theorem would you invoke?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\newpage
+  
+
+  
+ 
+#  Part 2
+ 
+### Q1. What are the mean, median, variance, and standard deviation of Tammy's sample? Do not forget the units!
+
+ \vspace{0.25cm}
+
+We can use the following script from Assignments  2 to generate these statistics and much more. Run this script and answer the following question.
+ 
+ \vspace{0.5cm}
+  
+```{r}
+sumData <- cherry_trees %>%
+  summarise(
+    countHT = n(),   # Number of trees
+    meanHT = mean(Treeheight),   # Mean
+    medianHt = median(Treeheight),   # Median
+    varHT = var(Treeheight),   # Variance
+    sdevHT = sd(Treeheight),   # Standard deviation
+    semHT = sd(Treeheight)/sqrt(n()),   # Standard error of the mean (SEM)
+    
+    # Alternative SEM if there are missing values
+    sem_altHT = sd(Treeheight)/sqrt(sum(!is.na(Treeheight))),   
+      
+    iqrHT = IQR(Treeheight),   # Interquartile range
+    quant_25_HT = quantile(Treeheight, 0.25),   # First quartile
+    quant_50_HT = quantile(Treeheight, 0.50),   # The median
+    quant_75_HT = quantile(Treeheight, 0.75),   # Third quartile
+    minHT = min(Treeheight),  # Minimum
+    maxHT = max(Treeheight))   # Maximum
+
+```
+
+Display your summaries here:
+
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+### Q1. Do you notice anything interesting about the mean and the median? Does this make you think something about the potential normality of the data, even without having the value of the mode?
+
+\vspace{0.25cm}
+ 
+ANSWER HERE
+
+ \newpage 
+ 
+##  Part 3
+ 
+ 
+We will now develop confidence intervals for the mean.Please answer the following questions in the space below:
+
+\vspace{0.25cm}
+ 
+### Q1. On what do we determine confidence intervals; sample statistics or population parameters?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+  
+### Q2. In the situation here, what distribution would we use, the normal or Student's t, in creating confidence intervals? Why?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+ 
+### Q3. What are the appropriate degrees of freedom for the critical value?
+
+ANSWER HERE
+ 
+  
+\vspace{5cm}
+  
+ 
+## Create confidence intervals (CIs).  
+ 
+Remember that we have assigned the tree height data to the Object, "Input", as "Input <-cherry_trees$Treeheight".Wecan used this object in defining the CI.  We know that we need the mean, standard deviation and number of data items to calculate the CI. Let's check them by printing them out.
+
+\vspace{0.25cm}
+ 
+  
+```{r}
+mean(Input)
+sd(Input)
+length(Input)
+```
+  
+ 
+ \vspace{0.25cm}
+ 
+### Q1. Calculate the SEM (standard error of the mean) and assign it to the object "SEM". Print the result.
+ 
+ \vspace{0.25cm}
+  
+```{r}
+
+```
+
+\vspace{0.25cm}
+
+### Q2. Assign the variable (object) "Alpha95" to the appropriate alpha value for a 95% CI. Print the result.
+ 
+\vspace{0.25cm}
+
+```{r}
+
+```
+
+ \vspace{0.25cm}
+  
+ 
+### Q3. Assign the appropriate degrees of freedom to "DOF". Hint: make appropriate use the core R function "length()".  Print the result.
+
+ \vspace{0.25cm}
+ 
+```{r}
+
+```
+
+   \vspace{0.25cm}
+ 
+### Q4. Create a 95 % CI for Tammy's data.  R gives us some easy ways to do this. One way is to use "qt()" that we mentioned in Assignment  3.
+
+ \vspace{0.25cm}
+  
+```{r}
+#  Get help on "qt()"
+?qt()
+```
+  
+   \vspace{0.25cm}
+ 
+### Q5. Using the correct alpha and degrees of freedom, calculate and print qt(alpha/2,degrees of freedom) in the space below.
+
+ \vspace{0.25cm}
+
+```{r}
+
+
+```
+ 
+  \vspace{0.25cm}
+ 
+### Q6. Using what you learned from this and the objects we have defined above, please calculate the upper and lower CI for Tammy's data. Assign the lower CI to "LowerCI_95" and the upper CI to "UpperCI_95".  Report your CI interval, i.e., [LowerCI, UpperCI] after your script.
+ 
+   \vspace{0.25cm}
+
+```{r}
+
+```
+
+  
+ \vspace{0.25cm}
+
+
+You might suspect that there is another way of determining such CIs using Student's t-distribution.  Presaging something to come later in the course,we will do just that.  Run the script below and compare the results for the  95 % CI it calculates to what we calculated above.  Yes, that is the R function that does what some of you may have heard of as the "t-test".
+
+ \vspace{0.25cm}
+ 
+  
+```{r}
+t.test(Input, conf.level=0.95)
+```
+
+  \vspace{0.55cm}
+ 
+
+
+### Q7. Please calculate the 80%, 90%, and 99% CIs for Tammy's data.  Do not forget to define the appropriate alpha level for each CI! In each case, print the alpha level and the lower and upper CIs, and check your calculations with the appropriate call to the function "t.test()".  
+  
+  
+ \vspace{0.25cm}
+ 
+```{r}
+ 
+
+
+```
+ 
+### Q8. Please report the 80%, 90%, 95%, and 99% CIs intervals.  You can do this easily once you have run the scripts by copying and pasting the results in the areas provided.
+ 
+  \vspace{0.25cm}
+
+80 % CI  = 
+
+ \vspace{0.25cm}
+
+90% CI =  
+ \vspace{0.25cm}
+
+95% CI  = 
+
+ \vspace{0.25cm}
+
+99% CI  = 
+
+ \vspace{0.75cm}
+
+
+       CONGRATULATIONS!!
+       
+\vspace{0.5cm}
+Look at what you can now do using R.  There are just a few more questions.Please continue with the assignment below.
+
+ \vspace{0.5cm}
+ 
+### Q9. Explain in 1-2 sentences what the 95% confidence interval for the mean represents.
+ 
+   \vspace{0.25cm}
+
+ANSWER HERE
+
+ \newpage
+
+  
+  
+## Part 4
+
+\vspace{0.75cm}
+ 
+ 
+Another researcher, Tom, randomly samples 50 trees in the JNF.From his sample, he calculates a mean tree height of 76.49 ft. with a standard deviation of 5.73 ft. Please answer the following questions.
+
+\vspace{0.55cm}
+ 
+### Q1. Is the mean of Tom's sample contained within any of the confidence intervals for Tammy's sample mean?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+ 
+ 
+\vspace{0.55cm}
+
+### Q2. Do you think that Tammy's sample of tree heights is representative of the population of cherry trees in the entire forest? Do you think Tammy's or Tom's random sample is more representative of the population of wild black cherry trees in Allegheny Mountains of West Virginia? Why?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+ 
+### Q3. Propose a sampling scheme for randomly sampling 100 wild black cherry trees from the JNF.  Note: Many answers are possible.
+
+\vspace{0.25cm}
+ 
+ANSWER HERE
+  
+
+                            
+
+
+
+
+
+
+The End of Assignment #4.
+
