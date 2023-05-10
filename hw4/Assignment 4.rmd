@@ -90,14 +90,19 @@ glimpse(cherry_trees)   # Shows a horizontal view of the data
 tbl_df(cherry_trees)  # Shows a vertical view of the data
 ```
 
+
+ \vspace{0.25cm}
+
+The data frame consists of 1000 entries of tree heights. There are 1000 rows of float data points describing tree height, indexed by integer observation number.
+
+
  \vspace{0.25cm}
  
 ### Q1. What do the 1000 observations in the data frame on cherry_trees consist of?
  
   \vspace{0.25cm}
   
-ANSWER HERE
- 
+The dataframe consists of 1000 observations of tree heights.
  
 \vspace{0.50cm}
   
@@ -106,8 +111,15 @@ ANSWER HERE
 
 \vspace{0.25cm}
  
-ANSWER HERE
+1.) Distribution Form:
+
+  a.)  Histogram
+  b.0  Cumulative Distribution Function
   
+2.) Outliers
+  a.) QQ plot
+  b.) IQR boxplot  
+
 \vspace{0.25cm}
 
 
@@ -129,8 +141,14 @@ print(Height_histogram <-
  \vspace{0.25cm}
  
 The more complicated script below creates and prints the same histogram while overlaying a normal distribution on it. From the code, can you tell what the mean and standard deviation of the overlaid normal distribution are?
- 
-  
+
+```{r}
+summary(cherry_trees$Treeheight)
+```
+```{r}
+mean(cherry_trees$Treeheight)
+```  
+
 
 ```{r}
 bin = 50  # Set the number of bins
@@ -156,7 +174,7 @@ Height_histogram    # Print the modified histogram
   
 \vspace{0.25cm}
 
-ANSWER HERE
+The distribution appears normal with a mean and median around 75.There appear to be just a few outliers on both tails.
 
 \vspace{0.25cm}
 
@@ -230,7 +248,7 @@ cherry_trees[c(which(is_outlier(Input))),]
  
 ### Q4.  What does this analysis identify as potential outliers in this data set? 
 
-ANSWER HERE
+Here we used r scripts to find outliers in the data. We identified outliers by finding data points that fall one standard deviation above or below the third or first quantile, respectively. 
  
  \vspace{0.5cm}
   
@@ -239,7 +257,7 @@ ANSWER HERE
   
 \vspace{0.25cm}
 
-ANSWER HERE
+First I would check to see how high cherry trees grow, and then the age of the trees or think about the growth rate of trees and where the data was collected. Next I would think about how the data was collected and if there are potential errors in the measuring method. 
 
 \vspace{0.55cm}
 
@@ -285,7 +303,7 @@ Given the histogram of the data and what you know about Q-Q plots from Assignmen
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Yes, we can assume this data is normally distributed. The data fits under a theoretical normal distribution, and the outliers on the tails do not deviate from theoretical quantiles.
 
 \vspace{0.25cm}
  
@@ -293,7 +311,7 @@ ANSWER HERE
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Yes. Assumptions made are that the sample size is large enough (n = 1000), sampling is random and samples are i.i.d., and variance is finite (it is, we can calculate it)
 
 \vspace{0.25cm}
  
@@ -301,7 +319,7 @@ ANSWER HERE
 
 \vspace{0.25cm}
 
-ANSWER HERE
+With normal data we can estimate statistics of the population. If this data had not turned out to be normal, we could invoke the Chebyschev inequality to apply confidence intervals to our distributions normality.
 
 \newpage
   
@@ -343,6 +361,7 @@ sumData <- cherry_trees %>%
 Display your summaries here:
 
 ```{r}
+sumData
 
 ```
 
@@ -352,7 +371,7 @@ Display your summaries here:
 
 \vspace{0.25cm}
  
-ANSWER HERE
+They are very close, probably don't even need to know the mode to say about normality.
 
  \newpage 
  
@@ -367,7 +386,7 @@ We will now develop confidence intervals for the mean.Please answer the followin
 
 \vspace{0.25cm}
 
-ANSWER HERE
+population parameters
 
 \vspace{0.55cm}
   
@@ -375,14 +394,14 @@ ANSWER HERE
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Student's t, as it is more flexible with degrees of freedom.
 
 \vspace{0.55cm}
  
 ### Q3. What are the appropriate degrees of freedom for the critical value?
+\vspace{0.55cm}
 
-ANSWER HERE
- 
+n - 1 = 999 
   
 \vspace{5cm}
   
@@ -395,9 +414,10 @@ Remember that we have assigned the tree height data to the Object, "Input", as "
  
   
 ```{r}
-mean(Input)
-sd(Input)
-length(Input)
+Input <- cherry_trees$Treeheight
+mean = mean(Input)
+sd = sd(Input)
+n = length(Input)
 ```
   
  
@@ -408,6 +428,8 @@ length(Input)
  \vspace{0.25cm}
   
 ```{r}
+SEM = sd / sqrt(n)
+
 
 ```
 
@@ -418,7 +440,8 @@ length(Input)
 \vspace{0.25cm}
 
 ```{r}
-
+Alpha95 = 0.05
+print(Alpha95)
 ```
 
  \vspace{0.25cm}
@@ -429,6 +452,8 @@ length(Input)
  \vspace{0.25cm}
  
 ```{r}
+
+DOF = n - 1
 
 ```
 
@@ -450,7 +475,7 @@ length(Input)
  \vspace{0.25cm}
 
 ```{r}
-
+print(qt(Alpha95/2, DOF))
 
 ```
  
@@ -461,6 +486,11 @@ length(Input)
    \vspace{0.25cm}
 
 ```{r}
+library(glue)
+LowerCI_95 = mean + qt(Alpha95/2, DOF)
+UpperCI_95 = mean - qt(Alpha95/2, DOF)
+
+glue('[{LowerCI_95}, {UpperCI_95}]')
 
 ```
 
@@ -487,7 +517,11 @@ t.test(Input, conf.level=0.95)
  \vspace{0.25cm}
  
 ```{r}
- 
+print(t.test(Input, conf.level=0.80))
+print(t.test(Input, conf.level=0.90))
+print(t.test(Input, conf.level=0.95))
+print(t.test(Input, conf.level=0.99))
+
 
 
 ```
@@ -496,18 +530,18 @@ t.test(Input, conf.level=0.95)
  
   \vspace{0.25cm}
 
-80 % CI  = 
+80 % CI  = [75.72742 76.21526]
 
  \vspace{0.25cm}
 
-90% CI =  
+90% CI =  [75.65818 76.28449]
  \vspace{0.25cm}
 
-95% CI  = 
+95% CI  = [75.59809 76.34459]
 
  \vspace{0.25cm}
 
-99% CI  = 
+99% CI  = [75.48046 76.46221]
 
  \vspace{0.75cm}
 
@@ -523,7 +557,7 @@ Look at what you can now do using R.  There are just a few more questions.Please
  
    \vspace{0.25cm}
 
-ANSWER HERE
+Based on our sample data, we can say with 95% confidence that the mean of means falls within our lower and upper bound
 
  \newpage
 
@@ -542,8 +576,7 @@ Another researcher, Tom, randomly samples 50 trees in the JNF.From his sample, h
 
 \vspace{0.25cm}
 
-ANSWER HERE
- 
+No 
  
 \vspace{0.55cm}
 
@@ -551,7 +584,7 @@ ANSWER HERE
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Tammy's is more representative of the forest than Tom's is, since she has sampled more trees. I can't really say much more without actually looking at the data, but it isn't likely that Tom's is very good.
 
 \vspace{0.55cm}
  
@@ -559,7 +592,12 @@ ANSWER HERE
 
 \vspace{0.25cm}
  
-ANSWER HERE
+1.) Define a boundary to stay within. If the boundary is encountered at any time, rotate 45 degrees clockwise and continue forward.
+2.) Start walking until you find a black cherry tree not yet sampled.
+3.) Sample it.
+4.) Turn 45 degrees clockwise and start walking. 
+5.) Stop at the third cherry tree you encounter, not including any tree already sampled.
+6.) Repeat 2 - 6 until 100 trees are sampled.
   
 
                             
