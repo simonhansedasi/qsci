@@ -1,0 +1,715 @@
+---
+title: "Assignment 5 KEY"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ 
+### Assignment 5 Analysis Key
+
+
+NOTE: Throughout this and subsequent analysis sections of 
+the assignments, the spaces for your answers will look
+ like the space below.
+
+
+ Please read Chapters 5.1 and 5.3 in BC&P
+ while doing the "t_tests Tutorial Key.r"
+ as you read the chapters.  Then do this
+ assignment.
+ 
+
+
+
+
+ In this assignment we are going to test a hypothesis
+ using the two sample t-test.  In Assignment 4
+ we calculated CIs and if you read the help 
+ information about the "t.test()" and the output
+ from using that function, you will realize that
+ you have already used the two-tailed, one sample
+ t-test for means. You may wish to go back and
+ quickly review this.
+
+ You have gradually been building your skills in statistics
+ and R, so now is the time for you to start applying
+ those skills.
+
+ You will get to create more of the code in this
+ assignment than in the previous ones by drawing 
+ from code we have written in those assignments.
+ We will be here to help in the class tutorial sessions 
+ if you need it, but first please try to do it on your own.
+ As BC&P mention, there are many sources of R code (including
+ from Google searches) and it is not uncommon to use R scripts
+ that someone else has already created.
+
+ You can do this!
+
+
+
+
+ 
+ Introduction -- the Experiment:
+
+ A study was conducted to answer the following question:
+ does age affect one's ability to balance while concentrating?
+ Nine elderly (6 men and 3 women; aged 75 - 85) and eight young men 
+ (aged 20 - 30) were subjects in this experiment.  The researchers
+ are interested in answering the question: 
+ Does age affect one's ability to balance while concentrating?
+ 
+ Each subject stood barefoot on a "force platform" and was asked
+ to maintain a stable upright position and to react as quickly as
+ possible to an unpredictable noise by pressing a hand held button. 
+ The noise came randomly and the subject concentrated on
+ reacting as quickly as possible. The platform automatically measured
+ how much each subject swayed in square millimeters.
+
+ 
+ We are going to assume that the samples are from normally distributed
+ populations with equal variances.
+
+
+
+
+
+## The Data
+
+ The data is found in the dataset "balance.csv". It has three columns. 
+
+ The first column identifies the individual subject by a number, 
+ the second contains the combined measurement of the 
+ movement of the subjects in square millimeters, and the third
+ identifies the age category to which the subject belongs.
+
+
+
+
+
+
+ In the space below start your script by loading the dataset.  Assign 
+ it to an object named "balance".  We will need the following libraries, so
+ load them as well: "ggplot2", "dplyr", and "readr".
+ 
+ Don't forget to clear the memory just increase some unwanted
+ data remains in the processor's memory.
+
+
+
+```{r}
+# Clear the memory.
+
+
+
+# Load libraries.
+
+
+
+
+
+
+# Load the data set "balance.csv" and assign it to 
+# an object named "balance".
+
+
+
+
+
+```
+
+
+
+ Now that we have the data in R, let's take a quick look at it. We will
+ want to find out such things as: 
+
+
+ [1] What does the dataset look like? 
+ [2] what type of data is it?
+ [3] What are the column names in the dataset?
+ [4] How many rows and columns are in the dataset?
+enumerate
+
+ Feel free to look at anything else you would like to know
+ about the dataset.
+ 
+ Please enter your code in the space below.
+
+
+
+```{r}
+
+```
+
+
+
+### Part 1. 
+
+ As always , the first step in the analysis will be to explore the data
+ looking for the structure of the dataset (what is in it), outliers, and 
+ if it appears to meet the assumptions of the hypothesis test we will apply
+ in analyzing it.  Plotting the data is critical in the exploration as
+ are summary statistics.
+ 
+
+
+
+
+ Start by calculating summary statistics for each age group. These
+ statistics are things like the means, medians, CV's, SME's, min,
+ max, IQR, etc.
+
+ In addition to the t-test tutorial, "t_test TutorialKey.r",
+ you might try looking back at Assignment 2, where we analyzed 
+ data for the length of pike, for some code that 
+ will produce this and more. Try doing this in one large script
+ using the "dplyr" functions "group_by()" and "summarise()".
+ Assign the results to an object in case you want to use it later.
+ You may name the object whatever you wish, but you may try "sumData"
+ as was done in another assignment.
+ 
+ Take your time and carefully study the previous code. Take care
+ to use the correct column names and object names in your code.
+
+ Place your code in the space below.  Make sure to create code that
+ will print your summary statistics.
+
+
+```{r}
+
+
+```
+
+
+
+
+
+ Now let's create plots to visually explore the data. We have practiced
+ creating several different plots. In exploring the data, we will look 
+ for general trends in the data that may give us a clue about [1] whether
+ our hypothesis is correct, [2] whether the data has outliers, and [3] if 
+ the data satisfies the assumptions of the statistical analysis we propose
+ using.  
+
+ We know that the researchers want to analyze their experimental data,
+ using the two-sample t-test, to answer the question:
+ Does age affect one's ability to balance while concentrating?
+
+
+
+
+
+## Question 1: What are the assumptions of the two sample t-test? Please list them all in the space below.
+
+ANSWER HERE
+
+
+
+## Question 2: What is the population? 
+
+ANSWER HERE
+
+
+## Question 3: In complete sentences, state the null and alternative hypotheses in terms of the population parameters tested.  Please state them in the space below.  If we assume that muE and muY are the mean movement for the Elderly and Young populations, respectively, state the hypotheses mathematically.
+
+ANSWER HERE
+
+
+## Question 4: Is this a two-tail or one-tail test.  If the later, which tail are we testing?
+
+ANSWER HERE
+
+
+## Question 5: What are the appropriate degrees of freedom for the test? Be sure to show how to calculate the degrees of freedom.
+
+
+ANSWER HERE
+
+
+
+
+ To explore the data, we are going to use three plots to explore the data,
+ a histogram, a boxplot, and a Q-Q plot.  
+ 
+
+
+
+
+ In the space below write an R script to create a histogram for each
+ age group.  You might try using "bins=10" and "binwidth=2" in the
+ function "geom_histogram()".  Feel free to alter these parameters to
+ see if you get anything better than this.  Please provide a label for
+ the x-axis of the histograms.  Display one histogram above the other.
+
+```{r}
+
+```
+
+
+
+## Question 6: From an examination of the histogram, Which group, if any,  appears to have better balance?  Why do you conclude that? Is this conclusion supported by the summary statistics you calculated?  Be sure to mention the summary statistics in your answer.
+
+ANSWER HERE
+
+
+ Below is a script that creates a boxplot for each age group and uses 
+ the user defined function that we have employed before to check the data 
+ for outliers.  Please run it.
+ 
+
+
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.73) + 1.5 * IQR(x))
+}
+balance %>%
+  group_by(group) %>%
+  mutate(outlier = ifelse(is_outlier(movement), movement, as.numeric(NA))) %>%
+  ggplot(., aes(x = factor(group), y = movement)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Age Group") +
+  ylab("Movement (square mm)") +
+  theme_bw()
+
+```{r}
+
+
+```
+
+
+ Now let's print all of the rows of the modified (mutated) 
+ version of "balance" clearly identifying the outliers 
+ detected based on using the rule of thumb. Notice the
+ addition of the column named "outlier" now present in the 
+ data set.  Please compare the values shown with the values 
+ printed on the boxplot.  They are the same.
+
+\textbf{Please note you MUST delete the slashes in the code below to get it to run properly.}
+
+balance\$outlier <- ifelse(is\_outlier(balance\$movement), balance\$movement, as.numeric(NA))
+print(balance, n=nrow(balance))
+
+
+
+```{r}
+
+```
+
+
+ 
+## Question 7: Which individual in which group represents a potential outlier and what is its value?  
+
+
+ANSWER HERE
+
+
+
+
+ We will assume that this value, while different from the others in the 
+ group, is valid.
+
+
+
+
+
+## Question 8; In addition to pointing out a potential outlier, what, if any, affirmations do the the boxplots offer our conclusion about which group has better balance while concentrating ?
+
+ANSWER HERE
+
+
+
+ Two of the assumptions of the t-test are that:
+ 
+ [1] the variances are equal and
+ [2] that the underlying population is normally distributed.
+
+ Let's check the data to see if these assumptions are met.
+ 
+
+
+
+
+ Test for equality of variances.
+ 
+ In the space below write an R script that will
+ check for the equality of variances in the balance data.
+
+ Review the t-test tutorial for help with this.  Be sure to 
+ pay attention to the name of the dataset versus the names of the 
+ columns when you use the R function that will do this test.
+ 
+ You might start by getting help on "var.test()".
+
+
+
+```{r}
+
+
+# Get help on "var.test()".
+ 
+
+
+
+
+# Perform the equality of variance test.
+
+
+
+
+```
+
+
+
+## Question 9:  Considering the results of the test for the equality of variances, is there any strong evidence for rejecting the assumption that the variances are equal?
+
+ANSWER HERE
+
+
+
+
+
+
+
+ Check the normality assumption by
+ generating a Q-Q Plot.
+
+ Do separate Q-Q Plots for the Elderly and 
+ Young groups.
+
+ We will plot these side-by-side
+ using the R base "par()" function.
+ This will give us a plotting window 
+ that consists of one row and two 
+ columns.
+
+ We will start by viewing the dataset so that we 
+ keep the names of the dataset and columns straight.
+
+
+```{r}
+# Create various Q-Q plots of the data.
+
+
+
+```
+
+ Do Q-Q Plot for all of the
+ data regardless of the age group.
+
+```{r}
+
+```
+
+
+## Question 10: Reviewing the Q-Q plots and omitting the one large value in the Elderly group does the data appear to be approximately normally distributed?  Do the boxplots and the summary statistics support this? Are the assumptions of the t-test at least approximately met? Why? 
+
+ANSWER HERE
+
+  
+
+
+### Part 2
+
+ Apply the two sample t-test. 
+
+
+
+
+
+ First, read the help file on 
+ a two sample t-test.
+
+
+```{r}  
+# ?t.test()
+```
+  
+
+
+## Question 11 The researchers performed a power analysis and determined that their alpha level was $0.01$. What does alpha represent? In the space below, please write your answer.
+
+ANSWER HERE
+
+ 
+
+ 
+ Assign the alpha level to an object called "Alpha_value"
+ and the degrees of freedom you determined in 
+Question 5 to an object named "Degrees_of_freedom".
+ 
+ Please do this in the space below.
+ 
+
+```{r}
+
+```
+
+
+
+ An aside (be sure to run the code (script)) :
+
+ Alternatively, we can calculate the degrees of freedom directly 
+ from the data as follows (DOF = Degrees of freedom):
+
+
+Num_Estimated_Parameters <- 2
+
+Num_Elderly <- length(which(balance$group == 'Elderly'))
+
+Num_Young<- length(which(balance$group == 'Young'))
+
+DOF <- Num_Elderly + Num_Young - Num_Estimated_Parameters
+
+Num_Elderly
+Num_Young
+DOF
+
+```{r}
+
+```
+
+
+
+
+
+ 
+ This is a two tailed test,so we put 
+ alpha/2 in each tail.
+ 
+ The resulting positive critical 
+ value is found as (getting the
+ positive critical value is the
+ reason for the 1-(alpha/2) rather
+ than using alpha/2).
+
+
+```{r}  
+# print(Critical_Value <- qt(1-(Alpha_value/2),Degrees_of_freedom))
+```
+  
+
+
+ Perform a two sample t-test without and with
+ Welch's correction. Recall that Welch's correction
+ does not assume the equality of variances.  We will
+ do the t-test with and without Welch's correction
+
+ We will assign the result of the analyses to objects
+ in case we wish to use them later, then we will print
+ the results.
+ 
+
+```{r}
+
+```
+
+
+
+ Note in the two outputs for the t-test, the one without
+ the Welch correct is called the Two Sample t-test while
+ the  one with the Welch corrected is referred to as
+ Welch Two sample t-test.  You will not discuss why the 
+ degrees of freedom for the Welch test is different from
+ the 15 we determined above.
+
+## Question 12: For the test with and without Welch's correction: [a] What is the critical value? [b] What is the value of the test statistic, the associated p-value (include the df output), and the 95% confidence interval?   
+
+
+ANSWER HERE
+
+## Question 13: [a] What is the decision rule for the test? [b] Within the context of the problem, conclude whether we reject or fail to reject the null hypothesis (state your decision with regard to the hypotheses tested).
+
+ANSWER HERE
+
+
+  
+  
+
+
+
+### Part 3.
+
+ Is is always smart to check and double check your work. This was done
+ in the experiment we are analyzing.
+
+ One of the grad students on this project found a mistake in the power 
+ analysis and realized that the initial alpha estimate was too low for
+ the sample size. After redoing the power analysis, she finds that the 
+ alpha is 0.1.  This analysis is beyond the scope of our course, but it
+ will be extensively covered in Q SCI 482 and 483 as well as other UW
+ courses (see Jerrold H. Zar. 2010 (5th edition). Biostatistical Analysis.
+ Pearson.).  
+
+ Even without studying power analysis, you should be able to answer 
+ the following questions:
+
+## Question 14: [a] In this analysis which error was the graduate student concerned about minimizing in her power analysis?  In a complete sentence, please define that error. [b] Imagine yourself to be this graduate student. What has this discovery done to committing a Type I error? Without doing the analysis, what do you think may now happen to the rejection region for the hypothesis test?  Given this, what would you think may now be the conclusion (reject or fail to reject) regarding the hypotheses test?  Will the critical value and/or the test statistic change?  Should the value that does change increase or decrease using this new alpha value?
+  
+ 
+
+ANSWER HERE
+
+
+
+
+ Let's see if her thoughts are verified.  Rerun the two t-tests
+ using the code we have created above.  Don't forget what is 
+ now true about the alpha level.  Does the critical value change?
+ Does the value of the test statistic change?  Please use the
+ space below to enter your code for the t-tests.
+
+
+
+```{r}
+
+
+```
+
+
+
+ In the space below please cut and paste the the same information
+ you displayed in answering Question 11.  Then, in the context of the 
+ problem, state your decision regarding the hypotheses tested.
+
+
+
+1.75305
+
+	Two Sample t-test
+
+data:  movement by group
+t = 2.7988, df = 15, p-value = 0.01349
+alternative hypothesis: true difference in means between group Elderly and group Young is not equal to 0
+90 percent confidence interval:
+  4.187843 18.228823
+sample estimates:
+mean in group Elderly   mean in group Young 
+             26.33333              15.12500 
+
+
+	Welch Two Sample t-test
+
+data:  movement by group
+t = 2.8784, df = 13.497, p-value = 0.01253
+alternative hypothesis: true difference in means between group Elderly and group Young is not equal to 0
+90 percent confidence interval:
+  4.331855 18.084812
+sample estimates:
+mean in group Elderly   mean in group Young 
+             26.33333              15.12500 
+
+
+
+ Some final questions.
+
+## Question 14 (these are asked to give you an opportunity to reflect, so please feel free to give your option(s)): [a] Do you feel more or less confident about the researchers' new conclusions? [b] Given what went on in this experiment, what observation(s) would you make about the importance of selecting the alpha level prior to doing the study (in fact some statisticians would say prior to every collecting the first data point)? Please offer your comments in the space below.
+
+ANSWER HERE
+
+
+
+Congratulations, you did it! This is the end of assignment 5.
+
+
+
+
+
+
+
+
+### An Important Final Note
+ 
+ It is always encumbent upon you to checkif all of the assumptions of the procedures you are using are met by the data. If they are not, then you need to explain why what you are doing is valid!
+ 
+
+
+ Interpretation of output from BC&P.
+
+
+ First, let's look at the arguments we give 
+ to the t.test() function: we provide
+ a 'formula' and a data argument. The data 
+ argument specifies the data frame in which 
+ the variables reside. We know that. 
+ The formula is a representation of our 
+ hypothesis: does movement while balancing during
+ concentration depend on age? 
+ That is how the "~" (called "tilde") makes us read 
+ the formula.
+
+ Let us spend a bit of time reviewing the 
+ output as a way to reinforce
+ aspects of our workflow.  We will call 
+ this the anatomy of the R output:
+
+ [1] The first line of the output tells us 
+     the statistical test performed: a Welch
+     two-sample t-test. This is what we expected,
+     apart from the word 'Welch':
+     this is a clear indication that R is doing 
+     something slightly unexpected, and we should
+     not ignore such an alarm bell. We'll cover this later,
+     however.
+
+ [2] Next we see that the data that have been used are 
+     declared-this is a good way to confirm that
+     you've analyzed the data you wanted to analyze.
+
+ [3] The next line provides the traditional t-test 
+     test statistic, degrees of freedom, and p-value.
+     We assume you know what these mean. 
+
+ [4] However, let us use the next few lines of output
+     to make a few clear points about the two sample
+     t-test. The output declares the alternative 
+     hypothesis to us: that
+     the true difference in means is not equal to 0. 
+     This should help you understand more of what 
+     you've been doing. 
+     If the difference between the two means
+     is 0 then they are the same, and we have no 
+     grounds for rejecting the null hypothesis.
+
+ [5] Next in the output is a 95% confidence interval. 
+     This interval is around the difference between the
+     two means. Keep in mind that the difference
+     would be 0 if the means were the same. 
+     The fact that this interval does not include 0 
+     provides an answer to our initial question.
+     We can conclude that they are probably different. 
+     This falls in line with the value of the test 
+     statistic, the critical value for our chosen alpha
+     level, and associated p-value.
+
+ [6] Finally, the output provides the means in each
+     group.
+
+ Back to the word 'Welch'. A quick look in the help files
+ (?t.test) or on Wikipedia reveals that this method 
+ is named for the statistician who created it. It allows
+ the assumption of equal variances to be relaxed.
+ While you may have made the effort to assess
+ the assumption of equal variances above, and found
+ the variances relatively similar, you now know that there
+ are options for when this assumption is not met!
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,547 @@
+---
+title: "T Tests Tutorial"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ 
+## Section 5.3 Two sample t-test (Student's t-test)
+
+ 
+
+
+
+
+ Create the script.
+
+
+```{r}
+# Clear the memory.
+
+
+
+
+
+# Load libraries ggplot2, dpylr, readr
+
+
+```
+
+
+ Load the data set "ozone.csv" and assign it to 
+ an object named "ozone".
+
+ First, some information about the experiment.
+ 
+ We will analyze ozone levels in 
+ gardens distributed around a city. The gardens
+ were either to the west of the city 
+ center or to the east. The data are ozone 
+ concentrations in parts per hundred million
+ (pphm). Ozone in excess of 8 pphm can damage
+ lettuce plants-they bolt and get filled with 
+ latex and are yucky to eat.
+ We are interested in whether there is a 
+ difference in the average ozone concentration
+ between gardens in the east and the west.
+
+
+```{r}
+ozone <- read.csv('ozone.csv')
+
+```
+
+
+ Check the data set using "View()".  
+ NOTE: The "V" is capitalized. This
+ is the raw data.  We will go on to
+ summarize the data.
+
+ Display the names used in the data set
+ using "names()".
+
+
+```{r}
+# View(ozone)
+
+
+
+
+ # Look at a horizontal view of the data
+ # using "glimpse()".
+
+
+
+```
+
+
+ Plot the data for exploration
+ of the central tendency of the
+ data from the two gardens using
+ a histogram.
+
+ We thus accomplish the process of visualizing
+ our hypothesis and evaluating some
+ assumptions of a two-sample t-test, all in one script.
+
+
+```{r}
+
+```
+
+
+
+
+### A digression into outlier detection and box plots of data.
+
+
+
+
+
+ Plot the data for further
+ exploration for outliers,
+ errors, etc. using a box plot.
+
+
+```{r}
+
+
+```
+
+
+ Perform an analysis/checking, then plot the data.
+
+ Create code to detect outliers and label them
+ on the box plot using a created function, 
+ "is_outlier(x)".
+
+ Start with  the data set "ozone", 
+ group_by the Ozone variable, then add a 
+ variable "outlier" in a call to "mutate()".
+ If a value of Ozone is calculated to be an
+ outlier, then that value is passed, otherwise
+ an NA is returned so that the value is 
+ not plotted.
+
+ The results are plotted.  The text values
+ are plotted via geom_text and an aesthetic
+ label equal to our new variable, outlier.
+ The text for the outlier is offset a small
+ amount to the right using hjust = -0.3, so
+ that the values are next to rather than on 
+ top of the outlier points themselves.
+
+
+```{r}
+
+```
+
+
+
+ 
+ To explore this outlier detection function, we
+ will look at a built-in R data set, "mtcars", 
+ that is known to have outliers.
+
+
+
+
+Load needed libraries (dplyr and ggplot2)
+
+
+```{r}
+
+
+# Get list of built-in R data sets.
+
+
+
+# Get the "mtcars" built-in data set.
+
+
+
+
+
+# View the data.
+
+
+
+```
+
+ Apply the outlier detection function to
+ the "mtcars" data set and plot the data 
+ as a box plot.
+
+
+```{r}
+
+```
+
+
+ Notice that in this data set the function detected what
+ the rule of thumb detects to be outliers and the code above
+ labels them for us in the boxplot.
+
+ Now let's print all of the rows of the modified (mutated) 
+ version of "mtcars" clearly identifying the outliers 
+ detected based on using the rule of thumb. Notice the
+ addition of the column named "outlier" now present in the 
+ data set.  Please compare the values shown with the values 
+ printed on the boxplot.  They are the same.
+ 
+
+ That is pretty useful in helping us decide what to do with
+ the values identified with our user defined outlier detection
+ function, "is_outlier()"!  
+ 
+ Notice also that we have been able to use that function
+ somewhere else in our code without having to
+ recreate it again.  That is the value of functions; they
+ are always available again in our current code (script).
+
+
+```{r}
+
+```
+
+
+
+ End of digression on outliers in and
+ box plot creation for exploring data.
+
+
+
+
+
+
+
+### Resume working through Section 5.3: Two sample t-test (Student's t-test)
+
+ Reenter the previous work (from before the digression on outliers). Create the new script.
+
+
+```{r}
+# Clear the memory.
+
+
+
+
+# Load libraries.
+
+
+```
+
+
+ Load the data set "ozone.csv" and assign it to 
+ an object named "ozone".
+
+ First, some information about the experiment.
+ 
+ We will analyse ozone levels in 
+ gardens distributed around a city. The gardens
+ were either to the west of the city 
+ centre or to the east. The data are ozone 
+ concentrations in parts per hundred million
+ (pphm). Ozone in excess of 8 pphm can damage
+ lettuce plants-they bolt and get filled with 
+ latex and are yucky to eat.
+ We are interested in whether there is a 
+ difference in the average ozone concentration
+ between gardens in the east and the west.
+
+
+```{r}
+ozone <- read.csv('ozone.csv')
+```
+
+
+ Check the data set using "View()".  
+ NOTE: The "V" is capitalized. This
+ is the raw data.  We will go on to
+ summarize the data.
+
+ Display the names used in the data set
+ using "names()".
+
+
+```{r}
+
+
+
+# Look at a horizontal view of the data using "glimpse()".
+
+
+
+```
+
+
+ Plot the data for exploration
+ of the central tendency of the
+ data from the two gardens using
+ a histogram.
+
+ We thus accomplish the process of visualizing
+ our hypothesis and evaluating some
+ assumptions of a two-sample t-test, all in one script.
+
+
+```{r}
+
+```
+
+
+
+ Calculate means, standard deviations,
+ standard error of the means, and the coefficient
+ of variation of the ozone levels in each 
+ location. 
+
+
+```{r}
+
+
+
+# Display the results for the ozone levels.
+
+
+```
+
+ Perform the two-sample t-test.
+ Assume alpha = 0.05.
+
+
+
+
+ Test for equality of variances
+ even though the procedure we 
+ will use, Welch's method, relaxes
+ the assumption of equality of variances, 
+ we will still test for the validity of
+ that assumption.
+
+ The test for equality of variances
+ is an F test.
+
+
+
+
+ Get help on "var.test()".
+ 
+
+```{r}
+# Recall what is in the Ozone dataset
+
+```
+
+ Perform the equality of variance test.
+
+```{r}
+
+```
+
+ Check the normality assumption by
+ generating a Q-Q Plot.
+
+```{r}
+
+
+```
+
+
+ Do Q-Q Plots for East and West
+ garden locations separately.
+
+ We will plot these side-by-side
+ using the R base "par()" function.
+ This will give us a plotting window 
+ that consists of one row and two 
+ columns.
+
+
+```{r}
+
+```
+
+ Do Q-Q Plot for all of the
+ data regardless of garden location.
+
+```{r}
+
+```
+
+ Do Q-Q Plot using "ggplot" and
+ its functions.
+
+```{r}
+
+```
+
+
+ We are going to perform a
+ two sample t-test where
+ the null hypothesis is
+ that the means are equal and
+ the alternative is that they
+ are not equal.
+ 
+ First, read the help file on 
+ a two sample t-test.
+
+
+```{r}
+# ?t.test()
+```
+
+
+ Select the alpha value and
+ calculate the degrees of
+ freedom.
+ This is a two tailed test,
+ so we put alpha/2 in each tail.
+
+
+```{r}
+
+```
+
+ Display this in another way.
+
+```{r}
+
+```
+
+ 
+ This is a two tailed test,
+ so we put alpha/2 in each tail.
+ 
+ The resulting positive critical 
+ value is found as (getting the
+ positive critical value is the
+ reason for the 1-(alpha/2) rather
+ than using alpha/2).
+
+
+```{r}
+
+```
+
+ Display the critical value
+ in another way.
+
+```{r}
+
+```
+
+
+ Perform a two sample t-test with
+ Welch's correction. Notice
+ that the results print automatically
+ when the script executes.
+
+
+```{r}
+
+```
+
+
+ Perform a two sample t-test with
+ Welch's correction. Save the result
+ for potential use, then we have to ask for
+ the results to be printed.
+
+
+```{r}
+
+```
+
+
+ Interpretation of output from BC&P.
+
+
+ First, let's look at the arguments we give 
+ to the t.test() function: we provide
+ a 'formula' and a data argument. The data 
+ argument specifies the data frame in which 
+ the variables reside. We know that. 
+ The formula is a representation of our 
+ hypothesis: do ozone levels (Ozone) vary as  
+ a function of location (Garden.location)?
+ That is how the ~ makes us read the formula.
+
+
+ Let us spend a bit of time reviewing the 
+ output as a way to reinforce
+ aspects of our workflow.  We will call 
+ this the anatomy of the R output:
+
+ [1] The first line of the output tells us 
+     the statistical test performed: a Welch
+     two-sample t-test. This is what we expected,
+     apart from the word 'Welch':
+     this is a clear indication that R is doing 
+     something slightly unexpected, and we should
+     not ignore such an alarm bell. We'll cover this later,
+     however.
+
+ [2] Next we see that the data that have been used are 
+     declared-this is a good way to confirm that
+     you've analyzed the data you wanted to analyze.
+
+ [3] The next line provides the traditional t-test 
+     test statistic, degrees of freedom, and p-value.
+     We assume you know what these mean. 
+
+ [4] However, let us use the next few lines of output
+     to make a few clear points about the two sample
+     t-test. The output declares the alternative 
+     hypothesis to us: that
+     the true difference in means is not equal to 0. 
+     This should help you understand more of what 
+     you've been doing. 
+     If the difference between the two means
+     is 0 then they are the same, and we have no 
+     grounds for rejecting the null hypothesis.
+
+ [5] Next in the output is a 95% confidence interval. 
+     This interval is around the difference between the
+     two means. Keep in mind that the difference
+     would be 0 if the means were the same. 
+     The fact that this interval does not include 0 
+     provides an answer to our initial question.
+     We can conclude that they are probably different. 
+     This falls in line with the value of the test 
+     statistic, the critical value for our chosen alpha
+     level, and associated p-value.
+
+ [6] Finally, the output provides the means in each
+     group.
+
+ Back to the word 'Welch'. A quick look in the help files
+ (?t.test) or on Wikipedia reveals that this method 
+ is named for the statistician who created it. It allows
+ the assumption of equal variances to be relaxed.
+ While you may have made the effort to assess
+ the assumption of equal variances above, and found
+ the variances relatively similar, you now know that there
+ are options for when this assumption is not met!
+
+## An IMPORTANT NOTE
+ 
+ IT IS ALWAYS ENCUMBENT UPON YOU TO CHECK IF ALL OF THE
+ ASSUMPTIONS OF THE PROCEDURES YOU ARE USING ARE
+ MET BY THE DATA.  IF THEY ARE NOT, THEN YOU NEED
+ TO EXPLAIN WHY WHAT YOU ARE DOING IS VALID!
+ 
+
+
+
+
+ End of the t_Tests Tutorial!!
+
+
+
