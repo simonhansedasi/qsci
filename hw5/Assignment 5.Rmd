@@ -107,8 +107,9 @@ the assignments, the spaces for your answers will look
 # Clear the memory.
 rm(list = ls())
 
-
-
+# install.packages('ggplot2')
+# install.packages('dplyr')
+# install.packages('readr')
 # Load libraries.
 library(ggplot2)
 library(dplyr)
@@ -570,8 +571,8 @@ print(Critical_Value <- qt(1-(Alpha_value/2),Degrees_of_freedom))
  
 
 ```{r}
-welch_on <- t.test(old$movement, young$movement, var.equal = TRUE)
-welch_off <- t.test(old$movement, young$movement, var.equal = FALSE)
+welch_on <- t.test(old$movement, young$movement, var.equal = TRUE, conf.level = 1-Alpha_value)
+welch_off <- t.test(old$movement, young$movement, var.equal = FALSE, conf.level = 1-Alpha_value)
 
 welch_on
 welch_off
@@ -626,9 +627,9 @@ b. We reject the null hypothesis as the p-value is less than the chosen alpha va
 
 ## Question 14: [a] In this analysis which error was the graduate student concerned about minimizing in her power analysis?  In a complete sentence, please define that error. [b] Imagine yourself to be this graduate student. What has this discovery done to committing a Type I error? Without doing the analysis, what do you think may now happen to the rejection region for the hypothesis test?  Given this, what would you think may now be the conclusion (reject or fail to reject) regarding the hypotheses test?  Will the critical value and/or the test statistic change?  Should the value that does change increase or decrease using this new alpha value?
   
-a.  By decreasing confidence the graduate student reduced the possibility of encountering a type 1 error of rejecting the null hypothesis when it is actually true.
+a.  By decreasing confidence level, the graduate student widens the confidence intervals which increases the chance the means are actually the same. This would be reducing the error of mistakenly rejecting the null hypothesis, which is a type 1 error.
 
-b.  
+b.  This discovery opened the door to a false positive, or rejecting the null hypothesis that there is no difference in balance. Decreasing the confidence level will lower the rejection region for the hypothesis test. The critical value will change, and will decrease as it is proportional to alpha. The test statistic will not change.
 
 
 
@@ -643,6 +644,15 @@ b.
 
 ```{r}
 
+Alpha_value = 0.1
+Degrees_of_freedom = 15
+print(Critical_Value <- qt(1-(Alpha_value/2),Degrees_of_freedom))
+
+welch_on <- t.test(old$movement, young$movement, var.equal = TRUE, conf.level = 1-Alpha_value)
+welch_off <- t.test(old$movement, young$movement, var.equal = FALSE, conf.level = 1-Alpha_value)
+
+welch_on
+welch_off
 
 ```
 
@@ -652,6 +662,7 @@ b.
  you displayed in answering Question 11.  Then, in the context of the 
  problem, state your decision regarding the hypotheses tested.
 
+Alpha represents the level of confidence, or width of confidence interval, desired in the study. So, by decreasing our confidence leve, we can decrease our confidence intervals. Now the confidence intervals of the difference of means do not include zero, so we can still reject the null hypothesis with confidence.
 
 
 1.75305
@@ -685,8 +696,9 @@ mean in group Elderly   mean in group Young
 
 ## Question 14 (these are asked to give you an opportunity to reflect, so please feel free to give your option(s)): [a] Do you feel more or less confident about the researchers' new conclusions? [b] Given what went on in this experiment, what observation(s) would you make about the importance of selecting the alpha level prior to doing the study (in fact some statisticians would say prior to every collecting the first data point)? Please offer your comments in the space below.
 
-ANSWER HERE
+a. More confident. With higher confidence level and wider intervals, the difference of means could have potentially included 0. Decreasing the confidence level and intervals excludes 0 from the potential outcomes, and provides more evidence to reject the null.
 
+b.  We should think about our sample size compared to the population size, and what variations could affect our study. Do we sample only healthy people, or people with a range of conditions? Do background events in childhood have an effect? Are these people selected from a single region that could have lead in the water and lead to bad balance? Should we sample from a range of athleticism in people? How confident are we that what we are testing is even able to be sampled?
 
 
 Congratulations, you did it! This is the end of assignment 5.

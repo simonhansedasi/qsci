@@ -411,8 +411,9 @@ remains in the processor’s memory.</p>
 <pre class="r"><code># Clear the memory.
 rm(list = ls())
 
-
-
+# install.packages(&#39;ggplot2&#39;)
+# install.packages(&#39;dplyr&#39;)
+# install.packages(&#39;readr&#39;)
 # Load libraries.
 library(ggplot2)
 library(dplyr)</code></pre>
@@ -752,8 +753,8 @@ Recall that Welch’s correction does not assume the equality of
 variances. We will do the t-test with and without Welch’s correction</p>
 <p>We will assign the result of the analyses to objects in case we wish
 to use them later, then we will print the results.</p>
-<pre class="r"><code>welch_on &lt;- t.test(old$movement, young$movement, var.equal = TRUE)
-welch_off &lt;- t.test(old$movement, young$movement, var.equal = FALSE)
+<pre class="r"><code>welch_on &lt;- t.test(old$movement, young$movement, var.equal = TRUE, conf.level = 1-Alpha_value)
+welch_off &lt;- t.test(old$movement, young$movement, var.equal = FALSE, conf.level = 1-Alpha_value)
 
 welch_on</code></pre>
 <pre><code>## 
@@ -762,8 +763,8 @@ welch_on</code></pre>
 ## data:  old$movement and young$movement
 ## t = 2.7988, df = 15, p-value = 0.01349
 ## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##   2.672457 19.744209
+## 99 percent confidence interval:
+##  -0.5924506 23.0091172
 ## sample estimates:
 ## mean of x mean of y 
 ##  26.33333  15.12500</code></pre>
@@ -774,8 +775,8 @@ welch_on</code></pre>
 ## data:  old$movement and young$movement
 ## t = 2.8784, df = 13.497, p-value = 0.01253
 ## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##   2.827442 19.589225
+## 99 percent confidence interval:
+##  -0.4497174 22.8663841
 ## sample estimates:
 ## mean of x mean of y 
 ##  26.33333  15.12500</code></pre>
@@ -840,19 +841,60 @@ hypotheses test? Will the critical value and/or the test statistic
 change? Should the value that does change increase or decrease using
 this new alpha value?</h2>
 <ol style="list-style-type: lower-alpha">
-<li><p>By decreasing confidence the graduate student reduced the
-possibility of encountering a type 1 error of rejecting the null
-hypothesis when it is actually true.</p></li>
-<li></li>
+<li><p>By decreasing confidence level, the graduate student widens the
+confidence intervals which increases the chance the means are actually
+the same. This would be reducing the error of mistakenly rejecting the
+null hypothesis, which is a type 1 error.</p></li>
+<li><p>This discovery opened the door to a false positive, or rejecting
+the null hypothesis that there is no difference in balance. Decreasing
+the confidence level will lower the rejection region for the hypothesis
+test. The critical value will change, and will decrease as it is
+proportional to alpha. The test statistic will not change.</p></li>
 </ol>
 <p>Let’s see if her thoughts are verified. Rerun the two t-tests using
 the code we have created above. Don’t forget what is now true about the
 alpha level. Does the critical value change? Does the value of the test
 statistic change? Please use the space below to enter your code for the
 t-tests.</p>
+<pre class="r"><code>Alpha_value = 0.1
+Degrees_of_freedom = 15
+print(Critical_Value &lt;- qt(1-(Alpha_value/2),Degrees_of_freedom))</code></pre>
+<pre><code>## [1] 1.75305</code></pre>
+<pre class="r"><code>welch_on &lt;- t.test(old$movement, young$movement, var.equal = TRUE, conf.level = 1-Alpha_value)
+welch_off &lt;- t.test(old$movement, young$movement, var.equal = FALSE, conf.level = 1-Alpha_value)
+
+welch_on</code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  old$movement and young$movement
+## t = 2.7988, df = 15, p-value = 0.01349
+## alternative hypothesis: true difference in means is not equal to 0
+## 90 percent confidence interval:
+##   4.187843 18.228823
+## sample estimates:
+## mean of x mean of y 
+##  26.33333  15.12500</code></pre>
+<pre class="r"><code>welch_off</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  old$movement and young$movement
+## t = 2.8784, df = 13.497, p-value = 0.01253
+## alternative hypothesis: true difference in means is not equal to 0
+## 90 percent confidence interval:
+##   4.331855 18.084812
+## sample estimates:
+## mean of x mean of y 
+##  26.33333  15.12500</code></pre>
 <p>In the space below please cut and paste the the same information you
 displayed in answering Question 11. Then, in the context of the problem,
 state your decision regarding the hypotheses tested.</p>
+<p>Alpha represents the level of confidence, or width of confidence
+interval, desired in the study. So, by decreasing our confidence leve,
+we can decrease our confidence intervals. Now the confidence intervals
+of the difference of means do not include zero, so we can still reject
+the null hypothesis with confidence.</p>
 <p>1.75305</p>
 <pre><code>Two Sample t-test</code></pre>
 <p>data: movement by group t = 2.7988, df = 15, p-value = 0.01349
@@ -876,7 +918,19 @@ went on in this experiment, what observation(s) would you make about the
 importance of selecting the alpha level prior to doing the study (in
 fact some statisticians would say prior to every collecting the first
 data point)? Please offer your comments in the space below.</h2>
-<p>ANSWER HERE</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>More confident. With higher confidence level and wider intervals,
+the difference of means could have potentially included 0. Decreasing
+the confidence level and intervals excludes 0 from the potential
+outcomes, and provides more evidence to reject the null.</p></li>
+<li><p>We should think about our sample size compared to the population
+size, and what variations could affect our study. Do we sample only
+healthy people, or people with a range of conditions? Do background
+events in childhood have an effect? Are these people selected from a
+single region that could have lead in the water and lead to bad balance?
+Should we sample from a range of athleticism in people? How confident
+are we that what we are testing is even able to be sampled?</p></li>
+</ol>
 <p>Congratulations, you did it! This is the end of assignment 5.</p>
 <div id="an-important-final-note" class="section level3">
 <h3>An Important Final Note</h3>
