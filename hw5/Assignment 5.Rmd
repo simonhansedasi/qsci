@@ -1,7 +1,7 @@
 ---
 title: "Assignment 5 KEY"
-author: ""
-date: ""
+author: "Simon Hans Edasi"
+date: "5/18/2023"
 output: html_document
 ---
 
@@ -105,11 +105,14 @@ the assignments, the spaces for your answers will look
 
 ```{r}
 # Clear the memory.
+rm(list = ls())
 
 
 
 # Load libraries.
-
+library(ggplot2)
+library(dplyr)
+library(readr)
 
 
 
@@ -118,7 +121,7 @@ the assignments, the spaces for your answers will look
 # Load the data set "balance.csv" and assign it to 
 # an object named "balance".
 
-
+balance <- read.csv('balance.csv')
 
 
 
@@ -144,7 +147,9 @@ enumerate
 
 
 ```{r}
+print(summary(balance))
 
+balance
 ```
 
 
@@ -181,11 +186,33 @@ enumerate
  will print your summary statistics.
 
 
+
+
+
+
 ```{r}
+
+young <- filter(balance, group=="Young")
+young_mean = round(mean(young$movement), 3)
+young_cv = round(sd(young$movement) / young_mean * 100, 3)
+young_iqr = round(IQR(young$movement), 3)
+
+old <- filter(balance, group=="Elderly")
+old_mean = round(mean(old$movement), 3)
+old_cv = round(sd(old$movement) / old_mean * 100, 3)
+old_iqr = round(IQR(old$movement), 3)
+
+```
+```{r}
+library(glue)
+glue('Mean movement of young people: {young_mean}, CV: {young_cv}, IQR: {young_iqr}')
+
+glue('Mean movement of old people: {old_mean}, CV: {old_cv}, IQR: {old_iqr}')
+
+# print('Mean movement of elder people: ' + mean(old$movement))
 
 
 ```
-
 
 
 
@@ -207,30 +234,38 @@ enumerate
 
 ## Question 1: What are the assumptions of the two sample t-test? Please list them all in the space below.
 
-ANSWER HERE
-
+1. Observations of both samples are independent from each other.
+2. Both samples are approximately normally distributed.
+3. Variance of both samples is approximately the same.
+4. Both samples were obtained with random methds.
 
 
 ## Question 2: What is the population? 
 
-ANSWER HERE
-
+All adults. Sampled people in their 20's or 75 - 85 to capture endpoints.
 
 ## Question 3: In complete sentences, state the null and alternative hypotheses in terms of the population parameters tested.  Please state them in the space below.  If we assume that muE and muY are the mean movement for the Elderly and Young populations, respectively, state the hypotheses mathematically.
 
-ANSWER HERE
+The study is to answer the question, "Does age affect one's ability to balance while concentrating?". We are testing to see if the balance between the two groups is different. So, our null hypothesis would be that there is no difference between age groups in the ability to balance.
 
+H_0: muE = muY
+
+H_a: muE != muY
 
 ## Question 4: Is this a two-tail or one-tail test.  If the later, which tail are we testing?
 
-ANSWER HERE
-
+Two tail test
 
 ## Question 5: What are the appropriate degrees of freedom for the test? Be sure to show how to calculate the degrees of freedom.
 
 
-ANSWER HERE
+DoF = n_1 + n_2 - 2 
 
+```{r}
+
+dof = nrow(young) + nrow(old) - 2
+print(dof)
+```
 
 
 
@@ -248,6 +283,9 @@ ANSWER HERE
  the x-axis of the histograms.  Display one histogram above the other.
 
 ```{r}
+ggplot(balance, aes(x=movement, color=group)) +
+  geom_histogram(fill="white", alpha=0.5, position="identity", bins = 10, binwidth = 2)
+
 
 ```
 
@@ -255,8 +293,7 @@ ANSWER HERE
 
 ## Question 6: From an examination of the histogram, Which group, if any,  appears to have better balance?  Why do you conclude that? Is this conclusion supported by the summary statistics you calculated?  Be sure to mention the summary statistics in your answer.
 
-ANSWER HERE
-
+Younger people appear to have better balance. From the histogram, the younger people overall scored lower movement time which would indicate better balance. The summary statistics also support this claim. From the filtered dataframe, the young group had a mean movement of 15.125, CV: 39.895, IQR: 5.5. Mean movement of old people: 26.333, CV: 37.111, IQR: 9
 
  Below is a script that creates a boxplot for each age group and uses 
  the user defined function that we have employed before to check the data 
@@ -280,7 +317,20 @@ balance %>%
   theme_bw()
 
 ```{r}
-
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.73) + 1.5 * IQR(x))
+}
+balance %>%
+  group_by(group) %>%
+  mutate(outlier = ifelse(is_outlier(movement), movement, as.numeric(NA))) %>%
+  ggplot(., aes(x = factor(group), y = movement)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Age Group") +
+  ylab("Movement (square mm)") +
+  theme_bw()
 
 ```
 
@@ -300,7 +350,8 @@ print(balance, n=nrow(balance))
 
 
 ```{r}
-
+# balance$outlier <- ifelse(is_outlier(balance$movement), balance$movement, as.numeric(NA))
+# print(balance, n=nrow(balance))
 ```
 
 
@@ -308,8 +359,7 @@ print(balance, n=nrow(balance))
 ## Question 7: Which individual in which group represents a potential outlier and what is its value?  
 
 
-ANSWER HERE
-
+Individual 9 in the Elderly group has a movement of 50mm. 
 
 
 
@@ -322,8 +372,7 @@ ANSWER HERE
 
 ## Question 8; In addition to pointing out a potential outlier, what, if any, affirmations do the the boxplots offer our conclusion about which group has better balance while concentrating ?
 
-ANSWER HERE
-
+They clearly show a different mean between the two groups
 
 
  Two of the assumptions of the t-test are that:
@@ -355,13 +404,13 @@ ANSWER HERE
 
 # Get help on "var.test()".
  
-
+? var.test()
 
 
 
 # Perform the equality of variance test.
 
-
+var.test(young$movement, old$movement, alternative = 'two.sided')
 
 
 ```
@@ -370,8 +419,7 @@ ANSWER HERE
 
 ## Question 9:  Considering the results of the test for the equality of variances, is there any strong evidence for rejecting the assumption that the variances are equal?
 
-ANSWER HERE
-
+No. Our p-value = 0.2214 is not less than our alpha = 0.05, so we fail to reject the null hypothesis that the variances are equal.
 
 
 
@@ -398,22 +446,26 @@ ANSWER HERE
 # Create various Q-Q plots of the data.
 
 
+par(mfrow = c(1,2))
+qqnorm(old$movement, main = 'Elderly')
+qqline(old$movement)
 
+qqnorm(young$movement, main = 'Young')
+qqline(young$movement)
 ```
 
  Do Q-Q Plot for all of the
  data regardless of the age group.
 
 ```{r}
-
+qqnorm(balance$movement, main = 'Everyone')
+qqline(balance$movement)
 ```
 
 
 ## Question 10: Reviewing the Q-Q plots and omitting the one large value in the Elderly group does the data appear to be approximately normally distributed?  Do the boxplots and the summary statistics support this? Are the assumptions of the t-test at least approximately met? Why? 
+Yes, the data appears normally distributed. The mean and median match and the quantiles do not wander, excluding a single outlier. We don't know if the samples were selected randomly, but we can assume the observations are independent. We have shown that the variance is approximately the same by the F test, and the data appears normally distributed in its entirety, and also each subgroup appears normally distributed.
 
-ANSWER HERE
-
-  
 
 
 ### Part 2
@@ -429,15 +481,14 @@ ANSWER HERE
 
 
 ```{r}  
-# ?t.test()
+?t.test()
 ```
   
 
 
 ## Question 11 The researchers performed a power analysis and determined that their alpha level was $0.01$. What does alpha represent? In the space below, please write your answer.
 
-ANSWER HERE
-
+Alpha represents the level of confidence, or width of confidence interval, desired in the study. 
  
 
  
@@ -449,7 +500,8 @@ Question 5 to an object named "Degrees_of_freedom".
  
 
 ```{r}
-
+Alpha_value = 0.01
+Degrees_of_freedom = 15
 ```
 
 
@@ -473,7 +525,17 @@ Num_Young
 DOF
 
 ```{r}
+Num_Estimated_Parameters <- 2
 
+Num_Elderly <- length(which(balance$group == 'Elderly'))
+
+Num_Young<- length(which(balance$group == 'Young'))
+
+DOF <- Num_Elderly + Num_Young - Num_Estimated_Parameters
+
+Num_Elderly
+Num_Young
+DOF
 ```
 
 
@@ -492,7 +554,7 @@ DOF
 
 
 ```{r}  
-# print(Critical_Value <- qt(1-(Alpha_value/2),Degrees_of_freedom))
+print(Critical_Value <- qt(1-(Alpha_value/2),Degrees_of_freedom))
 ```
   
 
@@ -508,7 +570,11 @@ DOF
  
 
 ```{r}
+welch_on <- t.test(old$movement, young$movement, var.equal = TRUE)
+welch_off <- t.test(old$movement, young$movement, var.equal = FALSE)
 
+welch_on
+welch_off
 ```
 
 
@@ -522,13 +588,20 @@ DOF
 
 ## Question 12: For the test with and without Welch's correction: [a] What is the critical value? [b] What is the value of the test statistic, the associated p-value (include the df output), and the 95% confidence interval?   
 
+a. Critical Value = 2.946713
 
-ANSWER HERE
+With Welch's correction
+b. Test statistic t = 2.7988, df = 15, p-value = 0.01349, 95 percent confidence interval: 2.827442 19.589225
+
+Without Welch's correction
+b. Test statistic t = 2.8784, df = 13.497, p-value = 0.01253, 95 percent confidence interval: 2.827442 19.589225
+
 
 ## Question 13: [a] What is the decision rule for the test? [b] Within the context of the problem, conclude whether we reject or fail to reject the null hypothesis (state your decision with regard to the hypotheses tested).
 
-ANSWER HERE
+a. The decision rule is to reject the null hypothesis IFF the p-value is less than alpha. 
 
+b. We reject the null hypothesis as the p-value is less than the chosen alpha value. We have enough evidence to conclude there is a difference in balance ability when concentrating between age groups.
 
   
   
@@ -553,9 +626,9 @@ ANSWER HERE
 
 ## Question 14: [a] In this analysis which error was the graduate student concerned about minimizing in her power analysis?  In a complete sentence, please define that error. [b] Imagine yourself to be this graduate student. What has this discovery done to committing a Type I error? Without doing the analysis, what do you think may now happen to the rejection region for the hypothesis test?  Given this, what would you think may now be the conclusion (reject or fail to reject) regarding the hypotheses test?  Will the critical value and/or the test statistic change?  Should the value that does change increase or decrease using this new alpha value?
   
- 
+a.  By decreasing confidence the graduate student reduced the possibility of encountering a type 1 error of rejecting the null hypothesis when it is actually true.
 
-ANSWER HERE
+b.  
 
 
 
