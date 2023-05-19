@@ -1,7 +1,8 @@
 ---
 title: "T Tests Tutorial"
+author: "Simon Hans Edasi"
+date: "5/18/2023"
 output: html_document
-date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
@@ -22,13 +23,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Clear the memory.
-
+rm(list = ls())
 
 
 
 
 # Load libraries ggplot2, dpylr, readr
-
+library(ggplot2)
+library(dplyr)
+library(readr)
 
 ```
 
@@ -75,7 +78,7 @@ ozone <- read.csv('ozone.csv')
  # Look at a horizontal view of the data
  # using "glimpse()".
 
-
+glimpse(ozone)
 
 ```
 
@@ -91,6 +94,10 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+
+
+ggplot(ozone, aes(x=Ozone, color=Garden.location)) +
+  geom_histogram(fill="white", alpha=0.5, position="identity", bins = 10, binwidth = 2)
 
 ```
 
@@ -108,7 +115,10 @@ ozone <- read.csv('ozone.csv')
  errors, etc. using a box plot.
 
 
+
 ```{r}
+boxplot(ozone$Ozone)
+
 
 
 ```
@@ -138,6 +148,20 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.73) + 1.5 * IQR(x))
+}
+ozone %>%
+  group_by(Garden.location) %>%
+  mutate(outlier = ifelse(is_outlier(Ozone), Ozone, as.numeric(NA))) %>%
+  ggplot(., aes(x = factor(Garden.location), y = Ozone)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Garden Location") +
+  ylab("Ozone Levels (pphm)") +
+  theme_bw()
 
 ```
 
@@ -158,19 +182,17 @@ Load needed libraries (dplyr and ggplot2)
 
 
 # Get list of built-in R data sets.
-
+library(dplyr)
+library(ggplot2)
 
 
 # Get the "mtcars" built-in data set.
-
-
+data(mtcars)
 
 
 
 # View the data.
-
-
-
+mtcars
 ```
 
  Apply the outlier detection function to
@@ -179,7 +201,20 @@ Load needed libraries (dplyr and ggplot2)
 
 
 ```{r}
-
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.73) + 1.5 * IQR(x))
+}
+mtcars %>%
+  group_by() %>%
+  mutate(outlier = ifelse(is_outlier(mpg), mpg, as.numeric(NA))) %>%
+  ggplot(., aes(x = factor(cyl), y = mpg)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Cylinders") +
+  ylab("MPG") +
+  theme_bw()
 ```
 
 
@@ -207,6 +242,8 @@ Load needed libraries (dplyr and ggplot2)
 
 ```{r}
 
+# mtcars$outlier <- ifelse(is_outlier(mtcars$mpg), mtcars$mpg, as.numeric(NA))
+# print(mtcars, n=nrow(ozone))
 ```
 
 
@@ -228,11 +265,13 @@ Load needed libraries (dplyr and ggplot2)
 ```{r}
 # Clear the memory.
 
-
+rm(list = ls())
 
 
 # Load libraries.
-
+library(ggplot2)
+library(dplyr)
+library(readr)
 
 ```
 
@@ -271,7 +310,7 @@ ozone <- read.csv('ozone.csv')
 
 ```{r}
 
-
+names(ozone)
 
 # Look at a horizontal view of the data using "glimpse()".
 
@@ -291,6 +330,7 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+hist(ozone$Ozone)
 
 ```
 
@@ -303,11 +343,24 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+library(glue)
+east <- filter(ozone, Garden.location=="East")
+east_mean = round(mean(east$Ozone), 3)
+east_std_dev = round(sd(east$Ozone), 3)
+east_std_err = round(sd(east$Ozone)/sqrt(length(east$Ozone)), 3)
 
+
+
+
+west <- filter(ozone, Garden.location=="West")
+west_mean = round(mean(west$Ozone), 3)
+west_std_dev = round(sd(west$Ozone), 3)
+west_std_err = round(sd(west$Ozone)/sqrt(length(west$Ozone)), 3)
 
 
 # Display the results for the ozone levels.
-
+glue('East garden mean ozone: {east_mean}, STD: {east_std_dev}, std error: {east_std_err}')
+glue('West garden mean ozone: {west_mean}, STD: {west_std_dev}, std error: {west_std_err}')
 
 ```
 
@@ -341,7 +394,7 @@ ozone <- read.csv('ozone.csv')
  Perform the equality of variance test.
 
 ```{r}
-
+var.test(east$Ozone, west$Ozone)
 ```
 
  Check the normality assumption by
@@ -349,7 +402,12 @@ ozone <- read.csv('ozone.csv')
 
 ```{r}
 
+par(mfrow = c(1,2))
+qqnorm(east$Ozone, main = 'East')
+qqline(east$Ozone)
 
+qqnorm(west$Ozone, main = 'West')
+qqline(west$Ozone)
 ```
 
 
@@ -371,13 +429,24 @@ ozone <- read.csv('ozone.csv')
  data regardless of garden location.
 
 ```{r}
-
+qqnorm(ozone$Ozone)
+qqline(ozone$Ozone)
 ```
 
  Do Q-Q Plot using "ggplot" and
  its functions.
 
 ```{r}
+ggplot(ozone, aes(sample = Ozone)) +
+  stat_qq() +
+  stat_qq_line()
+
+
+
+# ozone
+
+
+
 
 ```
 
@@ -386,7 +455,7 @@ ozone <- read.csv('ozone.csv')
  two sample t-test where
  the null hypothesis is
  that the means are equal and
- the alternative is that they
+ the alternative is that theya
  are not equal.
  
  First, read the help file on 
@@ -394,7 +463,7 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
-# ?t.test()
+?t.test()
 ```
 
 
@@ -406,14 +475,13 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
-
+alpha = 0.05
+dof = nrow(east) + nrow(west) - 2
 ```
 
  Display this in another way.
 
-```{r}
-
-```
+$\alpha$
 
  
  This is a two tailed test,
@@ -427,15 +495,14 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+print(Critical_Value <- qt(1-(alpha/2),dof))
 
 ```
 
  Display the critical value
  in another way.
 
-```{r}
-
-```
+$C$
 
 
  Perform a two sample t-test with
@@ -445,7 +512,7 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
-
+t.test(east$Ozone, west$Ozone, var.equal = TRUE, conf.level = 1-alpha)
 ```
 
 
@@ -456,6 +523,7 @@ ozone <- read.csv('ozone.csv')
 
 
 ```{r}
+t.test(east$Ozone, west$Ozone, var.equal = FALSE, conf.level = 1-alpha)
 
 ```
 
