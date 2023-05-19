@@ -1,0 +1,379 @@
+---
+title: "Assignment 6"
+author: ""
+date: "2023-04-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+  
+### Assignment 6 Analysis
+
+
+
+
+
+ NOTE: Throughout this and subsequent analysis sections of 
+ the assignments, the spaces for your answers will look
+ like the space below.
+
+
+
+ NOTE: Please read Chapter 5.2 in BC&P
+ while doing the "Chi Square Tests Tutorial Key.r"
+ as you read the chapters.  Then do this
+ assignment.
+ 
+
+
+
+
+
+ 
+Introduction:
+
+ The sinking of the Titanic is a tragic historical event of 
+ statistical interest. Many well-known facts, from the proportion
+ of first-class passengers, to the "Women and children first" policy,
+ and the fact that that policy was not entirely successful in saving
+ the women and children in the third class are reflected in the 
+ survival rates for various classes of passengers. 
+
+  Some Background. 
+
+ This is a real tragedy that happened to real people;
+ 2/3 of whom did not survive it.
+
+ On her maiden voyage under command of Captain
+ E. J. Smith, who had over 2,000,000 nautical miles under his keel,
+ on April 10, 1912, she left for Southampton, England for New York
+ carrying a diverse segment of society from the Gilded Age's
+ millionaires to those seeking to immigrate to the United States. 
+ This was Captain Smith's last trip before retiring.
+ The Titanic was the largest ship ever built at the time she was launched;
+ built with state-of-the-art methods,out fitted with state-of-the-art
+ equipment, and opulent furnishings. The owner competitively selected 9 men,
+ the guarantee men, who knew her ever rivet intimately to go on the voyage.
+ This was a coveted honor for those selected.
+
+ She was to be the proof of man's mastery over nature,
+ and to provide the competitive edge for her owner, White Shipping Lines,
+ over The Cunard Lines.  Titanic's owners were keen for her to show a 
+ good turn of speed in the Atlantic crossing (that would have been a huge
+ competitive advantage in those days), and she was doing just that.
+ On consecutive days, she ripped off 386 nautical miles, 591 miles, then
+ 546 miles.  On April 14th, at 22 1/2 knots (about 27 mph), she was
+ approaching her theoretical top speed of 24 knots.  At least eleven 
+ iceberg warnings had come in from other vessels; and apparently Smith 
+ altered his course to the southwest to avoid them.
+
+ At 2340 hours, the lookout in the crow's nest sounded the alarm:
+ "Iceberg dead ahead!"  The helm was put hard to starboard
+ (the right hand-side of the vessel), but not quickly enough.  Less than
+ 40 seconds after the alarm was sounded, Titanic struck a glancing blow
+ on the iceberg, ripping her bow open beneath the waterline.  In less
+ than 3 hours, she sunk in about 3,500 meters of water off the coast of
+ Newfoundland. Smith and the guarantee men went down with the ship as did
+ 2/3 of of the passengers.  Several famous characters from The United 
+ States's "Gilded Age" were onboard that maiden voyage of this 
+ unsinkable ship; John Jacob Astor being one who did not survive.
+
+ The wreck of the Titanic was discovered in 1985 by Dr. Robert Ballard.
+ As an aside, Captain Smith broke one of the important maritime Collision
+ Avoidance Rules (COLREGS) -- Rule 6: "Every vessel shall at all times
+ proceed at a safe speed...."
+
+ These data were originally collected by the British Board of Trade 
+ in their investigation of the sinking. Note that there is not complete
+ agreement among primary sources as to the exact numbers on board, 
+ rescued, or lost. We are going to investigate whether the gender 
+ and class of the Titanic passengers affected their survival rates.
+
+  The Data.
+
+ The data is found in the data frame, "Titanic_Survival.csv".  It has
+ 5 columns: Class, Gender, Age, Survived, and Freq.  The Freq column
+ has frequency information for the associated combination of the rows 
+ in the columns Class, Gender, Age, and Survived, e.g., the first
+ entry in Freq records that 35 male children traveling in 3rd class
+ did not survive the sinking -- they died.
+
+ In the space below, please clear the R memory; load the libraries
+ "ggplot2", "dplyr", and "readr", then load the dataset, and assign 
+ it to an object named "Titanic". 
+
+
+
+
+```{r}
+
+# Clear the memory.
+
+
+
+
+
+# Load libraries.
+
+
+
+
+
+
+# Load the data set "Titanic_Survival.csv" and assign it to 
+# an object named "Titanic".
+
+
+
+
+
+```
+
+
+
+ Now that we have the data in R, let's take a quick look at it. We will
+ want to find out such things as: 
+
+ [1] What does the dataset look like? 
+ [2] what type of data is it?
+ [3] What are the column names in the dataset?
+ [4] How many rows and columns are in the dataset?
+
+ Feel free to look at anything else you would like to know
+ about the dataset.
+ 
+ Please enter your code in the space below.
+
+
+
+```{r}
+
+
+
+```
+
+
+
+### Part 1: Data Exploration. 
+
+ The first step in the analysis will be to explore the data
+ looking for the structure of the dataset (what is in it), outliers, and 
+ if it appears to meet the assumptions of the hypothesis test we will apply
+ in analyzing it.  Plotting the data is critical in the exploration as
+ are summary statistics.  
+ 
+ We have practiced creating several different plots. In this assignment,
+ we will create a bar plot of passenger survival by class and survival
+ by gender.  Use the code from the Chi Square Test Tutorial to create 
+ an rxc contingency table for survival (the Survival column contains this)
+ by class, then create the rxc contingency table for survival by gender.
+ When you write the code, do not forget how to incorporate the Freq 
+ column into the code!
+ 
+ Assign the result of this an object named "Survival_by_Class" and
+ "Survival_By_Gender".  We will use these later. Make sure to print
+ the results to check what you have done.  You might try to add
+ some of the values by hand to check that this is correct. Knowing
+ what to expect your code to do and how to check that it is
+ working properly is important, and it is often necessary to do
+ that by HAND!! Please do not forget that after you leave this class.
+
+ Please use the space below to write your code to do this.
+
+
+
+```{r}
+
+# Totals by class
+
+
+
+# Totals by Gender
+
+
+
+```
+
+
+
+ Now that we have the data arranged in a useful way, we
+ will create the bar plots.
+ 
+ Please use the space below to write your code top create
+ boxplots for survival by class and survival by gender.
+ you may simply use the colors used in the Chi Square Tests
+ Tutorial, e.g., red and black, or explore the documentation
+ for selecting some other colors.
+
+
+
+```{r}
+
+
+
+```
+
+
+
+ Based on your bar plots, please answer the following questions
+ in the space below.
+
+ Questions:
+
+## Question 1: Based on your graphs, do you believe that class played a role in the Titanic passenger survival chances? How about gender? Which do you think was most important and why?
+
+## Question 2: Do our data represent a sample or a population? Justify your answer.
+
+
+
+
+
+
+
+
+### Part 2: Contingency Tables Data Analysis.
+
+ To summarize the relationship between two categorical variables, we use a
+ contingency table. Recall that we will have to recast the data set as a 
+ matrix, and that you did this in the tutorial. 
+ 
+ In the space below, please write the script that will
+ create the contingency tables for survival by class and survival by gender.
+ Assign these results to objects named "Titanic_By_Class.mat" and
+ "Titanic_By_Gender.mat", respectively.
+ You should end up with two rxc contingency tables of observed values.
+
+ 
+ If you make a few mistakes here and the code does not work, that is okay.
+ Look at both data sets and just take a little time to think about what you 
+ want to get.
+
+ Make sure to print the results.
+
+
+
+```{r}
+
+
+
+
+```
+
+
+
+## Question 3: Write, in words, the formula showing how in general the expected value for each cell is calculated.
+
+ Please write the formula in the space below.
+
+
+
+
+
+
+
+
+
+
+
+### Part 3: Data Analysis.
+
+ We are going to examine the effects that passenger class and gender
+ had on their survival of the Titanic's sinking.  We will treat the
+ analyses separately.
+
+ We will use a chi square test to test this.  
+
+## Question: In the space below, please write in complete sentences the appropriate null and alternative hypotheses for both of these analyses.  In other words, what type of chi square test is this? How do you know?
+
+
+
+
+.
+
+
+
+
+
+## Question:  If gender is independent of survival, what would you expect the observed counts of female passengers who survived to be, and why?  What about class? Please enter your answers to these questions in the space below.
+
+
+
+
+
+
+
+
+
+
+ Consider gender and survival.
+
+ In the space below, please calculate and display the number
+ of rows and columns in "Titanic_By_Gender.mat"?  You may 
+ recall from the tutorial that it  will be convenient to use this
+ in the testing of our hypothesis.  Please calculate the total
+ number of passengers on the Titanic; this may also be useful.
+
+
+
+```{r}
+
+
+
+```
+
+
+ Test the null vs alternative hypothesis for this question.
+ Assume that alpha = 0.01 (assign this to an object named" Alpha_value").
+ Determine the appropriate degrees of freedom directly from the data
+ (assign this to an object named "Degrees_of_freedom").  Hint: This
+ test is always one-sided.  Calculate the critical value (assign it to
+ an object named "Critical_Value").
+
+ In addition, display the observed frequencies, expected frequencies, and 
+ the value of the test statistic (even though this is already displayed
+ in the output of the chi square test).
+
+ Please print all of these values.
+
+ Please assign the results of your chi square test to an object
+ named "Titanic_By_Gender.chisquare".
+ 
+
+ Please place your code for doing all of this in the space below.
+
+ 
+
+```{r}
+
+
+```
+
+
+
+## Question: In the space below, please state the decision rule, the value of the test statistic, the critical value, and the expected and observed frequency tables (you may cut and paste them from the output), and then state your conclusion in the context of the problem.
+
+ Please align the column headings with the table entries for the observed and
+ expected frequency tables so they are easy to read.
+
+
+
+ 
+
+
+
+
+ An attempt was made to answer following question using just the boxplots.  Now
+ let's see if our analysis may help provide a more definitive answer.
+
+## Question: Based on your analysis above, which factor, gender or passage class, was most important in determining passenger survival?  Justify your conclusion. Please put your answer in the space below.
+
+ 
+
+
+
+### The End of Assignment 6.
+

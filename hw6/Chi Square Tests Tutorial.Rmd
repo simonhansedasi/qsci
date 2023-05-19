@@ -1,0 +1,655 @@
+---
+title: "Chi Square Tests Tutorial"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+  
+### Section 5.2 Chi-square Tests
+
+ One population categorized 
+ in multiple ways (contingency
+ table analysis). Test of
+ probabilistic independence.
+
+
+
+
+ Create the script.
+
+
+```{r}
+# Clear the memory.
+
+
+
+
+
+# Load libraries ggplot2, dplyr, and readr
+
+
+
+
+
+# Load the data set "ladybirds_morph_colour"
+
+```
+ A biological note from Wikipedia about black 
+ and red ladybirds (Adalia bipunctata):
+
+   Adalia bipunctata, commonly known as the two-spot ladybird, 
+   two-spotted ladybug or two-spotted lady beetle, is a 
+   carnivorous beetle of the family Coccinellidae that is 
+   found throughout the holarctic region. 
+   It is very common in western and central Europe.
+
+   To what does holarctic refer?  Please look it up.
+
+
+
+
+
+
+ Check the data set using "View()".  
+ NOTE: The "V" is capitalized. This
+ is the raw data.  We will go on to
+ summarize the data.
+
+
+```{R}
+
+
+
+
+# Look at a horizontal view of the data
+# using "glimpse()".
+
+
+
+```
+
+
+ Summarize the data for plotting and ultimately
+ for the creation of a 2x2 contingency table for
+ analysis.
+ Calculate row and column totals via piping (the %>%
+ command).
+ Save the result as an object, named "lady", for later use.
+
+ Note: As reminder from the R Tutorials, BC&P 
+ pp. 69 - 70 72, piping in R is a method that can be
+ used to replace nesting (composition) of functions 
+ and commands making script easier to write and read.
+ Recall that you read the "%>%" as: "put the answer
+ of the left-hand command into the function on the right."
+ You always start the piping with the name of the data frame.
+ In our case that is "lady".
+
+
+```{r}
+
+```
+
+
+ Display the totals for Rural and Black;
+ Rural and Red; Industrial and Black; and
+ Industrial and Red.  These totals are
+ structured as a data frame.
+
+
+```{r}
+
+```
+
+
+ Graph the summarized data
+ in a bar chart. Some information
+ about this script:
+
+ In the case of count data like this, 
+ each bar is one point, we're not 
+ summarizing a distribution, and the 
+ counts are ratio data(they have a
+ 'real' zero). It is a logical way to 
+ view these data, particularly as
+ they have (have you noticed?) 
+ no 'variation' to examine. In this situation,
+ a bar chart starting at zero is actually 
+ a good option.
+
+ The ggplot() syntax has some new things:
+
+ [1] A new part of the aesthetic, fill = morph_colour.
+     This is used when the 'geometry' is something 
+     like a bar,and can be filled. Note that
+     colour = morph_colour with a bar alters the
+     outline of the bar, not the fill colour. 
+
+ [2] geom_bar() has some new arguments
+
+     [a] stat = 'identity' tells ggplot not to 
+         try and calculate anything from the data.
+         We want ggplot() to use just what we've 
+         given it to use.
+     [b] position = 'dodge' is a request to put 
+         the two bars in each Habitat group  
+         (e.g. black and red counts) next to each 
+         other. If you don't use the position = 'dodge'
+         option you'll end up with a stacked barplot.
+
+
+```{r}
+
+```
+
+
+
+ Generate a bar chart with the bars
+ colored to represent the colors of 
+ the ladybird  morphs, i.e., red and black.
+ Do this using the "scale_fill_manual()"
+ function.
+
+ Note: when working with discrete groups 
+ (as in the variables Habitat and
+ colour_morph), ggplot2 has built-in scale_ functions
+ ending with _manual. See the 
+ info about scale_'s in Chapter 8. Here
+ we use scale_fill_manual; it takes an argument 
+ called values that is a set of colours to use.
+
+ We specify values = c(black= "black",
+ red = "red"). This seems rather 
+ obvious, perhaps, but we are assiging 
+ the colours to the appropriate morph_colour.
+ If, for example,the morphs of the ladybirds were
+ large and small, and we wanted to use
+ 'black' for large and 'red' for small morphs,
+ we would use 
+ values = c(large= "black", small = "red").
+
+
+```{r}
+
+```
+
+
+ Review the graph to check validity of our
+ null hypothesis that there is no association
+ between color of the morphs and habitat.
+
+ "dplyr" takes and returns a data frame, the 
+ chi square test of a contingency table
+ expects to use a matrix of data.  We need to
+ modify the structure of our modified data set
+ which we assigned to the object "totals".
+
+ Check the structure of the "totals" data.
+
+
+```{r}
+
+```
+
+
+ Use "xtabs()" to convert the data frame
+ structure into a matrix. This stands for
+ cross(x)-tabulation.
+ This is similar to the pivot table in
+ Microsoft EXCEL.
+
+ xtabs() requires a simple formula and a 
+ data frame. The data frame in this situation is
+ the raw data from above, lady (although 
+ it would also work just fine with the 
+ summarized data, totals).
+
+         The formula below reads:
+
+ "Please cross-tabulate the number column of counts
+ in the totals data frame by the                          
+ Habitat and morph_colour variables."
+
+
+ This "xtabs()" carries out exactly the same
+ calculation as the group_by() and summarise()
+ functions did to make totals, but 
+ now we end up with a matrix rather than a data
+ frame. 
+ 
+
+
+```{r}
+
+
+
+
+# Display the totals (observed values)
+# arranged as matrix data  
+# in the structure of a 2x2 contingency table.
+
+
+
+
+
+
+# Display the number of rows
+# and columns in "lady.mat".
+
+
+
+```
+
+
+ Let alpha = 0.05.
+
+ Let degrees of freedom = df, we know that here 
+ df = (number of rows-1)*(number of columns-1).
+
+
+```{r}
+# Store the alpha and df values
+
+
+# Display the alpha and df.
+
+
+
+```
+
+ Get help on "qchisq()".
+
+```{r}
+
+```
+
+
+ The resulting critical 
+ value is found as:
+
+
+```{r}
+
+
+
+```
+
+
+ Perform the chi-square test with
+ Yates's correction, and
+ assign the output to an object,
+ "lady.chisquare" and print it.
+
+
+```{r}
+# Display the results of the chi square test
+
+
+
+```
+
+ check for what other information is
+ available to us from the chi square test.
+
+```{r}
+
+```
+
+
+     Display:
+
+ [1] the observed values directly form "lady.mat";
+ [2] the observed from the chi square test;
+ [3] the expected values from the chi square 
+     test and;
+ [4] the value of the test statistic from the 
+     chi square test.
+ We will use a classic (base) R function "$" to 
+ select desired variable from "lady.chisquare".
+
+ Note: The "$" is the command (see BC&P p.74) 
+ that tells R which column to select from the
+ data set for use. These commands are always 
+ available in R.We will make more use of this
+ base R command. Sometimes the old commands
+ make things easier.  We will note that again
+ in later assignments.
+
+
+```{r}
+
+```
+
+
+
+## Section 5.2 Addendum
+ Chi-square Tests
+
+ Test for Goodness of Fit to
+ a probability distribution
+
+
+
+
+
+ Create the script.
+
+
+```{r}
+# Clear the memory.
+
+
+
+
+
+
+# Load necessary libraries: ggplot2, dplyr, readr
+
+# Note: Once R loads the libraries, it is not necessary
+# to reload them.  But, you may not do this tutorial
+# in one session, so we will repeat the process a few
+# times so that you know what to do if you restart the
+# tutorial after a break.  Once you close RStudio, and hence,
+# R, the libraries are no longer resident when you reopen R
+# and the script will no longer run.  A little practice with
+# that idea will be helpful.
+
+
+
+
+```
+
+
+ Consider the data in the data set Organisms.
+
+ Assume this data represents the number of
+ organisms counted in a random sample of several
+ areas.  The variable Num.Org represents 
+ the number of organisms while the 
+ variable Obs represents how many areas
+ were found to contain the given number of
+ organisms.  
+
+ We hypothesize that the spatial distribution
+ of these organisms can be modeled by a
+ Poisson distribution.
+
+
+
+
+ Load the data set Organisms and
+ assign it to a variable for later use.
+
+```{r}
+
+
+
+
+# Check the data set using "View()".  
+# NOTE: The "V" is capitalized. This
+# is the raw data.  We will go on to
+# summarize the data.
+
+
+
+#View(organisms)
+```
+
+ Look at a horizontal view of the data
+ using the function "glimpse()".
+
+```{r}
+
+```
+
+ Calculate total organisms found
+ and display the result.
+
+```{r}
+
+```
+
+ Extract the first value in the 
+ column "Num.org".
+
+```{r}
+
+```
+
+
+ Extract Num.Org column of
+ numbers, the number of
+ organisms, and display it.
+
+
+```{r}
+
+```
+
+
+ Calculate expected number of organisms
+ assuming a Poisson distribution with
+ lambda = 1.5.  Add the column to 
+ the original organism data frame in
+ a new column named "Expect_Obs".  Display
+ the new data frame named
+ "organisms_with_expected_obs".
+
+
+```{r}
+lambda <- 
+
+# Calculate Poisson probabilities.
+
+
+
+```
+
+
+ We are nearing the end of the course, so it is
+ a good time to briefly discuss a very useful concept
+ in all programming languages or software packages
+ going all the way back to FORTRAN in the 1960's.
+ That is the concept of the user defined function
+ (sometimes referred to as a subroutine), i.e., 
+ a function that you create. 
+ 
+ By now you have seen and used a lot of R functions.
+  These were written by the original developers of R or 
+ by others who have contributed to the growth of the 
+ library of R functions.
+ 
+ We will create one of our own below.
+
+ Create a user defined R function to 
+ calculate Poisson probabilities.  We will name the
+ function "poisson()" and give it some values to use
+ to calculate those Poisson probabilities.
+
+
+```{r}
+
+```
+
+ Examples of calls to (or uses of) the function
+ to find Poisson probabilities.
+
+
+
+
+
+ To see how "poisson()" was created, type
+ and run (execute) "poisson" as done below.
+
+
+```{r}
+
+```
+
+ Single value input to the user
+ defined function, "poisson()".
+
+```{r}
+
+```
+
+ 
+ Vector valued input to the user 
+ defined function, "poisson()".  Notice
+ that this call to "poisson()" is several lines
+ away from the code for it.
+
+
+```{r}
+
+```
+
+
+
+ Functions can call other functions; as
+ was done in "poisson()". A program
+ is a collection of functions.  In fact, that
+ really  R is all; a collection of functions.
+ The trick in R and most of other software or
+ programming packages is to find the right 
+ function for the purpose and how to correctly
+ give it the instructions to make it do what 
+ you want. That takes practice and maybe some 
+ perseverance!
+
+## Do not give up!!
+ 
+ Functions have:
+ [1] A name
+ [2] Are provided (with orare "passed") some input;
+ [3] Do something; and
+ [4] Return something for later use.
+
+ A GOOD function is:
+ [1] General;
+ [2] Carefully written; and
+ [3] Well documented.  Even the writer may later 
+     forget how it works!!
+
+ Notice the use of the "{}' in the definition
+ of this function.  The "{" marks the start of
+ the function and the "}" marks the end of 
+ the function.  This syntax is always true
+ for user defined functions in R, but not
+ necessarily so for other software products.
+ This lack of uniformity is a nuisance in
+ working with different software packages
+ (i. e., Matlab, Mathematica, C, C++, and Python
+ to name some currently popular packages),
+ but we are stuck with it.
+
+ The "return(zz)" function makes the object
+ zz available to whatever called the function.
+ If you want to use something from a
+ function, then make sure to "return()" what
+ you want.  The function will not automatically
+ do that for you.
+
+ Why are user defined functions so useful?
+ Because you can create them for code that 
+ you use frequently and call them anywhere else
+ in your script that you need them (anywhere
+ after the function is defined). This makes code 
+ less messy, easier to follow, and saves you 
+ having to cut and paste the same code 
+ everywhere you need it.
+ 
+ Cool, huh? 
+
+
+
+
+
+ Let's continue with the rest of the
+ Goodness of Fit Test computations.
+
+ Calculate expected observations assuming
+ the observations are from a Poisson 
+ distribution with lambda = 1.5
+
+
+```{r}
+
+```
+
+
+ Let alpha = 0.01.
+
+ Let degrees of freedom = df, we know that here 
+ df = (number of rows)-(number of parameters estimated)-1,
+ or df = r-m-1.
+ Since we assumed that we knew lambda, the number of
+ parameters estimated = 0.
+
+
+```{r}
+
+
+
+# Display the alpha and df.
+
+
+
+```
+
+
+ Get help on "qchisq()".
+
+```{r}
+
+```
+
+ The resulting critical 
+ value is found as:
+
+```{r}
+# Display the critical value
+```
+
+ Perform the chi-square test manually and
+ assign the output to an object,
+ "ChiSquared_Test_Statistic" and print it.
+
+```{r}
+
+```
+
+ Get help on "pchisq()"
+
+```{r}
+
+```
+
+
+ Let's look at a way to print some text along
+ with the value of an object using the paste()
+ function.
+
+
+```{r}
+
+```
+
+ Calculate the p-value.  why do we 
+ use 1-"pchisq()" instead of just
+ "pchisq()"?  Check with help on pchisq().
+
+```{r}
+
+```
+
+
+### End of the Chi Square Tests Tutorial!!
+
+
+
