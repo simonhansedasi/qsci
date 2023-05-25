@@ -1,7 +1,8 @@
 ---
 title: "Chi Square Tests Tutorial"
+author: "Simon Hans Edasi"
 output: html_document
-date: "`r Sys.Date()`"
+date: "2023-05-25"
 ---
 
 ```{r setup, include=FALSE}
@@ -26,18 +27,20 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 # Clear the memory.
 
-
+rm(list = ls())
 
 
 
 # Load libraries ggplot2, dplyr, and readr
-
+library(ggplot2)
+library(dplyr)
+library(readr)
 
 
 
 
 # Load the data set "ladybirds_morph_colour"
-
+lady <- read.csv("ladybirds_morph_colour.csv")
 ```
  A biological note from Wikipedia about black 
  and red ladybirds (Adalia bipunctata):
@@ -49,8 +52,8 @@ knitr::opts_chunk$set(echo = TRUE)
    It is very common in western and central Europe.
 
    To what does holarctic refer?  Please look it up.
-
-
+   
+Distributed in a geographicrange around the North Pole; restricted to arctic regions. I'd like to know the relevance and reason for this distraction.
 
 
 
@@ -63,12 +66,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{R}
 
-
+View(lady)
 
 
 # Look at a horizontal view of the data
 # using "glimpse()".
-
+glimpse(lady)
 
 
 ```
@@ -92,7 +95,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+totals <- lady %>%
+  group_by(Habitat, morph_colour) %>%
+    summarise(total.number = sum(number))
+totals
 ```
 
 
@@ -104,6 +110,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
+lady
 ```
 
 
@@ -144,7 +151,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+  ggplot(totals, aes(x = Habitat, y = total.number,
+    fill = morph_colour)) +
+  geom_bar(stat = 'identity', position = 'dodge')
 ```
 
 
@@ -175,7 +184,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+ggplot(totals, aes(x = Habitat, y = total.number,
+fill = morph_colour)) +
+geom_bar(stat = 'identity', position = 'dodge') +
+scale_fill_manual(values = c(black = "black", red = "red"))
 ```
 
 
@@ -188,12 +200,13 @@ knitr::opts_chunk$set(echo = TRUE)
  expects to use a matrix of data.  We need to
  modify the structure of our modified data set
  which we assigned to the object "totals".
+ 
 
  Check the structure of the "totals" data.
 
 
 ```{r}
-
+str(totals)
 ```
 
 
@@ -227,21 +240,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 
-
-
+totals
 # Display the totals (observed values)
 # arranged as matrix data  
 # in the structure of a 2x2 contingency table.
 
+lady.mat <- xtabs(number ~ Habitat + morph_colour,
+                  data = lady)
 
-
-
+lady.mat
 
 
 # Display the number of rows
 # and columns in "lady.mat".
 
-
+str(lady.mat)
 
 ```
 
@@ -254,10 +267,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Store the alpha and df values
-
-
+alpha = 0.05
+df = (2-1) * (2-1)
 # Display the alpha and df.
-
+print(alpha)
+print(df)
 
 
 ```
@@ -266,6 +280,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
+?qchisq()
 ```
 
 
@@ -274,7 +289,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+library(glue)
+glue('Critical value from a table: {3.841}')
 
 
 ```
@@ -288,7 +304,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Display the results of the chi square test
-
+chisq.test(lady.mat, correct = TRUE)
 
 
 ```
@@ -297,7 +313,8 @@ knitr::opts_chunk$set(echo = TRUE)
  available to us from the chi square test.
 
 ```{r}
-
+lady.chi <- chisq.test(lady.mat)
+names(lady.chi)
 ```
 
 
@@ -322,7 +339,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+lady.mat
+lady.chi$observed
+lady.chi$expected
+lady.chi$statistic
 ```
 
 
@@ -342,13 +362,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Clear the memory.
-
+rm(list = ls())
 
 
 
 
 
 # Load necessary libraries: ggplot2, dplyr, readr
+library(ggplot2)
+library(dplyr)
+library(readr)
+
 
 # Note: Once R loads the libraries, it is not necessary
 # to reload them.  But, you may not do this tutorial
@@ -387,7 +411,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
-
+organisms <- read.csv('Organisms.csv')
 
 
 # Check the data set using "View()".  
@@ -404,21 +428,21 @@ knitr::opts_chunk$set(echo = TRUE)
  using the function "glimpse()".
 
 ```{r}
-
+glimpse(organisms)
 ```
 
  Calculate total organisms found
  and display the result.
 
 ```{r}
-
+sum(organisms$Obs)
 ```
 
  Extract the first value in the 
  column "Num.org".
 
 ```{r}
-
+organisms$Num.Org[1]
 ```
 
 
@@ -428,7 +452,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+organisms$Num.Org
 ```
 
 
@@ -442,12 +466,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-lambda <- 
+lambda <- 1.5
 
 # Calculate Poisson probabilities.
-
-
-
+organisms$prob <- 1- ppois(organisms$Num.Org, lambda)
+organisms$Expect_Obs <- organisms$prob * organisms$Obs
+organisms_with_expected_obs <- organisms
 ```
 
 
@@ -473,7 +497,10 @@ lambda <-
 
 
 ```{r}
-
+poisson <- function(x = organisms$Num.Org, lambda){
+  1-ppois(x, lambda)
+  
+}
 ```
 
  Examples of calls to (or uses of) the function
@@ -488,26 +515,17 @@ lambda <-
 
 
 ```{r}
-
+poisson
 ```
 
  Single value input to the user
  defined function, "poisson()".
 
 ```{r}
-
+1-poisson(organisms$Num.Org, lambda)
 ```
 
- 
- Vector valued input to the user 
- defined function, "poisson()".  Notice
- that this call to "poisson()" is several lines
- away from the code for it.
 
-
-```{r}
-
-```
 
 
 
@@ -579,7 +597,7 @@ lambda <-
 
 
 ```{r}
-
+organisms_with_expected_obs
 ```
 
 
@@ -593,12 +611,14 @@ lambda <-
 
 
 ```{r}
-
+alpha = 0.01
+df = 5 - 0 - 1
 
 
 # Display the alpha and df.
 
-
+print(alpha)
+print(df)
 
 ```
 
@@ -606,7 +626,7 @@ lambda <-
  Get help on "qchisq()".
 
 ```{r}
-
+?qchisq()
 ```
 
  The resulting critical 
@@ -614,6 +634,7 @@ lambda <-
 
 ```{r}
 # Display the critical value
+print(13.277	)
 ```
 
  Perform the chi-square test manually and
@@ -621,13 +642,14 @@ lambda <-
  "ChiSquared_Test_Statistic" and print it.
 
 ```{r}
-
+ChiSquared_Test_Statistic <- sum((organisms$Obs - organisms$Expect_Obs)^2 / organisms$Expect_Obs)
+print(ChiSquared_Test_Statistic)
 ```
 
  Get help on "pchisq()"
 
 ```{r}
-
+?pchisq()
 ```
 
 
@@ -637,7 +659,7 @@ lambda <-
 
 
 ```{r}
-
+?paste()
 ```
 
  Calculate the p-value.  why do we 
@@ -645,9 +667,9 @@ lambda <-
  "pchisq()"?  Check with help on pchisq().
 
 ```{r}
-
+1-pchisq(organisms$Obs, df)
 ```
-
+1- pchisq() because we want the complement
 
 ### End of the Chi Square Tests Tutorial!!
 

@@ -1,7 +1,7 @@
 ---
 title: "Assignment 6"
-author: ""
-date: "2023-04-04"
+author: "Simon Hans Edasi"
+date: "2023-05-25"
 output: html_document
 ---
 
@@ -112,13 +112,15 @@ Introduction:
 ```{r}
 
 # Clear the memory.
-
+rm(list = ls())
 
 
 
 
 # Load libraries.
-
+library(dplyr)
+library(ggplot2)
+library(readr)
 
 
 
@@ -126,7 +128,7 @@ Introduction:
 
 # Load the data set "Titanic_Survival.csv" and assign it to 
 # an object named "Titanic".
-
+titanic <- read.csv('Titanic_Survival.csv')
 
 
 
@@ -151,7 +153,12 @@ Introduction:
 
 
 ```{r}
+titanic
 
+```
+
+```{r}
+summary(titanic)
 
 
 ```
@@ -189,7 +196,7 @@ Introduction:
 ```{r}
 
 # Totals by class
-
+class <- filter(titanic, group == "Class")
 
 
 # Totals by Gender
