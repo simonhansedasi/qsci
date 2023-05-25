@@ -438,28 +438,15 @@ piping with the name of the data frame. In our case that is “lady”.</p>
 <p>Display the totals for Rural and Black; Rural and Red; Industrial and
 Black; and Industrial and Red. These totals are structured as a data
 frame.</p>
-<pre class="r"><code>lady</code></pre>
-<pre><code>##       Habitat Site morph_colour number
-## 1       Rural   R1        black     10
-## 2       Rural   R2        black      3
-## 3       Rural   R3        black      4
-## 4       Rural   R4        black      7
-## 5       Rural   R5        black      6
-## 6       Rural   R1          red     15
-## 7       Rural   R2          red     18
-## 8       Rural   R3          red      9
-## 9       Rural   R4          red     12
-## 10      Rural   R5          red     16
-## 11 Industrial   U1        black     32
-## 12 Industrial   U2        black     25
-## 13 Industrial   U3        black     25
-## 14 Industrial   U4        black     17
-## 15 Industrial   U5        black     16
-## 16 Industrial   U1          red     17
-## 17 Industrial   U2          red     23
-## 18 Industrial   U3          red     21
-## 19 Industrial   U4          red      9
-## 20 Industrial   U5          red     15</code></pre>
+<pre class="r"><code>totals</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   Habitat [2]
+##   Habitat    morph_colour total.number
+##   &lt;chr&gt;      &lt;chr&gt;               &lt;int&gt;
+## 1 Industrial black                 115
+## 2 Industrial red                    85
+## 3 Rural      black                  30
+## 4 Rural      red                    70</code></pre>
 <p>Graph the summarized data in a bar chart. Some information about this
 script:</p>
 <p>In the case of count data like this, each bar is one point, we’re not

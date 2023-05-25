@@ -110,7 +110,7 @@ totals
 
 ```{r}
 
-lady
+totals
 ```
 
 

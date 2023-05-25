@@ -154,7 +154,6 @@ titanic <- read.csv('Titanic_Survival.csv')
 
 ```{r}
 titanic
-
 ```
 
 ```{r}
@@ -196,11 +195,17 @@ summary(titanic)
 ```{r}
 
 # Totals by class
-class <- filter(titanic, group == "Class")
+totals_class <- titanic %>%
+  group_by(Class, Survived) %>%
+    summarise(total.number = sum(Freq))
 
-
+totals_class
 # Totals by Gender
+totals_gender <- titanic %>%
+  group_by(Gender, Survived) %>%
+    summarise(total.number = sum(Freq))
 
+totals_gender
 
 
 ```
@@ -211,17 +216,21 @@ class <- filter(titanic, group == "Class")
  will create the bar plots.
  
  Please use the space below to write your code top create
- boxplots for survival by class and survival by gender.
+ bar plots for survival by class and survival by gender.
  you may simply use the colors used in the Chi Square Tests
  Tutorial, e.g., red and black, or explore the documentation
  for selecting some other colors.
 
 
-
 ```{r}
 
-
-
+ggplot(totals_class, aes(x = Survived, y = total.number,
+fill = Class)) +
+geom_bar(stat = 'identity', position = 'dodge') 
+ggplot(totals_gender, aes(x = Survived, y = total.number,
+fill = Gender)) +
+geom_bar(stat = 'identity', position = 'dodge') 
+# scale_fill_manual(values = c(black = "black", red = "red"))
 ```
 
 
@@ -233,9 +242,14 @@ class <- filter(titanic, group == "Class")
 
 ## Question 1: Based on your graphs, do you believe that class played a role in the Titanic passenger survival chances? How about gender? Which do you think was most important and why?
 
+Yes, both class and gender played a role. By considering the survivors are about equal across class and gender, and the non-survivors increase with diminishing class and crew with the most, we can estimate a survival rate for each class. From this we can guess that in order of highest priority to the boats were 1st, 2nd, 3rd, and crew. This could have been incidental, as the decks were organized by class with crew also at the bottom and 1st class closest to the lifeboats. However, we can not say for sure given the varying survivibility of people in cold water.
+
+
 ## Question 2: Do our data represent a sample or a population? Justify your answer.
 
+We can say our data represent a population if we want to draw conclusions about everyone on the Titanic.
 
+We can say our data represent a sample if we want to draw conclusions about people surviving shipwrecks.
 
 
 
@@ -264,19 +278,29 @@ class <- filter(titanic, group == "Class")
 
 
 ```{r}
+Titanic_By_Class.mat <- xtabs(Freq ~ Survived + Class,
+                  data = titanic)
 
-
-
+Titanic_By_Gender.mat <- xtabs(Freq ~ Survived + Gender,
+                  data = titanic)
 
 ```
 
+```{r}
+
+Titanic_By_Class.mat
+```
+
+```{r}
+Titanic_By_Gender.mat
+```
 
 
 ## Question 3: Write, in words, the formula showing how in general the expected value for each cell is calculated.
 
  Please write the formula in the space below.
 
-
+The expected value is the weighted sum. Each value is multiplied by the probability of yes or no and added.
 
 
 
@@ -296,10 +320,12 @@ class <- filter(titanic, group == "Class")
 
 ## Question: In the space below, please write in complete sentences the appropriate null and alternative hypotheses for both of these analyses.  In other words, what type of chi square test is this? How do you know?
 
+We can use the chi-squared test of independence to accept the null hypothesis that the proportion of survivability is the same across class, or reject the null and accept the alternative hypothesis that the survivability differs across class.
+
+We can use the chi-squared test of independence to accept the null hypothesis that the proportion of survivability is the same across gender, or reject the null and accept the alternative hypothesis that the survivability differs across gender
 
 
 
-.
 
 
 
@@ -308,7 +334,7 @@ class <- filter(titanic, group == "Class")
 ## Question:  If gender is independent of survival, what would you expect the observed counts of female passengers who survived to be, and why?  What about class? Please enter your answers to these questions in the space below.
 
 
-
+if gender is independent of survival, I would expect 25% of the passenger count to survive for each class or gender. If gender is truly independent of survival, then each class and gender would have equal chance to survive and we would see the same survival rate across class and gender.
 
 
 
@@ -327,7 +353,14 @@ class <- filter(titanic, group == "Class")
 
 
 ```{r}
+library(glue)
+cols <- ncol(Titanic_By_Gender.mat)
+glue('Number of columns in gender.mat {cols}')
 
+rows <- nrow(Titanic_By_Gender.mat)
+glue('Number of rows in gender.mat {rows}')
+
+glue('Total Titanic passengers: {sum(titanic$Freq)}')
 
 
 ```
@@ -352,11 +385,32 @@ class <- filter(titanic, group == "Class")
 
  Please place your code for doing all of this in the space below.
 
- 
+
+
 
 ```{r}
+Alpha_value = 0.01
+Degrees_of_freedom = (rows-1) * (cols-1)
+Critical_Value = 3.841
 
+glue('Alpha = {Alpha_value}')
+glue('Degrees of freedom = {Degrees_of_freedom}')
+glue('Critical Value = {Critical_Value}')
 
+obs_f = 344/(344+126)
+obs_m = 367/(367+1364)
+
+glue('Observed frequency of female survival: {obs_f}')
+glue('Observed frequency of male survival: {obs_m}')
+
+exp_f = .5
+exp_m = .5
+
+glue('Expected frequency of female survival: {exp_f}')
+glue('Expected frequency of male survival: {exp_m}')
+
+Titanic_By_Gender.chisquare <- chisq.test(Titanic_By_Gender.mat, correct = TRUE)
+Titanic_By_Gender.chisquare
 ```
 
 
@@ -366,20 +420,64 @@ class <- filter(titanic, group == "Class")
  Please align the column headings with the table entries for the observed and
  expected frequency tables so they are easy to read.
 
+The decision rule is to reject the null hypothesis that the frequency of survival is the same across gender and class. The test statistic is 454.5, critical value = 3.841, Observed frequency of female survival: 0.731914893617021
+Observed frequency of male survival: 0.212016175621028
+Expected frequency of female survival: 0.25
+Expected frequency of male survival: 0.25
 
+The conclusion to draw is that gender played a role in survival for passengers on the Titanic.
 
  
 
 
 
 
- An attempt was made to answer following question using just the boxplots.  Now
+ An attempt was made to answer following question using just the barplots.  Now
  let's see if our analysis may help provide a more definitive answer.
+
 
 ## Question: Based on your analysis above, which factor, gender or passage class, was most important in determining passenger survival?  Justify your conclusion. Please put your answer in the space below.
 
- 
+Gender was a more important factor than class in survivability because the survival rate across class is closer to expected frequency of 0.25.
 
+
+```{r}
+(Titanic_By_Class.mat)
+
+```
+
+```{r}
+Alpha_value = 0.01
+Degrees_of_freedom = (rows-1) * (cols-1)
+Critical_Value = 3.841
+
+glue('Alpha = {Alpha_value}')
+glue('Degrees of freedom = {Degrees_of_freedom}')
+glue('Critical Value = {Critical_Value}')
+
+obs_1 = 203 / (122 + 203)
+obs_2 = 118 / (118 + 167)
+obs_3 = 178 / (178 + 528)
+obs_4 = 212 / (212 + 673)
+
+glue('Observed frequency of 1st class survival: {obs_1}')
+glue('Observed frequency of 2nd class survival: {obs_2}')
+glue('Observed frequency of 3rd class survival: {obs_3}')
+glue('Observed frequency of crew survival: {obs_4}')
+
+exp_1 = 0.25
+exp_2 = 0.25
+exp_3 = 0.25
+exp_4 = 0.25
+
+glue('Expected frequency of 1st class survival: {exp_1}')
+glue('Expected frequency of 2nd class survival: {exp_2}')
+glue('Expected frequency of 3rd class survival: {exp_3}')
+glue('Expected frequency of crew survival: {exp_4}')
+
+Titanic_By_Class.chisquare <- chisq.test(Titanic_By_Class.mat, correct = TRUE)
+Titanic_By_Class.chisquare
+```
 
 
 ### The End of Assignment 6.
