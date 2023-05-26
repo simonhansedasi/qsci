@@ -1,0 +1,721 @@
+---
+title: "Assignment 7"
+output: pdf_document
+date: "2023-04-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ NOTE: Throughout this and subsequent analysis sections of 
+ the assignments, the spaces for your answers will look
+ like the space below.
+
+
+ You may increase the space by using the
+ Enter key on your keyboard.  Be sure to prefix any written answers to 
+ questions with the  "#" command to avoid R errors.
+ Your reply should have each line prefaced by a "#".
+ Please remember to press the ENTER key when 
+ you wish to go to the next (or a new) line.  Otherwise, R will just let
+ you type on the same line forever!! 
+
+ Please try to keep all of your typing confined to what is
+ easily visible in RStudio without having to scroll to the right
+ so that your work is easily readable.
+ Notice how I have typed my comments and code. 
+ I have tried to make it readable without scrolling 
+ to the right.
+
+ NOTE:
+
+ Please read Chapters 5.4 and 5.6 in BC&P
+ while doing the "ANOVA Tutorial Key.r"
+ as you read the chapters.  Then do this
+ assignment.
+ 
+ Two excellent general references are:
+ 
+ Jerrold H. Zar.2010 (5th edition). Biostatistical Analysis. Prentice Hall.
+ (This is often the text for Q SCI 482.)
+
+ Gerald van Belle, L. D. Fisher, P. J. Heagerty, and T Lumley.
+ 2004 (2nd edition). Biostatisitcs: A Methodology for the Health Sciences.
+ Wiley.
+
+ Both of these books provide a broad coverage of statistics including ANOVA
+ and linear regression.
+ 
+ \vspace{2cm}
+ 
+ Introduction -- the Experiment:
+ 
+ A completely randomized experiment was conducted to evaluate
+ the effects of different insect sprays on insect prevalence 
+ in agricultural plots. You may wish to review the class notes
+ for Chapter 10 regarding the definition of a completely randomized
+ experimental design.
+ 
+ Agricultural plots were randomly selected and assigned at
+ random to receive six different insect spray treatments,
+ one of which is the control (no treatment). 
+ There are 72 plots in the experiment. Each spray was assigned
+ to 12 plots ( 6 x 12 = 60) and the control was assigned to 12 plots.
+ In this case the treatment actually consists of treating something.
+ The plants are sprayed with an insecticide or no insecticide. 
+ The control (no insecticide spray used) is also consider to be
+ a treatment. You should also notice that the experiment is well
+ replicated (there are 12 replicates for each treatment).
+ After the treatment, the average number of insects found on
+ the plants is recorded.  We have 12 random samples from 6 
+ populations
+
+  
+ In order to maintain the selected alpha level while comparing 
+ the means of more than two groups, an analysis of variance (ANOVA)
+ is used rather than multiple pair-wise t-tests (for details, see
+ Zar Chapter 10).
+
+ We are going to use a  one-way ANOVA to compare the means of
+ the insect counts in the plots.
+ The ANOVA is one-way because we are analyzing the effect of only 
+ one factor (the insecticide) on the abundance of insects on the
+ plants after the treatment.
+
+ The experimental data collected is found in the data set
+ "InsectSprays.csv".
+
+ The data set consists of three columns: 
+ "number" identifies the plot number;
+ "rep" represents the replicate number;
+ "count" records the average number of insects; and
+ "spray" identifies the treatment ( A through F).
+
+
+
+ In the space below, please clear the R memory; load the libraries
+ "ggplot2", "dplyr", "ggfortify", and "readr", then load the dataset,
+ and assign it to an object named "Insect_Spray".
+ 
+```{r}
+#Clear the memory
+
+
+
+##
+# Load libraries
+
+
+```
+
+\vspace{0.5cm}
+
+Load the InsectSprays.csv data into R:
+
+```{r}
+
+```
+
+\vspace{1cm}
+
+ Now that we have the data in R, let's take a quick look at it. We will
+ want to find out such things as: 
+
+ [1] What does the dataset look like? 
+ [2] what type of data is it?
+ [3] What are the column names in the dataset?
+ [4] How many rows and columns are in the dataset?
+
+ Feel free to look at anything else you would like to
+ know about the dataset.
+ 
+ Please enter your code in the space below.
+ 
+```{r}
+
+
+```
+ 
+\vspace{0.5cm}
+
+ Part 1: Data Exploration
+ 
+
+ As always, the first step in the analysis will be to explore the data
+ looking for the structure of the dataset (what is in it), outliers, and 
+ if it appears to meet the assumptions of the hypothesis test we will apply
+ in analyzing it.  Plotting the data is critical in the exploration as
+ are summary statistics.
+
+
+\vspace{1cm}
+
+
+ From the ANOVA Tutorial, here is one way to do this. Run the script.
+ 
+```{r}
+by(Insect_Spray, Insect_Spray$spray, summary)
+```
+
+\vspace{1cm}
+
+Please try to create another way to do this using "dplyr".
+
+ In the space below, create an R script that produces for each treatment
+ a summary of the data including means, medians, IRQ's and anything else
+ you may wish to display. You may wish to review Assignment 5 for ideas.
+
+```{r}
+
+
+```
+
+\vspace{0.5cm}
+
+ Graph the data in whatever way(s) you find most relevant. 
+ Make sure to do a boxplot. 
+
+ For this boxplot you do not have to flip the axes, but you might try
+ it both ways just for practice with "ggplot" and its parameters.  
+ You might label the x-axis "Spray Treatment" and the 
+ y-axis "Number of Insects", but the choice of axis labels is 
+ ultimately yours.
+ 
+ Then, going back to previous assignments and tutorials, 
+ create some code that will incorporate an identification 
+ of potential outliers into the boxplot. If your code identifies
+ any outliers, do not forget what you have learned to do when you
+ encounter them, but we will accept them as correct for the 
+ purposes of this assignment and continue on with the analysis of
+ the experiment.
+
+ Please put your script in the space below.
+
+\vspace{0.5cm}
+
+```{r}
+# Flip the axes
+
+
+# Don't flip the axes
+
+
+# Incorporate an identification of any outliers in the boxplot.
+
+
+
+```
+
+\vspace{1cm}
+
+ Questions:
+
+ [1] Based strictly on your plots, do you think that the sprays have a
+     different effect on the insect count?  If so, which ones?  Which
+     spray treatment appears to be the most effective in reducing
+     the average insect abundance?
+     
+
+ [2] Based strictly on your plots which treatment do you think is the
+     control (no insecticide applied)?  Why do you conclude this?
+
+
+ [3] Does your outlier analysis identify any outliers? If so, where?
+ 
+
+ Please place your answers in the space below.
+ 
+ \vspace{1cm}
+ 
+ANSWER HERE
+
+
+
+
+\vspace{1cm}
+
+   The ANOVA assumes:
+
+  1. The data consists of independent random samples;
+  2. There should be no significant outliers;
+  3. The data should be approximately normally distributed; and
+  4. The treatment variances are equal.
+
+
+\vspace{0.5cm}
+
+
+ Questions:
+
+ [4] Based on the plots, which variable is the dependent variable
+     and which is the independent variable? Justify your answers.
+
+ [5] Is assumptions 1 met? Why or why not?
+    
+ [6] Based on the plots, explicitly state which of the remaining
+     assumptions are met and which are not. 
+     Does your answer to this cause any concern regarding using
+     the ANOVA? If so, why or why not?
+
+
+ Please place your answers to these questions in the space below.
+
+ \vspace{1cm}
+
+ANSWER HERE
+
+
+ \vspace{2cm}
+ 
+    Part 2: ANOVA Test
+  
+
+ We are going to use a one-way ANOVA to test whether the sprays have
+ the same or different effects as insecticides.
+
+ Assume we select alpha to equal 0.05. 
+
+ We will apply the five step procedure for hypoyhesis testing 
+ in our analysis.  As a reminder, those steps, in slightly 
+ modified form, are:
+
+ Step 1: State you null and alternative hypothesis. 
+
+ Step 2: Verify that all assumptions necessary for the analysis
+         have been met or that we have stated reasons why we can
+         use the procedure even if they have not been met.  If met,
+         calculate the appropriate test statistic.  We have done 
+         some of this and we will do some more.  We will use R
+         to calculate the test statistic.
+
+ Step 3: Find the critical value using the appropriate degrees
+         of freedom are for the F distribution (in the case of ANOVA).
+         Hint: for the F critical value, with k = number of treatments
+         and n = number of observations, the numerator degrees of
+         freedom is k-1 and k(n-1) is the denominator degrees of 
+         freedom. 
+         Remember, the F statistic is in the right tail.
+
+ Step 4: Report the F statistic and compare it to critical value.
+         State the decision rule.
+
+ Step 5: State your conclusion in the context of the problem.
+
+
+
+
+
+ Question (Step 1):
+
+ [7] state the null and alternative hypotheses.
+
+ Please place your answer in the space below.
+
+
+Answer (Step 1):
+
+ANSWER HERE
+
+
+\vspace{2cm}
+
+Step 2: We have done some of this and we will
+         do some more below.  We will use R
+         to calculate the test statistic.
+
+
+
+
+
+ Define the linear model and assign it to an
+ object named "model_spray", then display the results.
+
+ Once we have doen this, we can create and display
+ some diagnostic plots to further evaluate the validity
+ of the assumptions for the ANOVA.
+
+```{r}
+model_spray <- lm(count ~ spray, data = Insect_Spray)
+model_spray
+
+##
+# Plot four diagnostic plots that
+# examine the residuals.
+##
+
+autoplot(model_spray, smooth.colour = NA)
+```
+
+\vspace{0.5cm}
+
+ Now examine these plots.
+ All of these plots are based on analyzing 
+ residuals-errors.  
+
+ Based on what we learned about these four plots 
+ in the ANOVA Tutorial, an examination of them 
+ shows the some assumptions for the ANOVA 
+ are not comfortably met.
+
+ Note: In the wild (the real world) we may opt to
+ use a nonparametric procedure (one the does not
+ assume anything about the distribution of the underlying
+ random variables) to avoid these issues.  An example is
+ the Kruskal-Wallis test, which is a nonparametric version
+ of the ANOVA. All of these considerations are beyond
+ the scope of our class.
+
+ We will rely upon the robustness of the ANOVA, 
+ especially since the sample sizes are equal,
+ to assume that we may validly use the ANOVA to 
+ analyze the experimental data.  Welcome to the
+ real world!
+
+\vspace{1cm}
+
+ Step 3: Find the critical value using the appropriate degrees
+         of freedom are for the F distribution (in the case of ANOVA).
+         Hint: for the F critical value, with k = number of treatments
+         and n = number of observations, the numerator degrees of
+         freedom is k-1 and k(n-1) is the denominator degrees of 
+         freedom. 
+         Remember, the F statistic is in the right tail.
+
+
+\vspace{0.5cm}
+
+
+ Calculate the number of
+ observations (sample size, = n) for each treatment,
+ then print the result.
+
+```{r}
+
+Num_obs <- Insect_Spray %>%
+  group_by (rep) %>%
+  summarise(n())%>%
+  nrow()
+
+```
+
+\vspace{0.5cm}
+
+In the space below, please display the result of running
+the above script.  Make sure to manually check that these are correct.
+
+```{r}
+
+```
+
+\vspace{0.5cm}
+
+Calculate the number of treatments (= k), then
+print the result.
+
+```{r}
+Num_treatments <- Insect_Spray %>%
+  group_by(spray) %>%
+  summarise(n()) %>%
+  nrow()
+
+```
+
+\vspace{0.5cm}
+
+In the space below, please display the result of running
+the above script.  Make sure to manually check that these are correct.
+
+```{r}
+
+```
+
+\vspace{0.5cm}
+
+We know that the degrees of freedom (DOF) are:
+Numerator DOF = Number of treatments - 1
+Denominator DOF = Number of treatments * (Number of observations - 1)
+
+\vspace{0.5cm}
+
+```{r}
+Num_DOF <- Num_treatments-1
+
+Den_DOF <- Num_treatments*((Num_obs)-1)
+
+```
+
+\vspace{0.5cm}
+
+In the space below, please display the result of running
+this script.  Make sure to manually check that these are correct.
+
+```{r}
+
+
+```
+
+\vspace{0.5cm}
+
+In the space below, write R code to declare the alpha value
+to be 0.05; assigning this value to the object "Alpha_value".
+
+```{r}
+
+```
+
+\vspace{0.5cm}
+
+Calculate the critical value of F
+with the selected alpha and the 
+calculated DOF
+
+```{r}
+
+print(Critcial_F_Value <- qf(1-Alpha_value,
+                             Num_DOF,Den_DOF))
+```
+
+Display the critical value in the space below
+
+```{r}
+
+```
+
+
+```{r}
+# Create ANOVA table and print the results.
+
+print(ANOVA_Table <- anova(model_spray))
+```
+
+Display the ANOVA table
+
+```{r}
+
+```
+
+\vspace{1cm}
+
+Step 4: Report the F statistic and compare it to critical value.
+         State the decision rule and it conclusion.
+
+ In the space below, please complete this step.
+ 
+ANSWER HERE
+
+ 
+ 
+\vspace{1cm}
+
+```{r}
+# Find the treatment means.
+
+sumDat <- Insect_Spray %>%
+  group_by(spray) %>%
+  summarise(meanAbundance = mean(count))
+
+```
+
+Display the results
+```{r}
+
+```
+
+\vspace{1cm}
+
+
+ Step 5: State your conclusion in the context of the problem.
+
+ Please complete this step in the space below.
+
+ANSWER HERE
+
+\vspace{0.5cm}
+
+
+
+ Question 8:  Are you able to conclude which sprays are most effective
+              based on the ANOVA output? Explain.
+
+ Please place your answer to this question in the space below.
+
+ANSWER HERE
+     
+
+\vspace{1cm}
+
+
+ Assume that you do not know about Tukey's HSD test and that 
+ you do not insist that the alpha value remains as selected.
+ Suggest a procedure, using your arsenal of statistical knowledge
+ and tests, which would allow you to come to the conclusion 
+ about which spray is the most effective. You can perform as many
+ tests as you like. Briefly explain what you would expect the outcome
+ of these tests to be.  
+
+ANSWER HERE
+ 
+ 
+\vspace{1cm}
+
+ Now use Tukey's HSD test to determine which treatment
+ is the most effective as an insecticide.
+ We know that Tukey's procedure will test the combination
+ of all pairs of treatments.
+
+ Given what you have learned about counting in the probability,
+ how many such combinations do you expect to be compared?
+ No fair looking ahead in this assignment to see the answer!!
+ Make use of the hint above!
+
+ In the space below, please enter you answer.
+
+ANSWER HERE
+
+
+\vspace{1cm}
+
+```{r}
+# Add these new R libraries and the 
+# Tukey HSD test analysis can be run
+# using the following functions.
+#
+##
+
+library(agricolae)
+library(rstatix)
+
+##
+# Get help
+##
+
+?tukey_hsd()
+```
+
+Perform Tukey HSD analysis and display the results
+
+```{r}
+
+```
+
+\vspace{1cm}
+
+ Notice what does tukey_hsd() produces and automatically
+ displays. It shows the means that are subtracted
+ (Group 2 - Group 1), the difference in those means
+ (labeled "estimate"), the lower and upper ends of the
+ 95% CI (the default) and the adjusted p-value for
+ Tukey's HSD.  The order, top to bottom, in the table
+ is maintained throughout everything that we will see below.
+ That make interpreting the graphical display that we will
+ ultimately produce easy.  Note that ns = not 
+ statistically significant.
+
+
+\vspace{0.5cm}
+
+
+ From an examination of this table, what conclusion do you draw
+ about the relative efficacy of the treatment pairs
+ B and A, F and A, F and B, D and C, E and C, and E and D?
+
+ Please place your answer in the space below.
+
+ANSWER HERE
+
+\vspace{1cm}
+
+ For simplicity in creating a visual display of 
+ these results, we will use the core R functions
+ and the installed libraries to redo this analysis.
+ First, we will rerun our ANOVA using "aov()" and
+ display the results.   
+ Then we will redo the post hoc analysis using 
+ Tukey's HSD.
+
+```{r}
+Test <- aov(lm(count ~ spray,data = Insect_Spray))
+
+Test
+```
+
+\vspace{1cm}
+
+ Now use the function that performs Tukey's HSD,
+ then display the results. Please check some of 
+ the results under "diff" to be sure you know
+ how they are calculated.  Yuo will need to
+ use the table of means that we created above.
+
+ Remember the order of the results in this table
+ will be the same as the order of the graphical
+ results we will produce below
+
+```{r}
+posthoc_analysis <- TukeyHSD(Test,'spray')
+
+```
+
+Display the results
+
+```{r}
+
+```
+
+\vspace{1cm}
+
+      Visualization
+
+ The following "plot()" function
+ produces a plot of the results from
+ the function TukeyHSD()" using "aov()".
+
+```{r}
+plot(posthoc_analysis)
+```
+
+\vspace{0.5cm}
+
+The graph displays the 95% CI (the default value)
+ about the mean difference in growth rates
+ for each treatment group pair; in the same order
+ in which the differences in pairs appeared in the 
+ tables above.
+
+ Those CI's that are different from zero (i.e., those 
+ CI's that do not cross the  dashed vertical
+ line at 0.0) are the ones of interest.  
+
+ The vertical line at zero indicates no difference
+ in the means. Notice that these CI's are for the
+ same pairs as the test concluded that there
+ was no statistically significant difference in
+ treatment effect.
+
+ The graph clearly shows those pairs that are the 
+ most different.  notice the result for the pair 
+ F-C, which is the horizontal line that is fourth 
+ from the bottom.  Earlier we deduced that F
+ was the control treatment (no insecticide spray).
+
+ Please review the boxplots we did while examining this
+ visualization of the results of Tukey's HSD. You should
+ be able to see that they are both showing the same
+ conclusions. That should be comforting!  
+ 
+ Hey, maybe this statistics stuff is not all black magic!!
+ 
+ Looking at this result as displayed in the graph, 
+ and from the data displayed in the tables above, 
+ what do you conclude about the efficacy of C 
+ versus that of all of the other insecticides?
+ 
+ Please place your answer in the space below.
+
+ANSWER HERE
+
+\vspace{2cm}
+
+ The End of Assignment #7.

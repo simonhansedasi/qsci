@@ -1,0 +1,810 @@
+---
+title: "Assignment 8 Analysis Key"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ 
+## Logistics:
+ 
+  Please read Chapters 5.4 and 5.5 in BC&P
+  while doing the "Simple Linear Regression Tutorial Key.r"
+  as you read the chapters.  Then do this
+  assignment.
+  
+  
+\vspace{0.55cm}
+  
+ 
+## Introduction - The Data.
+
+\vspace{0.55cm}
+ 
+  In this assignment we are going to analyze the relationship
+  between where people live, based on latitude, and the 
+  mortality rate due to malignant melanoma (a serious cancer 
+  with a high death rate). The following is from the CDC in 
+  July, 2019:
+  
+  \vspace{0.55cm}
+  
+  "Based on data from 2012 to 2016, about 77,698 new cases of
+  melanoma occurred in the United States each year, including
+  45,854 among men and 31,845 among women. The overall incidence
+  rate of melanoma was 21.8 per 100,000. The highest incidence 
+  rate was among non-Hispanic white males (34.9 per 100,000), 
+  and the lowest rate was among black females (0.9 per 100,000)." 
+
+  \vspace{0.55cm}
+ 
+### Q1. Before we begin, state what you think may come from our analysis.  Do you think that there is some relationship between melanoma mortality rates and latitude? What to you think that relationship might be?
+ 
+  \vspace{0.25cm}
+ 
+  
+ ANSWER HERE
+
+ \vspace{0.75cm}
+ 
+### Description of the Dataset
+ 
+  The data set consists of mortality data due to malignant  
+  melanoma of the skin (a skin cancer) of white males 
+  during the period 1950 - 1969 for each state in the 
+  United States as well as the District of Columbia.
+  No data was available for Alaska, Hawaii, Puerto Rico,
+  or the Virgin Islands.  It would have been interesting
+  to have those four locations included for our analysis.
+  
+  \vspace{0.55cm}
+ 
+  The data set has four columns:
+ 
+### 1.  "state": 
+The by USPS its abbreviation;
+
+\vspace{0.25cm}
+
+### 2. "mortality": 
+the annual number of deaths due to melanoma per
+               10,000,000;
+               
+\vspace{0.25cm}               
+               
+### 3.  "lat": 
+the latitude in degrees (estimated at the center of the state);
+In the northern hemisphere, as latitude increases as one moves further north (closer to the North Pole)
+         
+\vspace{0.25cm}
+         
+### 4. "population": 
+the size of the population in millions as of 1965.
+ 
+
+
+\vspace{0.55cm}
+ 
+## Source of the data:
+
+\vspace{0.25cm}
+ 
+  U.S. Department of Health, Education, and Welfare (1974).
+ 
+  We are going to investigate the relationship between melanoma
+  mortality and latitude for these states. An example of a similar analysis is:
+  
+  \vspace{0.35cm}
+  
+     I. K. Crombie. 1979. Variation of Melanoma Incidence with 
+    Latitude in North America and Europe. Br. J. Cnacer 40: 774 - 781.
+ 
+     Reference link:
+ 
+     https://www.cdc.gov/cancer/skin/statistics/index.htm  
+ 
+  
+  \vspace{0.35cm}
+  
+  This time the five steps wil not be explicitly identified. 
+  See if you can find the five step process being used in 
+  what we do below.
+ 
+  
+\vspace{0.55cm}
+  
+ 
+### Q2. In the space below, please clear the R memory; load the libraries "ggplot2", "dplyr", "ggfortify", "gridExtra", and "readr", then load the dataset, "melanoma.csv" and assign it to anobject named "Melanoma". 
+
+\vspace{0.55cm}
+ 
+  
+```{r}
+# Clear the memory
+  
+
+
+  
+# Load libraries
+  
+
+# Read or upload dataset
+
+```
+\vspace{0.55cm}
+ 
+
+  
+ 
+  Now that we have the data in R, let's take a quick look at it. We will
+  want to find out such things as: 
+ 
+  1. What does the dataset look like? 
+  2. what type of data is it?
+  3. What are the column names in the dataset?
+  4. How many rows and columns are in the dataset?
+  
+  \vspace{0.35cm}
+ 
+  Feel free to look at anything else you would like to
+  know about the dataset.
+  
+
+ \vspace{0.55cm}
+ 
+```{r}
+
+```
+\vspace{0.55cm}
+ 
+```{r}
+# Select alpha = 0.05
+Alpha_value  = 0.05
+```
+
+  
+\newpage
+
+## Part 1: Data Exploration
+
+\vspace{0.55cm}
+  
+ 
+  As always, the first step in the analysis will be to explore the data
+  looking for the structure of the dataset (what is in it), outliers, and 
+  if it appears to meet the assumptions of the hypothesis test we will apply
+  in analyzing it.  Plotting the data is critical in the exploration as
+  are summary statistics.
+ 
+  \vspace{0.55cm}
+
+
+  
+ 
+### Q1. In the space below, create an R script that produces at least a summary of the number of locations for which data was collected and the mean, median, and IRQ of the mortality rates. Assign these  to objects named "total_Locations", "meanMortality", "medianMortality", and "irqMoratlity", respectively. You might assign the entire script to an object named "sumData".
+ 
+ \vspace{0.55cm}
+ 
+Feel free to calculate any other sample statistics that you
+would like. You may wish to review some prior assignments
+for ideas for what to request and for how to write the script. 
+ 
+  \vspace{0.25cm}
+ 
+  Print a title for your table of summary statistics.  You might
+  use "Summary Statistics for Melanoma Mortality Data".
+
+\vspace{0.55cm}
+
+```{r}
+
+# Standard method we have used before:
+
+```
+\vspace{0.55cm}
+
+### Q2. What is the total number of locations, and the mean, median, IRQ of the mortality rates. What do you notice about the mean and the median?
+ 
+  \vspace{0.55cm}
+
+ANSWER HERE
+
+ \vspace{0.55cm}
+
+```{r}
+
+
+```
+ 
+ \vspace{0.55cm} 
+ 
+ 
+### Q3. What is the mean latitude? Place your script and the result in the space below.For ease of later use, assign both the mean latitude and the entire script to an object named "meanLatitude".
+ 
+
+\vspace{0.55cm} 
+  
+
+```{r}
+
+
+
+```
+
+
+  \vspace{0.55cm}
+ 
+###. Create a boxplot and check the data for outliers. Incorporate an identification of any outliers in the boxplot.
+ 
+ \vspace{0.55cm}
+  
+```{r}
+is_outlier  = function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+Melanoma %>%
+  mutate(outlier = ifelse(is_outlier(mortality), mortality, as.numeric(NA))) %>%
+  ggplot(., aes(x = "", y = mortality)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 1, colour = 'black', alpha = 0.5) +
+  xlab("") +
+  ylab("Melanoma Mortality Rate \n (per 10,000,000 Population") +
+  theme_bw()
+
+
+```
+\vspace{0.55cm}
+
+
+### Q4. Please summarize what you conclude about the data. Think about things like symmetry and outliers.
+ 
+ \vspace{0.25cm} 
+
+ANSWER HERE
+
+\vspace{0.55cm}
+
+ 
+ 
+  Plot the mortality data versus latitude in a scatterplot.
+  Use informative axis labels and remember to include the 
+  appropriate units on each axis.
+  
+ 
+
+```{r}
+
+
+
+```
+\vspace{0.55cm}
+ 
+### Q5. From the scatterplot, what observations do you make about the relationship between melanoma mortality rates and latitude?
+
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+ 
+### Q6. Is the relationship one-to-one (recall from algebra what that means)?
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\vspace{0.55cm}
+ 
+### Q7. Is there much scatter?
+\vspace{0.25cm}
+
+ANSWER HERE
+
+\newpage
+
+
+### Linear Models
+ 
+  We want to decide if the scatter seen in the data could be due to some
+  relationship between mortality rate and latitude or chance. We may also
+  be interested in estimating the melanoma rate for various latitudes.  In 
+  addition, we may also like to estimate the variability that is seen 
+  in the scatter plot. How might we do this? That is where linear models 
+  (linear in the parameters estimated) play a pivotal role.In the case of our data, the overall relationship is roughly
+  linear (a straight line), so we will apply simple linear
+  regression.
+ 
+  
+\vspace{0.55cm}
+  
+ 
+  We will hypothesize that the melanoma mortality rate is a 
+  function of latitude, using the variables from the
+  Melanoma data frame. That is, we are going model this 
+  relationship with a simple linear regression model and
+  estimate its parameters. 
+  
+  \vspace{0.75cm}
+ 
+### Q8. Create a script that does the estimation, save the results as an object, named "model_melanoma_mortality" for later use, and print the results.
+  
+\vspace{0.55cm}
+   
+   
+```{r}
+
+
+  
+# Print the estimates of the regression coefficients,i.e., the estimated intercept and slope.
+  
+
+
+```
+\vspace{0.55cm}
+
+### Q9. Write the estimated linear model relationship between melanoma mortality rate and and latitude.
+ \vspace{0.25cm}  
+
+  The model is: $$ Melanoma mortality rate = -5.98 Latitude + 389.19 $$
+
+ \vspace{1cm}
+  
+## Assumptions of a Linear Regression Model 
+
+\vspace{0.55cm}
+  
+1. The predicted (response) variable come at random from the sampled 
+      population and are independent of one another;
+      
+\vspace{0.35cm}
+ 
+2. The explanatory variables are constants known without error;
+
+\vspace{0.35cm}
+  
+3. The errors are independent and identically distributed as a 
+      normal distributed with a mean of 0 and constant variance.  This is
+      the same as saying that the predicted variable has a normal distribution; and
+      
+\vspace{0.35cm}      
+ 
+4. The variance of the errors is constant (equal to each other; homogeneity).	 
+
+\vspace{1cm}
+ 
+  
+
+  
+ 
+  Check the assumptions of the linear regression
+  model.  Do this by visually examining them using
+  the "autoplot()" function in the package "ggfortify".
+  
+  \vspace{0.55cm}
+ 
+### Q1. Run the script and review the plots, then state wht you conclude form this plot and the rest of our exploration of the data that we did above.
+ 
+ \vspace{0.55cm}
+  
+```{r}
+
+```
+\vspace{0.55cm}
+
+
+  STATE YOUR CONCLUSIONS HERE
+
+\vspace{0.35cm}
+ 
+ 
+  Let's check another feature of a simple linear regression equation. 
+  In the space below, enter the mean of the latitudes into the linear
+  regression model with the estimated values of the slope and intercept
+  that were determined above.  See if you can do this easily by
+  using some of the objects that we created above.  
+  
+  \vspace{0.55cm}
+ 
+### Q2. What value do you get for the predicted value?  Please show your script and cut and paste the results in the space below.
+
+ANSWER HERE
+  
+ \vspace{2cm} 
+  
+### Q3.  What value does this predicted value approximately equal (Hint: You have already calculated this value)?  It is only approximately equal because we have used estimates of the slope  and intercept that do not include many decimal places. 
+
+ANSWER HERE
+ 
+  
+\vspace{0.55cm}
+ 
+```{r}
+# Recall the mean latitude "meanlatitude" define an object for the mean mortality rate:
+
+
+
+# Print the result:
+
+
+
+# Calculate the predicted mortality rate for the mean latitude:
+
+
+
+# Print the result:
+
+
+
+# Subtract this value from the mean mortality rate estimated eralier:
+
+```
+
+  \vspace{0.55cm}
+
+  You get a result that is close to the mean mortality rate calculated
+  from the data.  We know that the regression line goes through the point
+  (mean of the response variable, mean of the predicted value) =
+  (39.5,152.878).  How about that!!
+  
+ 
+ \newpage
+ 
+## Part 2: Analysis
+
+\vspace{0.55cm}
+ 
+  We want to decide if the scatter seen in the data could be due to some
+  relationship between mortality rate and latitude or chance. In a simple
+  linear model the relationship is determined by two parameters, the slope 
+  of the equation and the vertical axis intercept.  We know that we can, if
+  the assumptions of linear regression analysis are met, conduct
+  statistical tests of two hypotheses; on each parameter.
+ 
+  We will only conduct an hypothesis test for the slope.
+ 
+### Q1. State the null and alternative hypotheses for that test.
+
+\vspace{0.55cm}
+ 
+
+
+ 
+ \vspace{0.55cm}
+ 
+## OLS and ANOVA
+
+\vspace{0.55cm}
+ 
+  Recall that linear regression uses ordinary
+  least squares to minimize the sum of squares
+  (SS) to estimate the coefficients (parameters)
+  in the linear model. If we rearrange the SS, 
+  apply some algebra, and recognize that the 
+  cross-product SS term equals zero, we arrive 
+  at a rearranged equation that states:
+ 
+  $$ \text{Total SS} = \text{Regression SS} + \text{Error SS} $$
+ 
+  \vspace{0.55cm}
+  
+  We use the ANOVA to analyze the sources of
+  the Total SS. Hence, regression and ANOVA are
+  intimately linked. ANOVA will provide a frame-
+  work for testing hypotheses in linear models. 
+ 
+ \vspace{0.55cm}
+ 
+  The ANOVA table is a classic assessment of 
+  the null hypothesis, that there is no relationship
+  between latitude content and melanoma mortality rate.
+  It presents the F-value, degrees of freedom, and 
+  the p-value associated with the explanatory 
+  variables in the model (in this case, 
+  the model has one explanatory variable, 
+  i.e., latitude).
+ 
+  \vspace{0.55cm}
+
+  
+ 
+### Q2. Create the script that produces the ANOVA table using the object we created from estimating the coefficients ofthe linear regression model.  
+
+\vspace{0.55cm}
+
+```{r}
+
+```
+
+ \vspace{0.55cm} 
+ 
+### Q3. Calculate and display the summary( table) that provides the regression analysis.
+  
+ \vspace{0.55cm}
+ 
+```{r}
+
+```
+
+ \vspace{0.55cm}
+ 
+### Q4. How much of the variability in the data is explained my the relationship estimated by the liner model?  Clearly indicate what you looked at to draw this conclusion.
+ 
+ \vspace{0.55cm}
+
+  Looking at the Multiple R-squared:  0.68, we conclude that the relationship 
+  between mortality and latitude described by the linear model explains
+  approximately 68% of the variability in the data.
+
+\newpage 
+ 
+## A Digression.
+ 
+  Let's stop for a moment and consider something mentioned in the class notes.
+  It was stated that the square of the t-distribution is exactly equal to
+  the F-distribution; with the appropriate degrees of freedom taken into account.  
+  
+  \vspace{0.55cm}
+  
+  In the ANOVA table we see the expected results of an F-test for an
+  F-distributed random variable with (1, n-2) = (1,47)
+  degrees of freedom.  The values of that test statistic = 99.8.
+  \vspace{0.55cm}
+  
+ 
+  In the summary model table we see the results of a t-test for a t-distributed
+  random variable with $$n-2 = 47$$ degrees of freedom.  The value of that test
+  statistic is -9.99.
+  
+  \vspace{0.55cm}
+ 
+  Notice that $$ -9.99^2 = 99.9 $$. This means that the F-test in the ANOVA is
+  EXACTLY equal to the square of the t-test of the null hypothesis that the 
+  slope parameter = 0.  Therefore, the t-test and the F-test will provide
+  exactly the same result in terms of the p-value and the decision when
+  testing the null hypothesis that the population slope parameter = 0.
+  The value of the t-test is in one-tailed tests of hypotheses.
+ 
+  \vspace{0.55cm}
+
+  
+ 
+### Now we will complete the test of the hypotheses:
+
+\vspace{0.55cm}
+ 
+  Null hypothesis: the population slope parameter equals 0
+  Alternative hypothesis: the population slope parameter does not equal 0.  
+ 
+\vspace{0.55cm}  
+### Q1. Calculate the number of observations, n, directly from the data.
+\vspace{0.55cm}
+  
+```{r} 
+
+Num_obs  = length(Melanoma$lat)
+Num_obs
+```
+
+  
+ 
+## Calculate the critical value for the F-test.
+ 
+### Q2. Run the scripts below, then in the space provided please cut and paste the alpha value, the numerator and denominator degrees of freedom and the valueof the calculated critical value.
+ 
+  
+```{r}
+Alpha_value
+
+Num_DOF  = 1
+Num_DOF
+
+Den_DOF  = Num_obs-2
+Den_DOF
+
+Critical_F_Value = qf(1 - Alpha_value, Num_DOF, Den_DOF)
+print(Critical_F_Value)
+```
+ 
+\vspace{0.55cm}
+
+  
+ 
+### Q3. Report the F test statistic and compare it to critical value. State the decision rule and your conclusion.
+ 
+\vspace{0.55cm}  
+ 
+ANSWER HERE  
+ 
+\vspace{0.55cm}
+  
+ 
+## Calculate the critical value for the t-test.
+
+\vspace{0.35cm}
+ 
+### Q4. Run the scripts below, then in the space provided please cut and paste the alpha value, the degrees of freedom and the value of the calculated critical value.
+
+\vspace{0.55cm}
+ 
+  
+```{r}
+DOF  = Num_obs-2
+DOF
+print(Criticial_t_Value <- qt(1-(Alpha_value/2), DOF))
+```
+
+ \vspace{0.55cm}
+ 
+ 
+ ANSWER HERE
+ 
+\vspace{0.55cm}
+ 
+### Q5. Report the t test statistic and compare it to critical value. State the decision rule and your conclusion.
+
+\vspace{0.55cm}
+ 
+
+  ANSWER HERE
+ 
+
+\vspace{0.55cm}
+  
+ 
+  Please take the time to notice that the decisions of each test resulted
+  in the same conclusion.Note also that the square of the critical value of the t-test equals
+  that of the F-test, and that the square of the test statistic for the
+  t-test equals that of the F-test.
+ 
+  \vspace{0.55cm}
+
+\newpage  
+ 
+## Part 3: Predictions and Confidence Intervals
+ 
+  Consider the confidence intervals for both the model and
+  predictions made by using it.Show our estimated model together with the original data and 95% confidence intervals. 
+ 
+  
+```{r}
+ggplot(Melanoma, aes(x = lat,
+                     y = mortality)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se=TRUE) +
+  ggtitle ("Linear Model with 95% CI") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ylab("Melanoma Morality Rate \n (per 10,000,000 Population)") +
+  xlab("Latitude (degrees)")
+```
+
+\vspace{0.55cm}  
+ 
+Calculate 95% confidence and prediction intervals. Plot the results.
+ 
+## Compute fitted model output and upper (upr) and lower (lwr) prediction intervals. 
+ 
+ \vspace{0.55cm} 
+ 
+  
+```{r}
+Mortality_Prediction  = predict(model_melanoma_mortality, interval="prediction")
+
+
+# Combine the upper and lower prediction intervals with the original data.
+combined_function  = cbind(Melanoma, Mortality_Prediction)
+
+
+Mortality_Prediction   # Print the results for checking 
+combined_function      # Print the results for checking
+```
+
+  \vspace{0.55cm}
+ 
+## Create a scatterplot of the data, the 95% CI for the model, and the prediction intervals.  The red dashed lines are the upper and lower prediction intervals.
+ 
+ \vspace{0.55cm} 
+  
+```{r}
+ggplot(combined_function, aes(x = lat,
+                              y = mortality)) +
+  geom_point() +
+  geom_line(aes(y=lwr), color = "red", linetype = "dashed")+
+  geom_line(aes(y=upr), color = "red", linetype = "dashed")+
+  geom_smooth(method = 'lm', se=TRUE) +
+  ggtitle ("Linear Model with 95% CI and Prediction Intervals") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ylab("Melanoma Mortality Rate \n (per 10,000,000 Population)") +
+  xlab("Latitude (Degrees)")
+```  
+
+\vspace{0.55cm}  
+ 
+### Q1. What do you notice about the prediction intervals?  What warning would you give to someone who blindly decides to use a linear regression model to make predictions; especially for ranges far outside of the range of the original data used to fit the model parameters?
+ 
+ \vspace{0.55cm}
+
+  ANSWER HERE
+
+\vspace{0.55cm} 
+  
+### Q2. Please comment on the following statement:
+ 
+### Living in higher latitudes prevents a person from getting and dying from melanoma.
+  
+  \vspace{0.55cm}
+
+ 
+
+ ANSWER HERE
+ 
+ \newpage
+
+  
+ 
+## Part 4: What information can we obtain from the model and predicted values?
+
+\vspace{0.55cm}
+ 
+  Knowing how to access to this information is useful if you wish
+  to do more than test hypotheses with the linear model, e.g., to
+  this information in R.
+ 
+  Check for what information is available for
+  use from the linear model fitting.
+ 
+ \vspace{0.55cm}
+  
+```{r}
+names(model_melanoma_mortality)
+
+ 
+# Display the estimated coefficients in the linear model.
+ 
+model_melanoma_mortality$coefficients
+
+ 
+# Check for what information is available for use in the object "combined_function".
+names(combined_function)
+ 
+# Display the mortality rates estimated by the linear regression model.
+combined_function$fit 
+
+ 
+# Display the residuals between the linear regression model and the data.
+model_melanoma_mortality$residuals 
+```
+
+
+   \vspace{0.55cm}                                                                              
+ 
+CONGRATULATIONS!!!
+
+\vspace{0.55cm}
+ 
+ 
+  In the words of Mel Blanc, who was the voice of all the Warner Brothers and
+  Looney Tunes cartoon characters who populated the television of my youth, 
+ 
+                   "That's all folks!"
+ 
+  https://en.wikipedia.org/wiki/Mel_Blanc 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

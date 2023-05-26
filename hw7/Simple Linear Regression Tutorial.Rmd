@@ -1,0 +1,322 @@
+---
+title: "Simple Linear Regression Tutorial"
+author: "
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "Simple Linear Regression Tutorial KEY"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ 
+### Sections 5.4 and 5.5 
+## Simple linear regression
+
+NOTE TO STUDENTS: In any r chunk you write a ggplot command, please replace the typical {r} (I omitted the ``` intentionally) with 
+{r, warning=FALSE, results='hide',message=FALSE}. This is already done in a few places so as an alternative you can just write your ggplot command there.
+
+
+
+Create the new script
+
+```{r}
+
+# Clear the memory
+
+rm(list=ls())
+
+# Load libraries
+
+
+library(ggplot2)
+library(dplyr)
+library(ggfortify)
+library(datasets)
+library(datasets.load)
+library(readr)
+library(gridExtra)
+
+
+# Load the data set plant.growth.rate.csv
+
+
+ 
+ 
+
+
+
+
+```
+
+ Plot the data in a scatterplot
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+
+```
+
+ Fit a simple linear regression model to the data
+ and estimate its slope and intercept parameters. 
+
+ In other words, we will
+ fit a linear model, where we hypothesize that plant growth
+ rate is a function of soil moisture content, using the variables from the
+ plant_gr data frame. Save the results as an object
+ for later use.
+  
+ 
+```{r}
+   #Estimate fitted linear regression model  
+
+
+# Print the estimates of the regression coefficients,
+# i.e., the estimated intercept and slope.
+
+
+
+```
+
+
+
+ Using the results above, let's write
+ the estimated linear model relationship
+ between plant growth and soil moisture content
+ in words:
+
+ Plant Growth =
+
+
+
+
+
+ Check the assumptions of the linear regression
+ model.  Do this by visually examining them using
+ the "autoplot()" function in the package "ggfortify".
+
+```{r}
+
+```
+
+
+
+ All of these plots are based around the 
+ residuals-errors around regression line.
+
+    The interpretation of these plots is (from BC&P):
+
+ [1] Top left. 
+     This panel is about the 'systematic part'
+     of the model; it tells us whether a line is appropriate
+     to fit to the data. If things have gone wrong, hump-shapes
+     or valleys will be apparent. These would mean that the
+     structure of your model was wrong. For example, fitting a
+     straight line didn't work. 
+     Lots of people suggest you look at this to evaluate
+     the assumption of equal variance-homo- vs
+     heteroskedasticity (unequal variances). But there 
+     is a better plot (bottom left) for this.
+
+ [2] Top right.
+     This QQ Plot evaluates the assumption of
+     normality of the residuals. The dots are the residuals, 
+     and the dashed line the expectation under the normal
+     distribution. This is a much better tool than making
+     a histogram of the residuals, especially with small
+     sample sizes like less than 100.
+
+ [3] Bottom left.
+     This evaluates the assumption of equal
+     variance. The y-axis is a standardized (all positive)
+     indicator of the variation. Linear models assume that
+     the variance is constant over all predicted
+     values of the response variable. There should be no
+     pattern. But there might be one if, for example,
+     the variance increases with the mean, as it might with
+     count data (see Chapter 7).
+
+ [4] Bottom right.
+     This evaluates leverage, a tool not
+     only to detect influential data points, ones that
+     move the gradient more than might be expected, but 
+     also to detect outliers. 
+
+## Conclusion from a review of the plots:
+
+ As BC&P state, Overall, the take-home message from this
+ example, and these plots, is that everything is just fine. 
+ There is no pattern in either of the left-hand plots. 
+ The normal-distribution assumption is clearly met. And 
+ there are no points exerting high influence.
+
+
+
+
+
+ Now we will test the null hypothesis that
+ soil moisture has no effect on plant growth,
+ i.e., the slope coefficient = 0.
+ In doing this, we will assess the real estimate
+ of plant growth at zero soil moisture 
+ (the intercept) and the change of growth rate 
+ with soil moisture (the gradient/slope).
+ We do all of this using two tools, tools
+ we will use for every general (and generalized)
+ linear model from here on in and out: anova() and
+ summary().
+
+ The function anova() produces the sums-of-squares
+ table. It provides the overall F-value
+ for the model, representing the ratio of variance
+ explained by the explanatory variables to the 
+ leftover variance. It also produces an estimate
+ of R-squared and the adjusted R-squared.
+
+ The adjusted R-squared is a penalization of the
+ calculated R-squared for the number of predictors
+ (variables) added to the model.  In general, as the
+ number of predictors is increased in a linear model
+ the R-squared will be greater than that of a linear
+ that assumes fewer predictors. This is true because
+ the larger model(the model with more predictor 
+ variables) will contain the original
+ predictors and the additional predictors will add
+ to the amount of variation in the data that the 
+ estimated model explains.
+
+ The function summary() produces a table of the 
+ estimates of the coefficients of the line
+ that is 'the model': an intercept and a slope.
+
+
+
+
+ Produce the ANOVA table using the object we
+ created from estimating the coefficients of
+ the linear regression model.
+
+ Linear regression uses ordinary least squares 
+ to minimize the sum of squares (SS) to 
+ estimate the coefficients (parameters) in the
+ linear model. If we rearrange the SS, apply some
+ algebra, and recognize that the cross-product SS
+ term equals zero, we arrive at a rearranged
+ equation that states:
+
+ Total SS = Regression SS + Error SS.
+
+ We can now use ANOVA to analyze the sources of
+ the Total SS. Hence, regression and ANOVA are
+ intimately linked. ANOVA will provide a frame-
+ work for testing hypotheses in linear models. 
+
+ The ANOVA table is a classic assessment of 
+ the null hypothesis, that there is no relationship
+ between soil moisture content and plant growth.  It
+ presents the F-value, degrees of freedom, and 
+ the p-value associated with the explanatory 
+ variables in the model (in this case, 
+ the model has one explanatory variable, 
+ i.e., soil moisture content).
+
+ The ANOVA table shows a rather large F-value,
+ indicating that the error variance is small
+ relative to the variance attributed to the 
+ explanatory variable. This, with the single
+ degree of freedom, leads to the tiny p-value.
+
+
+```{r}
+
+```
+
+
+ Calculate and display the summary( table)
+ that provides the regression analysis.
+
+
+```{r}
+
+```
+
+ Add alpha levels and calculate critical values for F
+ and t test statistics.
+
+
+
+ Show our estimated model together with the original
+ data and 95% confidence intervals.
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+
+```
+
+ Calculate 95% confidence and prediction intervals.
+ Plot the results.
+
+
+
+ Compute fitted model output and upper (upr) and
+ lower (lwr) prediction intervals
+
+```{r}
+
+```
+
+ Combine the upper and lower prediction
+ intervals with the original data
+
+```{r}
+
+
+
+
+```
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+
+```
+
+ Check for what information is available for
+ use from the linear model fitting.
+
+
+```{r}
+
+```
+
+ Display the estimated coefficients in the 
+ linear model.
+
+```{r}
+
+```
+
+ Check for what information is available for use
+ in the object combined_function.
+
+```{r}
+
+```
+
+ Display the plant growth rates estimated
+ by the linear regression model.
+
+```{r}
+
+```
+
+
+ End of the Simple Linear Regression Tutorial!!
+
+
