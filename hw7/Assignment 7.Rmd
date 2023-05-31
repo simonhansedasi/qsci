@@ -1,7 +1,8 @@
 ---
 title: "Assignment 7"
+author: "Simon Hans Edasi"
 output: pdf_document
-date: "2023-04-07"
+date: "2023-06-02"
 ---
 
 ```{r setup, include=FALSE}
@@ -101,12 +102,15 @@ knitr::opts_chunk$set(echo = TRUE)
  
 ```{r}
 #Clear the memory
-
+rm(list = ls())
 
 
 ##
 # Load libraries
-
+library(ggplot2)
+library(dplyr)
+library(ggfortify)
+library(readr)
 
 ```
 
@@ -115,6 +119,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Load the InsectSprays.csv data into R:
 
 ```{r}
+Insect_Spray <- read.csv("InsectSprays.csv")
 
 ```
 
@@ -134,8 +139,11 @@ Load the InsectSprays.csv data into R:
  Please enter your code in the space below.
  
 ```{r}
-
-
+# View(Insect_Spray)
+str(Insect_Spray)
+colnames(Insect_Spray)
+nrow(Insect_Spray)
+ncol(Insect_Spray)
 ```
  
 \vspace{0.5cm}
@@ -168,9 +176,19 @@ Please try to create another way to do this using "dplyr".
  you may wish to display. You may wish to review Assignment 5 for ideas.
 
 ```{r}
-
-
+Insect_Spray %>%
+  group_by(spray) %>%
+    summarise(
+      total_count = sum(count),
+      count_IQR = IQR(count),
+      count_min = min(count),
+      count_mean = mean(count),
+      count_max = max(count),
+      
+    )
 ```
+
+
 
 \vspace{0.5cm}
 
@@ -197,13 +215,33 @@ Please try to create another way to do this using "dplyr".
 
 ```{r}
 # Flip the axes
-
+ggplot(Insect_Spray, aes(x = spray, y = count)) +
+geom_boxplot() +
+theme_bw() +
+coord_flip()
 
 # Don't flip the axes
-
+ggplot(Insect_Spray, aes(x = spray, y = count)) +
+geom_boxplot() +
+theme_bw() 
+# coord_flip()
 
 # Incorporate an identification of any outliers in the boxplot.
-
+is_outlier <- function(x) {
+  return(x < quantile(x,0.25) - 1.5 * IQR(x) |
+           x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+Insect_Spray %>%
+  group_by(spray) %>%
+  mutate(outlier = ifelse(is_outlier(count), count, as.numeric(NA))) %>%
+  ggplot(., aes(x = factor(spray), y = count)) +
+  geom_boxplot() +
+  geom_text(aes(label = outlier), na.rm = TRUE, hjust = -0.3)+
+  geom_point(size = 1, colour = 'black', alpha = 0.5) +
+  xlab('Spray') +
+  ylab("# of Insects on Plant") +
+  theme_bw() 
+  # coord_flip()
 
 
 ```
@@ -218,8 +256,11 @@ Please try to create another way to do this using "dplyr".
      the average insect abundance?
      
 
+
  [2] Based strictly on your plots which treatment do you think is the
      control (no insecticide applied)?  Why do you conclude this?
+
+
 
 
  [3] Does your outlier analysis identify any outliers? If so, where?
@@ -229,9 +270,13 @@ Please try to create another way to do this using "dplyr".
  
  \vspace{1cm}
  
-ANSWER HERE
+# Spray C, D, and E seem to have a significant effect on the insects on plants.
+# Spray A and B have a reduced variance, but doesn't look significant
 
+# I think spray F is the control. It has the highest number of insects
+# and the highest variance of data.
 
+# yes, in sprays C and D there are outliers
 
 
 \vspace{1cm}
@@ -264,8 +309,18 @@ ANSWER HERE
 
  \vspace{1cm}
 
-ANSWER HERE
+# The dependent variable is the spray A - F, and the independent
+# variable is the count of insects found on plants after spraying
 
+# No, the assumption is not met becasue we have found outliers in spray
+# C and D
+
+# The data do appear normally distributed from the boxplots
+
+# The variances could potentially be unequal, as the data are spread more
+# in boxplots with higher values of counts of insects. 
+# These could cause concern for the ANOVA test as the variances are 
+# unequal
 
  \vspace{2cm}
  
@@ -316,8 +371,8 @@ ANSWER HERE
 
 Answer (Step 1):
 
-ANSWER HERE
-
+# H_o: there is no difference in mean insect count between spray treatments
+# H_a: There is at least one difference in means between spray treatments
 
 \vspace{2cm}
 
@@ -406,7 +461,7 @@ In the space below, please display the result of running
 the above script.  Make sure to manually check that these are correct.
 
 ```{r}
-
+Num_obs
 ```
 
 \vspace{0.5cm}
@@ -428,7 +483,7 @@ In the space below, please display the result of running
 the above script.  Make sure to manually check that these are correct.
 
 ```{r}
-
+Num_treatments
 ```
 
 \vspace{0.5cm}
@@ -452,8 +507,8 @@ In the space below, please display the result of running
 this script.  Make sure to manually check that these are correct.
 
 ```{r}
-
-
+print(Num_DOF)
+print(Den_DOF)
 ```
 
 \vspace{0.5cm}
@@ -462,6 +517,8 @@ In the space below, write R code to declare the alpha value
 to be 0.05; assigning this value to the object "Alpha_value".
 
 ```{r}
+Alpha_value = 0.05
+
 
 ```
 
@@ -473,13 +530,14 @@ calculated DOF
 
 ```{r}
 
-print(Critcial_F_Value <- qf(1-Alpha_value,
-                             Num_DOF,Den_DOF))
+Critical_F_Value <- qf(1-Alpha_value,
+                             Num_DOF,Den_DOF)
 ```
 
 Display the critical value in the space below
 
 ```{r}
+Critical_F_Value
 
 ```
 
@@ -493,7 +551,7 @@ print(ANOVA_Table <- anova(model_spray))
 Display the ANOVA table
 
 ```{r}
-
+ANOVA_Table
 ```
 
 \vspace{1cm}
@@ -503,8 +561,8 @@ Step 4: Report the F statistic and compare it to critical value.
 
  In the space below, please complete this step.
  
-ANSWER HERE
-
+# The F statistic is higher than the criticla value, so we reject the null 
+# hypothesis that the means are statistically equal.
  
  
 \vspace{1cm}
@@ -520,7 +578,7 @@ sumDat <- Insect_Spray %>%
 
 Display the results
 ```{r}
-
+sumDat
 ```
 
 \vspace{1cm}
@@ -530,7 +588,11 @@ Display the results
 
  Please complete this step in the space below.
 
-ANSWER HERE
+# We can conclude that there is a statistically significant difference of mean
+# number of insects when sprayed with different pesticides.
+
+
+
 
 \vspace{0.5cm}
 
@@ -541,8 +603,8 @@ ANSWER HERE
 
  Please place your answer to this question in the space below.
 
-ANSWER HERE
-     
+# Based on the ANOVA output, no. The ANOVA output only gives us a test statistic,
+# we need to do more to determine which spray has a different mean.
 
 \vspace{1cm}
 
@@ -555,8 +617,8 @@ ANSWER HERE
  tests as you like. Briefly explain what you would expect the outcome
  of these tests to be.  
 
-ANSWER HERE
- 
+# I would run a t-test on each spray against the assumed control F. I expect
+# that these tests would show a different mean for each spray.
  
 \vspace{1cm}
 
@@ -597,7 +659,7 @@ library(rstatix)
 Perform Tukey HSD analysis and display the results
 
 ```{r}
-
+tukey_hsd(model_spray)
 ```
 
 \vspace{1cm}
@@ -623,7 +685,15 @@ Perform Tukey HSD analysis and display the results
 
  Please place your answer in the space below.
 
-ANSWER HERE
+# B and A are not significantly different
+# F and A are not significantly different
+# F and B are not significantly different
+# D and C are not significantly different
+# E and C are not significantly different
+# D and E are not significantly different
+
+# none of these pairs have significantly different results between them.
+
 
 \vspace{1cm}
 
@@ -661,7 +731,7 @@ posthoc_analysis <- TukeyHSD(Test,'spray')
 Display the results
 
 ```{r}
-
+posthoc_analysis
 ```
 
 \vspace{1cm}
@@ -714,7 +784,8 @@ The graph displays the 95% CI (the default value)
  
  Please place your answer in the space below.
 
-ANSWER HERE
+# Given that spray C has the lowest mean count, and the highest difference
+# of mean abundance between sprays, we can say that C is the most effective
 
 \vspace{2cm}
 

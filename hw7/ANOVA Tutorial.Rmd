@@ -1,15 +1,6 @@
 ---
 title: "ANOVA Tutorial"
-output: pdf_document
-date: "`r Sys.Date()`"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
----
-title: "ANOVA Tutorial Key"
+author: "Simon Hans Edasi"
 output: pdf_document
 date: "`r Sys.Date()`"
 ---
@@ -63,11 +54,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}  
 # Clear the memory
-
+rm(list = ls())
 
   
 # Load libraries
-  
+library(ggplot2)
+library(dplyr)
+library(readr)
 
 ```
 
@@ -90,7 +83,11 @@ knitr::opts_chunk$set(echo = TRUE)
    \vspace{0.5cm} 
    
 ```{r}
+daphnia = read.csv('Daphniagrowth.csv')
+```
 
+```{r}
+View(daphnia)
 ```
   \vspace{0.5cm} 
   
@@ -99,6 +96,7 @@ knitr::opts_chunk$set(echo = TRUE)
 \vspace{0.5cm} 
   
 ```{r echo = FALSE}
+head(daphnia)
 
 ```
 
@@ -165,6 +163,10 @@ knitr::opts_chunk$set(echo = TRUE)
 \vspace{0.5cm} 
   
 ```{r echo = FALSE}
+  
+ggplot(daphnia, aes(x = parasite.name, y = growth.rate)) +
+geom_boxplot() +
+theme_bw()
 
 ```
   \vspace{0.5cm}   
@@ -174,6 +176,11 @@ knitr::opts_chunk$set(echo = TRUE)
    \vspace{0.5cm} 
    
 ```{r}
+
+ggplot(daphnia, aes(x = parasite.name, y = growth.rate)) +
+geom_boxplot() +
+theme_bw() +
+coord_flip()
 
 ```
 
@@ -270,12 +277,14 @@ daphnia %>%
   \vspace{0.5cm}  
   
 ```{r}
+# View(daphnia)
+?by()
 
 ```
 
 
 ```{r}
-
+by(daphnia, daphnia$parasite, summary)
  
 
 ``` 
@@ -336,7 +345,8 @@ daphnia %>%
 \vspace{0.5cm} 
   
 ```{r}
-
+# ?anova()
+?aov()
 ```
 
   \vspace{0.5cm} 
@@ -388,7 +398,7 @@ daphnia %>%
 \vspace{0.5cm} 
   
 ```{r}
-
+model_grow <- lm(growth.rate ~ parasite, data = daphnia)
 ```
 
   \vspace{0.5cm}   
@@ -442,7 +452,9 @@ daphnia %>%
 ### 9. Plot four diagnostic plots that examine the residuals.
   
 ```{r}
-
+# install.packages('ggfortify')
+library(ggfortify)
+autoplot(model_grow, smooth.colour = NA)
 ```
 
   \vspace{0.5cm} 
@@ -599,9 +611,21 @@ also to detect outliers.
   
  \vspace{0.5cm} 
   
+````{r}
+
+observations <- daphnia %>%
+  group_by(parasite.name) %>%
+    summarise(observations = length(rep))
+
+observations
+```
 ```{r}
+observations = 10
+print(observations)
 
 ```
+
+
 
   \vspace{0.5cm} 
   
@@ -609,8 +633,10 @@ also to detect outliers.
   
    \vspace{0.5cm} 
   
-```{r}
-
+```{r}       
+library(glue)
+treatments = length(unique(daphnia$parasite.name))
+glue('# of treatments: {treatments}')
 ```
 
   \vspace{0.5cm}   
@@ -624,6 +650,15 @@ also to detect outliers.
    \vspace{0.5cm} 
    
 ```{r}
+
+between_group_dof = treatments - 1
+
+within_group_dof = observations - treatments
+
+total_dof = observations - 1
+
+glue('Between group: {between_group_dof}, within group: {within_group_dof}, total: {total_dof}')
+
 
 ```
   \vspace{0.5cm} 
@@ -670,6 +705,7 @@ also to detect outliers.
 \vspace{0.5cm} 
   
 ```{r}
+anova(model_grow)
 
 ```
 
@@ -692,6 +728,10 @@ also to detect outliers.
   
 ```{r}
 
+sumDat<-daphnia %>%
+  group_by(parasite) %>%
+    summarise(meanGR = mean(growth.rate))
+sumDat
 ```
 
  \vspace{0.5cm} 
@@ -743,6 +783,11 @@ also to detect outliers.
   \vspace{0.5cm}   
   
 ```{r}
+# install.packages("agricolae")
+# install.packages("rstatix")
+library(agricolae)
+library(rstatix)
+
 
 ```
 
@@ -754,7 +799,7 @@ also to detect outliers.
   
   
 ```{r}
-
+?tukey_hsd()
 ```
 
   \vspace{0.5cm}   
@@ -819,7 +864,8 @@ also to detect outliers.
   
   
 ```{r}
-
+anova(model_grow)
+aov(model_grow)
 ```
   
 \vspace{0.5cm} 
@@ -836,6 +882,7 @@ also to detect outliers.
 \vspace{0.5cm} 
   
 ```{r}
+?tukey_hsd(model_grow)
 
 ```
 
@@ -846,7 +893,8 @@ also to detect outliers.
 \vspace{0.5cm} 
 
 ```{r}
-
+posthoc_analysis <- tukey_hsd(aov(model_grow))
+posthoc_analysis
 ```
 
   \vspace{0.5cm}   
