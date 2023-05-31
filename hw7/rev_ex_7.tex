@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{array}
+
+\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{cadmiumgreen},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\usepackage[margin=0.75in]{geometry}
+\setlength\parindent{0pt}
+
+\title{QSCI 381 HW 4}
+\date{5/11/2023}
+\author{Simon-Hans Edasi}
+
+\begin{document}
+
+	\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{enumerate}
+	\item (2 points) To what does the word treatment refer to in the ANOVA? Give an example.
+	
+	\textbf{A treatment is a combination of factors being studied. An example would be in a study of interactions between income and gender. Organizing the data into factors of low, middle, and high income; and male, female, and transgender, each combination of income and gender is a treatment.}\\
+	
+	\item (4 points) What are the assumptions underlying the ANOVA?
+
+	\begin{enumerate}\bfseries{}
+
+		\item The data consists of independent random samples
+		\item There should be no significant outliers
+		\item The data should be approximately normally distributed
+		\item The treatment variances are equal \\
+		
+	\end{enumerate}	 
+		
+	\item (1 point) In the ANOVA what are we partitioning?
+	
+	\textbf{ANOVA partitions the total sum of squares into regression sum of squares and residual  sum of squares.}
+	
+	\item (2 points) State the mathematical identity that represents this partitioning in both words and mathematical symbols.
+	
+	
+	
+	\item (6 points) Define each term in the identity above and clearly state what each term measures.
+	
+	\item (1 point) Describe in words the question the ANOVA is used to answer.	
+	
+	\item (3 points) Clearly state the hypotheses that we are testing in the ANOVA in both words and mathematical symbols.
+
+	\item (2 points) Define the treatment mean square or MS(Tr) in words (what does it measure) and mathematically. Clearly state the probability distribution of this random variable with the proper degrees of freedom.
+	
+	\item (2 points) Define the error mean square or MSE in words (what does it measure) and mathematically. Clearly state the probability distribution of this random variable with the proper degrees of freedom.
+	
+	\item (2 points) Define the F test statistic in both words and mathematically (include the proper probability distribution for this random variable and degrees of freedom).
+	
+	
+	\item (1 point) For a given $\alpha$ -level, state the decision rule (test criterion) for the ANOVA.
+	
+	
+	\item (9 points) Complete the following ANOVA summary table. You may simply use the
+correct abbreviations instead of the mathematical formulas.
+
+
+	\item (1 point) If we reject H 0 in the ANOVA, we only know that at least one of the treatment means is statistically significantly different from the others. If we wish to identify which of the means are statistically significantly different, why can’t we simply perform a series of t-tests on the combinations of all possible pairs of means?
+	
+	\item (28 points) Food processing companies know that peanuts (for making peanut butter) may be contaminated by a fungus, Aspergillus flavus, that produces an extremely deadly toxin, aflatoxin. Food inspectors took random samples of the peanuts from three different processing facilities of a food processing company and analyzed the samples for their aflatoxin content (in parts per billion). The following data was recorded:
+
+	The inspectors wish to test at the 1\% level of significance whether the differences among the three-population means can be attributed to chance.
+	
+	\begin{enumerate}
+		\item (3 points) What three (3) assumptions must be made in order to validly conduct this test?
+
+		\item (2 points) Clearly state H 0 and H A mathematically (please identify all symbols you use).
+		
+		\item (1 point) Given the context of the situation, why might the inspectors wish to use 1\% rather than 5\% in performing the analysis? (In answering this question, you may wish to recall the definition of $\alpha$ .)
+		
+		\item (8 points) Perform an ANOVA test on these data. Calculate the appropriate sums of squares, degrees of freedom, and mean squares. You may use a calculator or spreadsheet, but not R.
+		
+		\item (9 points) From the analysis, the inspectors calculate SST = 336 and SSE = 57. Complete the following summary table. Show your work to calculate the degrees of freedom.
+	
+	
+		\item (2 points) Clearly define and give the value of both the test statistic and the critical value. Use the table in the text to determine the critical value and state the appropriate degrees of freedom.
+
+		\item (2 points) Clearly state the decision rule or test criterion both in terms of the rejection region and the p-value.	
+	
+		\item (1 point) State your conclusion in the context of the problem.
+		
+	
+	
+	
+	
+	\end{enumerate}
+	
+	
+	
+
+
+	
+		
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\end{document}
