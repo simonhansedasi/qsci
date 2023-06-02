@@ -58,33 +58,81 @@
 		
 	\item (1 point) In the ANOVA what are we partitioning?
 	
-	\textbf{ANOVA partitions the total sum of squares into regression sum of squares and residual  sum of squares.}
+	\textbf{ANOVA partitions variances into in-group variance and between-group variance.} \\
 	
 	\item (2 points) State the mathematical identity that represents this partitioning in both words and mathematical symbols.
 	
+	\textbf{The variances are partitioned using the total sum of squares identity.}
 	
+	\textbf{SST = SSTr + SSE} \\
 	
 	\item (6 points) Define each term in the identity above and clearly state what each term measures.
 	
+	\textbf{The total sum of squares identity states that the total sum of squares (SST) is equal to the sum of squares for treatments (SSTr) plus the sum of squares for error (SSE). SSTr measures the between-group variability and SSE measures in-group variance.} \\
+	
 	\item (1 point) Describe in words the question the ANOVA is used to answer.	
+	
+	\textbf{ANOVA is used to determine if there are statistically significant differences of the means of two or more groups, or if the differences of mean are due to random chance. } \\
+	
 	
 	\item (3 points) Clearly state the hypotheses that we are testing in the ANOVA in both words and mathematical symbols.
 
+\[
+H_o: \mu_1 = \mu_2 = \mu_3 ... = \mu_n
+\]
+\textbf{$H_o$: The null hypothesis states that the mean of group 1 is equal to the mean of group 2 is equal to the mean of group 3 is equal to the mean of the nth group}
+\[
+H_a: \mu_1 \neq \mu_2 \stackrel{?}{=} \mu_3 ... \stackrel{?}{=} \mu_n
+\]
+\textbf{$H_a$: The alternative hypothesis states that the means are not all equal.} \\
+
 	\item (2 points) Define the treatment mean square or MS(Tr) in words (what does it measure) and mathematically. Clearly state the probability distribution of this random variable with the proper degrees of freedom.
+	
+\[
+{\rm MS(Tr)} = \frac{{\rm SS(Tr)}}{{\rm \# Treatments - 1}}
+\]
+
+	\textbf{The treatment mean square is calculated by dividing the sum of squares by degrees of freedom. This measures variability between group means and represents the average squared difference between group means and overall mean. The MS(Tr) follows the F-distribution with degrees of freedom df1 = \# Treatments -1 and df2 = \# Treamtents * (\# Observations - 1).} \\
 	
 	\item (2 points) Define the error mean square or MSE in words (what does it measure) and mathematically. Clearly state the probability distribution of this random variable with the proper degrees of freedom.
 	
+\[
+{\rm MSE} = \frac{{\rm SSE}}{{\rm \# Observations - \# Treatments}}
+\]
+	
+	\textbf{The error mean squared (MSE) is a measure of average in-group variability. It is calculated with the sum of squares for error divided by the degrees of freedom. It follows a chi-squared distribution, with DoF = \# observations - \# treatments.} \\
+	
 	\item (2 points) Define the F test statistic in both words and mathematically (include the proper probability distribution for this random variable and degrees of freedom).
 	
+\[
+{\rm F} = \frac{{\rm MS(Tr)}}{{\rm MSE}}
+\]
+	\textbf{The F-test statistic is used to determine the significance of differences of mean. The F-test statistic follows an F-distribution with df1 = \# treatments -1, df2 = \# observations - 1.}
 	
 	\item (1 point) For a given $\alpha$ -level, state the decision rule (test criterion) for the ANOVA.
 	
+	\textbf{If the calculated F-statistic is smaller than the critical value, then we reject the null hypothesis.}
 	
 	\item (9 points) Complete the following ANOVA summary table. You may simply use the
 correct abbreviations instead of the mathematical formulas.
-
+	\begin{center}
+	\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}  | c | c|c |c|c| } 
+	  \hline
+	  \textbf{Source of Variation} & \textbf{Degrees of Freedom (df)} & \textbf{Sum of Squares} & \textbf{Mean Square} & \textbf{F value} \\ 
+	  \hline
+	  Treatments & df(Tr) & SS(Tr) & SS(Tr) /  df(Tr) & MS(Tr) / MSE \\ 
+	  \hline
+	  Error & df(Err) & SSE & SSE / df(Err) & * \\ 
+	  \hline
+	  \hline
+	  Total & n-1 &  & * & * \\ 
+	   \hline
+	\end{tabular*}
+	\end{center}
 
 	\item (1 point) If we reject H 0 in the ANOVA, we only know that at least one of the treatment means is statistically significantly different from the others. If we wish to identify which of the means are statistically significantly different, why can’t we simply perform a series of t-tests on the combinations of all possible pairs of means?
+	
+	\textbf{T-tests only account for comparisons of two groups, and errors can accumulate when performing multiple comparisons. Tukey HSD takes care of this error accumulation.}
 	
 	\item (28 points) Food processing companies know that peanuts (for making peanut butter) may be contaminated by a fungus, Aspergillus flavus, that produces an extremely deadly toxin, aflatoxin. Food inspectors took random samples of the peanuts from three different processing facilities of a food processing company and analyzed the samples for their aflatoxin content (in parts per billion). The following data was recorded:
 
@@ -93,9 +141,23 @@ correct abbreviations instead of the mathematical formulas.
 	\begin{enumerate}
 		\item (3 points) What three (3) assumptions must be made in order to validly conduct this test?
 
+		\textbf{The data are normally distributed, free of outliers, and equally varied.} \\
+		
 		\item (2 points) Clearly state H 0 and H A mathematically (please identify all symbols you use).
 		
+		\[
+		{\rm H_o}: \mu_1 = \mu_2 = \mu_3
+		\]
+		
+		\[
+		{\rm H_a}: \mu_1 \neq \mu_2 \stackrel{?}{=} \mu_3
+		\]
+		
+		$\mu_n$ = mean fungus found at $n$ facility. \\
+		
 		\item (1 point) Given the context of the situation, why might the inspectors wish to use 1\% rather than 5\% in performing the analysis? (In answering this question, you may wish to recall the definition of $\alpha$ .)
+		
+		\textbf{We want to be extra confident because this food can kill people.} \\
 		
 		\item (8 points) Perform an ANOVA test on these data. Calculate the appropriate sums of squares, degrees of freedom, and mean squares. You may use a calculator or spreadsheet, but not R.
 		
