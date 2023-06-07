@@ -46,8 +46,8 @@ knitr::opts_chunk$set(echo = TRUE)
  
   \vspace{0.25cm}
  
+I think as latitude approaches the equator, melanoma rates will increase.
   
- ANSWER HERE
 
  \vspace{0.75cm}
  
@@ -125,15 +125,19 @@ the size of the population in millions as of 1965.
   
 ```{r}
 # Clear the memory
-  
+rm(list = ls())
 
 
   
 # Load libraries
-  
+library(ggplot2)
+library(dplyr)
+library(ggfortify)
+library(gridExtra)
+library(readr)
 
 # Read or upload dataset
-
+melanoma <- read.csv('melanoma.csv')
 ```
 \vspace{0.55cm}
  
@@ -157,7 +161,11 @@ the size of the population in millions as of 1965.
  \vspace{0.55cm}
  
 ```{r}
-
+View(melanoma)
+str(melanoma)
+colnames(melanoma)
+nrow(melanoma)
+ncol(melanoma)
 ```
 \vspace{0.55cm}
  
@@ -201,8 +209,14 @@ for ideas for what to request and for how to write the script.
 \vspace{0.55cm}
 
 ```{r}
-
+total_Locations = nrow(melanoma)
+meanMortality = mean(melanoma$mortality)
+medianMortality = median(melanoma$mortality)
+irqMortality = IQR(melanoma$mortality)
 # Standard method we have used before:
+
+library(glue)
+glue('# locations = {total_Locations}, Mean mort = {meanMortality}, Median mort = {medianMortality}, IQR = {irqMortality}')
 
 ```
 \vspace{0.55cm}
@@ -211,14 +225,12 @@ for ideas for what to request and for how to write the script.
  
   \vspace{0.55cm}
 
-ANSWER HERE
+locations = 49, Mean mort = 152.877551020408, Median mort = 147, IQR = 50
+
+The mean is higher than the median by about 6
 
  \vspace{0.55cm}
 
-```{r}
-
-
-```
  
  \vspace{0.55cm} 
  
@@ -230,9 +242,8 @@ ANSWER HERE
   
 
 ```{r}
-
-
-
+meanLatitude <- mean(melanoma$lat)
+meanLatitude
 ```
 
 
@@ -247,7 +258,7 @@ is_outlier  = function(x) {
   return(x < quantile(x,0.25) - 1.5 * IQR(x) |
            x > quantile(x, 0.75) + 1.5 * IQR(x))
 }
-Melanoma %>%
+melanoma %>%
   mutate(outlier = ifelse(is_outlier(mortality), mortality, as.numeric(NA))) %>%
   ggplot(., aes(x = "", y = mortality)) +
   geom_boxplot() +
@@ -279,31 +290,40 @@ ANSWER HERE
  
 
 ```{r}
-
-
+x = melanoma$lat
+y = melanoma$mortality
+xrange <- c(min(x), max(x))
+yrange <- c(min(y), max(y))
+plot(x,y, xlab = 'Lat (degrees)', ylab = 'Melanoma Deaths / 10,000,000 people')
+  
 
 ```
 \vspace{0.55cm}
+
+```{r}
+(unique(melanoma$mortality))
+# nrow(unique(melanoma$mortality))
+```
  
 ### Q5. From the scatterplot, what observations do you make about the relationship between melanoma mortality rates and latitude?
 
 \vspace{0.25cm}
 
-ANSWER HERE
+Melanoma deaths decrease as latitude increases.
 
 \vspace{0.55cm}
  
 ### Q6. Is the relationship one-to-one (recall from algebra what that means)?
 \vspace{0.25cm}
 
-ANSWER HERE
+No, the relationship is not one to one. For one thing, there are more values of mortality than latitude, so we will have to have at least one latitude mapping to multiple mortality rates. 
 
 \vspace{0.55cm}
  
 ### Q7. Is there much scatter?
 \vspace{0.25cm}
 
-ANSWER HERE
+No, the relationship looks pretty linear.
 
 \newpage
 
@@ -337,12 +357,13 @@ ANSWER HERE
    
    
 ```{r}
-
-
+mort = melanoma$mortality
+lat = melanoma$lat
+model_melanoma_mortality <- lm(mort ~ lat, data = melanoma)
   
 # Print the estimates of the regression coefficients,i.e., the estimated intercept and slope.
   
-
+model_melanoma_mortality
 
 ```
 \vspace{0.55cm}
@@ -350,7 +371,7 @@ ANSWER HERE
 ### Q9. Write the estimated linear model relationship between melanoma mortality rate and and latitude.
  \vspace{0.25cm}  
 
-  The model is: $$ Melanoma mortality rate = -5.98 Latitude + 389.19 $$
+  The model is: $$ {\rm MMR} = -5.98 *{\rm Latitude} + 389.19 $$
 
  \vspace{1cm}
   
