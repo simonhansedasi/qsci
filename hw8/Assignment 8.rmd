@@ -1,5 +1,6 @@
 ---
 title: "Assignment 8 Analysis Key"
+author: "Simon Hans Edasi"
 date: "`r Sys.Date()`"
 output: pdf_document
 ---
