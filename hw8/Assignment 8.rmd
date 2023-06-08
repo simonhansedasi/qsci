@@ -215,7 +215,9 @@ medianMortality = median(melanoma$mortality)
 irqMortality = IQR(melanoma$mortality)
 # Standard method we have used before:
 
+
 library(glue)
+
 glue('# locations = {total_Locations}, Mean mort = {meanMortality}, Median mort = {medianMortality}, IQR = {irqMortality}')
 
 ```
@@ -277,7 +279,7 @@ melanoma %>%
  
  \vspace{0.25cm} 
 
-ANSWER HERE
+First there appears to be a skew to the right, the mean is less than the median and we can see a demonstration of the tail from the boplot. There doesn't appear to be any outliers; the endpoints are contained within our acceptable quantiles.
 
 \vspace{0.55cm}
 
@@ -323,7 +325,8 @@ No, the relationship is not one to one. For one thing, there are more values of 
 ### Q7. Is there much scatter?
 \vspace{0.25cm}
 
-No, the relationship looks pretty linear.
+Some, not much. There is more scatter in the lower latitudes than higher latitudes, but the relationship looks pretty linear.
+
 
 \newpage
 
@@ -366,6 +369,8 @@ model_melanoma_mortality <- lm(mort ~ lat, data = melanoma)
 model_melanoma_mortality
 
 ```
+
+
 \vspace{0.55cm}
 
 ### Q9. Write the estimated linear model relationship between melanoma mortality rate and and latitude.
@@ -413,12 +418,13 @@ model_melanoma_mortality
  \vspace{0.55cm}
   
 ```{r}
-
+autoplot(model_melanoma_mortality)
 ```
 \vspace{0.55cm}
 
 
-  STATE YOUR CONCLUSIONS HERE
+Our data and residuals look good. There are no patterns in the top left plot, our residual QQ plot looks good, there is a sliht pattern in the bottom-right plot, but BC&P says that's okay if variance increases with mean, which is possible here. 
+
 
 \vspace{0.35cm}
  
@@ -433,35 +439,47 @@ model_melanoma_mortality
  
 ### Q2. What value do you get for the predicted value?  Please show your script and cut and paste the results in the space below.
 
-ANSWER HERE
-  
+
+```{r}
+mm_int = model_melanoma_mortality$coefficients[[1]]
+mm_var = model_melanoma_mortality$coefficients[[2]]
+
+pred_mort = meanLatitude * mm_var + mm_int
+glue('Predicted mortality using the mean latitude: {pred_mort}')
+
+```
+Predicted mortality using the mean latitude: 152.877551020408
+
+
  \vspace{2cm} 
   
 ### Q3.  What value does this predicted value approximately equal (Hint: You have already calculated this value)?  It is only approximately equal because we have used estimates of the slope  and intercept that do not include many decimal places. 
 
-ANSWER HERE
- 
+the mean mortality across all locations. 
   
 \vspace{0.55cm}
  
 ```{r}
 # Recall the mean latitude "meanlatitude" define an object for the mean mortality rate:
 
-
+meanLatitude
 
 # Print the result:
 
-
+print(meanLatitude)
 
 # Calculate the predicted mortality rate for the mean latitude:
+pred_mort = meanLatitude * mm_var + mm_int
 
 
 
 # Print the result:
 
-
+print(pred_mort)
 
 # Subtract this value from the mean mortality rate estimated eralier:
+
+print(meanMortality - pred_mort)
 
 ```
 
@@ -488,11 +506,15 @@ ANSWER HERE
  
   We will only conduct an hypothesis test for the slope.
  
+  State the null and alternative hypotheses 
+ 
 ### Q1. State the null and alternative hypotheses for that test.
 
 \vspace{0.55cm}
  
+H_o: There is no statistically significant relationship between latitude and melanoma mortality and the slope is equal to 0  $\beta = 0$
 
+H_a: There is a statistically significant relationship between latitude and melanoma mortality and the slope is not equal to zero $\beta \neq 0$. 
 
  
  \vspace{0.55cm}
@@ -538,7 +560,7 @@ ANSWER HERE
 \vspace{0.55cm}
 
 ```{r}
-
+anova(model_melanoma_mortality)
 ```
 
  \vspace{0.55cm} 
@@ -548,7 +570,7 @@ ANSWER HERE
  \vspace{0.55cm}
  
 ```{r}
-
+summary(model_melanoma_mortality)
 ```
 
  \vspace{0.55cm}
@@ -557,9 +579,9 @@ ANSWER HERE
  
  \vspace{0.55cm}
 
-  Looking at the Multiple R-squared:  0.68, we conclude that the relationship 
-  between mortality and latitude described by the linear model explains
-  approximately 68% of the variability in the data.
+
+68% This is from the R$^2$ value output by the linear model.
+
 
 \newpage 
  
@@ -607,7 +629,7 @@ ANSWER HERE
   
 ```{r} 
 
-Num_obs  = length(Melanoma$lat)
+Num_obs  = length(melanoma$lat)
 Num_obs
 ```
 
@@ -630,7 +652,11 @@ Den_DOF
 Critical_F_Value = qf(1 - Alpha_value, Num_DOF, Den_DOF)
 print(Critical_F_Value)
 ```
- 
+[1] 0.05
+[1] 1
+[1] 47
+[1] 4.0471
+
 \vspace{0.55cm}
 
   
@@ -639,8 +665,16 @@ print(Critical_F_Value)
  
 \vspace{0.55cm}  
  
-ANSWER HERE  
- 
+
+
+F-statistic:  99.8 on 1 and 47 DF,  p-value: 3.309e-13
+
+This is larger than our critical value and the p value is smaller than alpha.
+
+Our decision rule is to reject the null hypothesis when the test statistic is larger than the critical value. 
+
+The decision is to reject the null hypothesis that the slope parameter equals zero.
+
 \vspace{0.55cm}
   
  
@@ -654,6 +688,7 @@ ANSWER HERE
  
   
 ```{r}
+Alpha_value
 DOF  = Num_obs-2
 DOF
 print(Criticial_t_Value <- qt(1-(Alpha_value/2), DOF))
@@ -661,9 +696,12 @@ print(Criticial_t_Value <- qt(1-(Alpha_value/2), DOF))
 
  \vspace{0.55cm}
  
+
+[1] 0.05
+[1] 47
+[1] 2.011741
  
- ANSWER HERE
- 
+
 \vspace{0.55cm}
  
 ### Q5. Report the t test statistic and compare it to critical value. State the decision rule and your conclusion.
@@ -671,8 +709,9 @@ print(Criticial_t_Value <- qt(1-(Alpha_value/2), DOF))
 \vspace{0.55cm}
  
 
-  ANSWER HERE
- 
+t statistic: -9.99; p-value: 3.31e-13
+
+The t statistic is less than the critical value, but the p-value is less than our alpha. The decision rule says to reject the null when p is less than alpha, so the conclusion is to reject the null hypothesis that the slope is equal to zero.
 
 \vspace{0.55cm}
   
@@ -693,7 +732,7 @@ print(Criticial_t_Value <- qt(1-(Alpha_value/2), DOF))
  
   
 ```{r}
-ggplot(Melanoma, aes(x = lat,
+ggplot(melanoma, aes(x = lat,
                      y = mortality)) +
   geom_point() +
   geom_smooth(method = 'lm', se=TRUE) +
@@ -717,7 +756,7 @@ Mortality_Prediction  = predict(model_melanoma_mortality, interval="prediction")
 
 
 # Combine the upper and lower prediction intervals with the original data.
-combined_function  = cbind(Melanoma, Mortality_Prediction)
+combined_function  = cbind(melanoma, Mortality_Prediction)
 
 
 Mortality_Prediction   # Print the results for checking 
@@ -749,7 +788,9 @@ ggplot(combined_function, aes(x = lat,
  
  \vspace{0.55cm}
 
-  ANSWER HERE
+
+The prediction intervals are quite a bit wider than the confidence intervals. I would warn someone blindly predicting using this model to be careful, as the uncertainty represented by the prediciton intervals is much wider than the regression line. There is plenty of uncertainty to take into account.
+
 
 \vspace{0.55cm} 
   
@@ -759,10 +800,9 @@ ggplot(combined_function, aes(x = lat,
   
   \vspace{0.55cm}
 
- 
 
- ANSWER HERE
- 
+This statement is basically disinformation. There is a correlation with latitude and melanoma mortality, sure, but latitude is only a factor in what will cause someone to get melanoma. It certainly won't prevent it, but it may reduce the chance.
+
  \newpage
 
   

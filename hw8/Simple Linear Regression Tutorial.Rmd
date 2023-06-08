@@ -56,10 +56,10 @@ plant_gr <- read.csv('plant.growth.rate.csv')
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ggplot(plant_gr,
-aes(x = soil.moisture.content, y = plant.growth.rate)) +
-geom_point() +
-ylab("Plant Growth Rate (mm/week)") +
-theme_bw()
+  aes(x = soil.moisture.content, y = plant.growth.rate)) +
+  geom_point() +
+  ylab("Plant Growth Rate (mm/week)") +
+  theme_bw()
 ```
 
  Fit a simple linear regression model to the data
@@ -106,7 +106,7 @@ model_pgr
 
 ```{r}
 library(ggfortify)
-autoplot(model_pgr, smooth.colour = NA)
+autoplot(model_pgr)
 ```
 
 
@@ -238,7 +238,7 @@ autoplot(model_pgr, smooth.colour = NA)
 
 
 ```{r}
-anova(model_pgr)
+(anova(model_pgr))
 ```
 
 
@@ -247,7 +247,7 @@ anova(model_pgr)
 
 
 ```{r}
-summary(anova(model_pgr))
+summary(model_pgr)
 ```
 
  Add alpha levels and calculate critical values for F
@@ -332,7 +332,8 @@ model_pgr
  in the object combined_function.
 
 ```{r}
-??combined_function
+?cbind
+all_data
 ```
 
  Display the plant growth rates estimated
