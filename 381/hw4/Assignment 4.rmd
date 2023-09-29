@@ -45,7 +45,7 @@ Make the packages "dplyr" and "ggplot2"and their associated functions available 
 ```{r}
 library(dplyr)
 library(ggplot2)
-library(ggfortify)
+# library(ggfortify)
 library(readr)
 ```
 
@@ -182,10 +182,12 @@ The distribution appears normal with a mean and median around 75.There appear to
 ##  Explore the data for outliers.
   
 ```{r}
-print( Height_Boxplot <- ggplot(cherry_trees, aes(y=Treeheight)) +
+Height_Boxplot <- ggplot(cherry_trees, aes(y=Treeheight)) +
          geom_boxplot() +
          ylab("Treeheight (ft)") +
-         theme_bw())
+         theme_bw()
+
+Height_Boxplot
 ```
 
 \vspace{0.25cm}
