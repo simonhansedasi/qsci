@@ -1,0 +1,96 @@
+---
+title: "QSCI 482 Lab 2"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+\section{Exercise 1: Rounding Data}
+Round operated the way I expected, in that it rounded to the nearest integer. I expected this because I have used it before.
+
+```{r}
+library(glue)
+
+newdata <- c(1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0)
+
+glue('Ceiling = {ceiling(newdata)}, Floor = {floor(newdata)}, Rounded = {round(newdata)}')
+```
+
+Setting digits to a negative value rounds to the nearest power of ten, while positive values determines the number of decimal points to round
+
+
+```{r}
+
+round(3.456, digits = -2)
+round(3456, digits = -1)
+round(3456, digits = -3)
+round(3456.789, digits = 2)
+round(3456.789, digits = 1)
+
+```
+
+\section{Exercise 2}
+Probability of two or more people having the same birthday in our class
+```{r}
+pbirthday(n = 19, classes = 365, coincident = 2)
+
+```
+
+How many people are needed to have a 50% probability?
+
+```{r}
+qbirthday(prob = .50, classes = 365, coincident = 2)
+```
+
+How many people are needed to have a 99.99% probability?
+
+```{r}
+qbirthday(prob = .999, classes = 365, coincident = 2)
+```
+We need 366 people to have a 99.99% probability of two people sharing a birthday.
+
+
+\section{Exercise 3}
+```{r}
+?dchisq()
+```
+
+
+
+```{r}
+x = newdata
+curve(dchisq(x, df = 3),from = 0, to = 40)
+```
+
+
+```{r}
+curve(dchisq(x, df = 30), from = 0, to = 40)
+```
+
+\section{Exercise 4}
+### Sampling 5 values 10 times from standard normal
+
+```{r}
+samps <- c()
+for (i in 1:10){
+  x = rnorm(n = 5, mean = 0, sd = 1)
+  samps[i] <- mean(x)
+}
+glue('Mean: {mean(samps[1])}, Variance: {var(samps)}')
+
+```
+
+
+### Sampling 1000 values 5 times from standard normal
+
+```{r}
+print('sampling 1000 values from standard normal')
+samps <- c()
+for (i in 1:5){
+  x = rnorm(n = 1000, mean = 0, sd = 1)
+  samps[i] <- mean(x)
+}
+glue('Mean: {mean(samps[1])}, Variance: {var(samps)}')
+
+```

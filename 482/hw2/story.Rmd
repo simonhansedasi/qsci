@@ -1,0 +1,74 @@
+---
+title: "QSCI 482 Story 1"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+\section{Question 1}
+1. Using elementary expressions in R, calculate the density for a standard normal when X i = 0
+```{r}
+X = 0
+Y = (1/sqrt(2*pi)) * exp( -(X**2 / 2 ))
+print(Y)
+```
+
+2. Using elementary expressions in R, calculate the density for a standard normal when X i = 2 .
+```{r}
+X = 2
+Y = (1/sqrt(2*pi)) * exp( -(X**2 / 2 ))
+print(Y)
+```
+
+3. Show the R code demonstrating how you can check your answers using dnorm().
+
+```{r}
+X = 2
+mu = 0
+sd = 1
+dnorm(X, mu, sd)
+```
+
+\section{Question 2}
+1. Load the data in "SturgeonData.csv" into R and save it in a variable. Answer all questions in units of
+millimeters (mm).
+```{r}
+rm(list = ls())
+df <- read.csv('SturgeonData.csv')
+```
+
+2. What is the mean length of sturgeon?
+```{r}
+sturg_mean_len = mean(df$Length)
+print(sturg_mean_len)
+```
+3. What is the median length of sturgeon?
+```{r}
+sturg_median_len = median(df$Length)
+print(sturg_median_len)
+```
+4. What is the variance of sturgeon lengths?
+```{r}
+sturg_var = var(df$Length)
+print(sturg_var)
+```
+5. What is the standard deviation of sturgeon lengths?
+```{r}
+sturg_std = sd(df$Length)
+print(sturg_std)
+```
+6. What is the coefficient of variation of sturgeon lengths?
+```{r}
+sturg_cv = sturg_std / sturg_mean_len
+print(sturg_cv)
+```
+7. What is the Z-value for a sturgeon of length 2000 mm?
+
+
+For parts 8-10, assume that sturgeon lengths follow a normal distribution with the parameters just calculated.
+8. What proportion will be shorter than 1000 mm?
+9. What proportion will be longer than 1500 mm?
+10. What proportion will fall inside the slot limit of 44-50 inches (you’ll need to convert to mm)?
+
+
+
+
