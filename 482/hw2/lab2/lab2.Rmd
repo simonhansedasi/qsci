@@ -43,12 +43,12 @@ How many people are needed to have a 50% probability?
 qbirthday(prob = .50, classes = 365, coincident = 2)
 ```
 
-How many people are needed to have a 99.99% probability?
+How many people are needed to have a 99.9% probability?
 
 ```{r}
 qbirthday(prob = .999, classes = 365, coincident = 2)
 ```
-We need 366 people to have a 99.99% probability of two people sharing a birthday.
+We need at least 70 people to have a 99.99% probability of two people sharing a birthday.
 
 
 \section{Exercise 3}
