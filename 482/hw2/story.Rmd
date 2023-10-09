@@ -7,16 +7,17 @@ output: pdf_document
 \section{Question 1}
 1. Using elementary expressions in R, calculate the density for a standard normal when X i = 0
 ```{r}
+library(glue)
 X = 0
 Y = (1/sqrt(2*pi)) * exp( -(X**2 / 2 ))
-print(Y)
+glue('Density for standard normal when X_i = 0: {Y}')
 ```
 
 2. Using elementary expressions in R, calculate the density for a standard normal when X i = 2 .
 ```{r}
 X = 2
 Y = (1/sqrt(2*pi)) * exp( -(X**2 / 2 ))
-print(Y)
+glue('Density for standard normal when X_i = 2: {Y}')
 ```
 
 3. Show the R code demonstrating how you can check your answers using dnorm().
@@ -39,36 +40,136 @@ df <- read.csv('SturgeonData.csv')
 2. What is the mean length of sturgeon?
 ```{r}
 sturg_mean_len = mean(df$Length)
-print(sturg_mean_len)
+glue('Mean length of sturgeon: {signif(sturg_mean_len,3)} mm')
 ```
 3. What is the median length of sturgeon?
 ```{r}
 sturg_median_len = median(df$Length)
-print(sturg_median_len)
+glue('Median length of sturgeon: {signif(sturg_median_len,3)} mm')
 ```
 4. What is the variance of sturgeon lengths?
 ```{r}
 sturg_var = var(df$Length)
-print(sturg_var)
+glue('Variance of sturgeon length: {signif(sturg_var,3)} mm^2')
 ```
 5. What is the standard deviation of sturgeon lengths?
 ```{r}
 sturg_std = sd(df$Length)
-print(sturg_std)
+glue('STD of sturgeon length: {signif(sturg_std,3)} mm')
 ```
 6. What is the coefficient of variation of sturgeon lengths?
 ```{r}
 sturg_cv = sturg_std / sturg_mean_len
-print(sturg_cv)
+glue('CV of sturgeon length: {signif(sturg_cv,3)} mm')
 ```
 7. What is the Z-value for a sturgeon of length 2000 mm?
-
+```{r}
+Z = (2000 - sturg_mean_len) / sturg_std
+glue('Z value of sturgeon length: {signif((2000 - sturg_mean_len) / sturg_std,3)}')
+```
 
 For parts 8-10, assume that sturgeon lengths follow a normal distribution with the parameters just calculated.
 8. What proportion will be shorter than 1000 mm?
+```{r}
+prop_less_1000 = pnorm(1000, sturg_mean_len, sturg_std)
+glue('Proportion of sturgeon shorter than 1000 mm: {signif(prop_less_1000,3) * 100}%')
+
+```
+
 9. What proportion will be longer than 1500 mm?
+```{r}
+prop_greater_1500 = 1-pnorm(1500, sturg_mean_len, sturg_std)
+glue('Proportion of sturgeon longer than 100 mm: {signif(prop_greater_1500,3) * 100}%')
+
+```
+
+
 10. What proportion will fall inside the slot limit of 44-50 inches (you’ll need to convert to mm)?
+```{r}
+l1 = 44*25.4
+l2 = 50*25.4
+prop_bet_44_50 = pnorm(l2, sturg_mean_len, sturg_std) - pnorm(l1, sturg_mean_len, sturg_std)
+glue('Proportion of sturgeon between 44 - 50 in: {signif(prop_bet_44_50,3) * 100}%')
+
+```
+
+\section{Question 3}
+```{r}
+signif(pnorm(-1.9, seq(0,0.09,0.01)),3)
+```
 
 
 
+
+\section{Question 4}
+```{r}
+bp1 = read.csv('BPbefore.csv')
+bp2 = read.csv('BPafter.csv')
+```
+
+```{r}
+n_sys_before = length(bp1$Systolic)
+n_dia_before = length(bp1$Diastolic)
+n_sys_after  = length(bp2$Systolic)
+n_dia_after = length(bp2$Diastolic)
+```
+
+
+```{r}
+mean_sys_before = mean(bp1$Systolic)
+mean_sys_after = mean(bp2$Systolic)
+mean_dia_before = mean(bp1$Diastolic)
+mean_dia_after = mean(bp2$Diastolic)
+```
+
+
+
+```{r}
+std_sys_before = sd(bp1$Systolic)
+std_sys_after = sd(bp2$Systolic)
+std_dia_before = sd(bp1$Diastolic)
+std_dia_after = sd(bp2$Diastolic)
+```
+
+```{r}
+se_sys_before = std_sys_before / n_sys_before
+se_sys_after = std_sys_after / n_sys_after
+se_dia_before = std_dia_before / n_dia_before
+se_dia_after = std_dia_after / n_dia_after
+```
+
+```{r}
+alpha = 0.05
+t_score_sys_before = qt(p=alpha/2, df=n_sys_before-1,lower.tail=F)
+t_score_sys_after = qt(p=alpha/2, df=n_sys_after-1,lower.tail=F)
+t_score_dia_before = qt(p=alpha/2, df=n_dia_before-1,lower.tail=F)
+t_score_dia_after = qt(p=alpha/2, df=n_dia_after-1,lower.tail=F)
+
+```
+
+```{r}
+cil_sys_before = mean_sys_before - (t_score_sys_before*se_sys_before)
+cil_sys_after = mean_sys_after - (t_score_sys_after*se_sys_after)
+cil_dia_before = mean_dia_before - (t_score_dia_before*se_dia_before)
+cil_dia_after = mean_dia_after - (t_score_dia_after*se_dia_after)
+
+ciu_sys_before = mean_sys_before + (t_score_sys_before*se_sys_before)
+ciu_sys_after = mean_sys_after + (t_score_sys_after*se_sys_after)
+ciu_dia_before = mean_dia_before + (t_score_dia_before*se_dia_before)
+ciu_dia_after = mean_dia_after + (t_score_dia_after*se_dia_after)
+
+```
+
+```{r}
+glue('Systolic before: [{signif(cil_sys_before,3)}, {signif(ciu_sys_before,3)}]')
+glue('Systolic after: [{signif(cil_sys_after,3)}, {signif(ciu_sys_after,3)}]')
+glue('Diastolic before: [{signif(cil_dia_before,3)}, {signif(ciu_dia_before,3)}]')
+glue('Diastolic after: [{signif(cil_dia_after,3)}, {signif(cil_dia_after,3)}]')
+```
+
+3. Given that the intervals do not overlap, we can conclude that meds lowered both systolic and diastolic pressure.
+
+4. Patient A no longer has high blood pressure as systolic is not over 140 after meds and diastolic is under 90 after meds.
+
+5. Patient A responded to medication one such that blood pressure was reduced when medication is taken. For patient A to keep blood pressure under control they should take the medication.
 
