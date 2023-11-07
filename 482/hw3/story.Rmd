@@ -29,14 +29,14 @@ glue('Mean: {dia_mean}; STD: {dia_std}; Sample Size: {dia_n}')
 
 ### c. Assuming that the known population SD applies to the sample of trees, calculate the standard error, the 90% confidence interval, 95% confidence interval, and 99% confidence interval for the sample.
 ```{r}
-dia_se <- dia_std / sqrt(dia_n)
+dia_std <- 20.8
 
+dia_se <- dia_std / sqrt(dia_n)
 Z <- qnorm(0.95)
 cil90 <- signif(dia_mean - Z*dia_se, 3)
 ciu90 <- signif(dia_mean + Z*dia_se, 3)
 
 Z <- qnorm(0.975)
-print(Z)
 cil95 <- signif(dia_mean - Z*dia_se, 3)
 ciu95 <- signif(dia_mean + Z*dia_se, 3)
 
@@ -44,21 +44,6 @@ Z <- qnorm(0.995)
 cil99 <- signif(dia_mean - Z*dia_se, 3)
 ciu99 <- signif(dia_mean + Z*dia_se, 3)
 glue('90% CI [{cil90},{ciu90}]; 95% CI [{cil95},{ciu95}]; 99% CI [{cil99},{ciu99}]')
-```
-
-```{r}
-mean <- 27
-samp_std <- 11
-n <- 22
-
-se <- samp_std / sqrt(n)
-t <- qt(0.95,df = 21)
-
-cil95 <- (mean - t) / se
-ciu95 <- (mean + t) / se
-print(cil95)
-print(ciu95)
-print(ciu95 - cil95)
 ```
 
 
@@ -71,16 +56,15 @@ Our null hypothesis is $H_0: \bar{X} = 88.5$
 
 Our alternative hypothesis is $H_A:  \bar{X} \neq 88.5$, which will involve a two-tailed test where because we will reject the null if the mean is higher or lower than our population. We don't know the population standard deviation so we will need to use a t-test instead of a Z-test.
 
-Sticking with a standard confidence of 95%, choose $\alpha = 0.05$. Plot the distribution with rejection regions
+Sticking with a standard confidence of 95%, choose $\alpha = 0.05$.
 
 ```{r}
 alpha = 0.05
 # define rejection regions
 rej_left <- qnorm(alpha/2, 0,1)
 rej_right <- qnorm(alpha/2, 0,1, lower.tail = FALSE)
-print(rej_left)
 #plot the curve with rejection regions
-x <- seq(-4,4,length.out = length(diameters))
+x <- seq(-4,4,length.out = 100)
 plot(
   x, 
   y = dnorm(x),
@@ -94,36 +78,16 @@ yReject[xReject > rej_left & xReject < rej_right] <- 0
 
 polygon(c(xReject,xReject[length(xReject)],xReject[1]),
         c(yReject,0, 0), col='red')
-```
-Now we want to test if our test statistic falls within our rejection region.
 
-```{r}
 mu <- 88.5                              # null hyp pop mean
 dia_se <- dia_std / sqrt(dia_n)         # standard error
 dia_Z <- (dia_mean - mu) / dia_se       # Z statistic
-
-#plot the curve with rejection regions
-x <- seq(-4,4,length.out = length(diameters))
-plot(
-  x, 
-  y = dnorm(x,0,1),
-  type = 'l')
-## x and y for the whole area
-xReject <- c(seq(-4,4,by=0.01))
-yReject <- dnorm(xReject,0,1)
-
-yReject[xReject > rej_left & xReject < rej_right] <- 0
-
-polygon(c(xReject,xReject[length(xReject)],xReject[1]),
-        c(yReject,0, 0), col='red')
-
-# plot test statistic
 abline(v = dia_Z, col = 'black', lwd = 3)
+
 ```
 
 
-
-What is our p-value? Area of the rejection regions.
+What is our p-value? Probability of observing our Z_obs or a more extreme value.
 ```{r}
 p_left <- pnorm(dia_Z,0,1,lower.tail = FALSE)      # left rejection region
 
@@ -138,14 +102,13 @@ With $\alpha = 0.05$ we should reject the null hypothesis. For a significance le
 alpha = 0.005
 # define rejection regions
 rej_left <- qnorm(alpha/2, 0,1)
-print(rej_left)
 rej_right <- qnorm(alpha/2, 0,1, lower.tail = FALSE)
 mu <- 88.5                              # null hyp pop mean
 dia_se <- dia_std / sqrt(dia_n)         # standard error
 dia_Z <- (dia_mean - mu) / dia_se       # Z statistic
 
 #plot the curve with rejection regions
-x <- seq(-4,4,length.out = length(diameters))
+x <- seq(-4,4,length.out = 100)
 plot(
   x, 
   y = dnorm(x,0,1),
@@ -170,6 +133,174 @@ print(signif(p,2))
 ```
 Given these results, I would conclude the trees are significantly older than 100 years. We have a positive Z value so we know our mean is higher than the population mean. 
 
-With a lower p-value we end up not rejecting the null hypothesis, however, I think this is incorrect to do. By increasing alpha we crank up the power of our test, which I interpret to mean we are looking for bigger differences between sample and population. Looking for bigger differences means our difference of mean will become insignificant and we will commit a type II error by not rejecting the null when we should.
+With a lower p-value we still reject the null hypothesis.
+
+\section{Question 2}
+
+### Assume now that you do not know the population standard deviation of diameters for secondary growth trees, nor is my sample size large enough that the standard deviation of my sample can be assumed to be the same as the standard deviation of the population.
 
 
+### Conduct a statistical test, using a similar sequence of steps to question 1, to test whether the sample of trees on my property could be secondary growth, if secondary growth trees (the result of a single logging event) have a mean diameter of 88.5 cm. Explain your choice of statistical test, outline the steps involved, highlight your assumptions, report the 95% confidence interval from this sample, test statistic, p-value, and whether you accepted or rejected the null hypothesis, and finally answer the question above.
+
+We do not know the population standard deviation and our sample size is small so we will need to use a t-test to test our null hypothesis.
+
+$H_0: \mu = 88.5$
+
+$H_A: \mu \neq 88.5$
+
+We will use a two tail test because we are determining if the means are equal. We will calculate a t-statistic for our sample called t_obs, and compare it to a critical value defined by $\alpha = 0.05$. To use a t distribution we will need to calculate degrees of freedom.
+
+```{r}
+rm(list = ls())
+diameters <- read.csv('MyDouglasFirs.csv')$diameter
+```
+
+
+
+```{r}
+dia_mean <- signif(mean(diameters))
+dia_std <- (sd(diameters))
+dia_n <- (length(diameters))
+dia_se <- (dia_std / sqrt(dia_n))
+dia_dof <- (dia_n - 1)
+library(glue)
+t <- qt(0.975,df = dia_dof)
+cil95 <- signif(dia_mean - t*dia_se, 3)
+ciu95 <- signif(dia_mean + t*dia_se, 3)
+
+glue(' 95% CI [{cil95},{ciu95}]')
+glue('Mean: {signif(dia_mean,3)}; STD: {signif(dia_std,3)}; Sample Size: {signif(dia_n,3)}, se: {signif(dia_se,3)} dof: {signif(dia_dof,3)}')
+```
+
+
+
+```{r}
+alpha = 0.05
+# define rejection regions
+rej_left <- qt(alpha/2,df = dia_dof)
+rej_right <- qt(alpha/2,df = dia_dof,lower.tail = F)
+#plot the curve with rejection regions
+x <- seq(-4,4,length.out = 100)
+plot(
+  x, 
+  y = dt(x,df = dia_dof),
+  type = 'l')
+
+## x and y for the whole area
+xReject <- c(seq(-4,4,by=0.01))
+yReject <- dt(xReject, df = dia_dof)
+
+yReject[xReject > rej_left & xReject < rej_right] <- 0
+
+polygon(c(xReject,xReject[length(xReject)],xReject[1]),
+        c(yReject,0, 0), col='red')
+
+mu <- 88.5                              # null hyp pop mean
+dia_se <- dia_std / sqrt(dia_n)         # standard error
+t <- (dia_mean - mu) / dia_se       # Z statistic
+abline(v = t, col = 'black', lwd = 3)
+print(t)
+
+```
+
+Calculate p-value, the probability of observing this value or a more extreme t_obs. 
+
+```{r}
+# p_left <- pt(-dia_t, df = dia_dof)      # left rejection region
+p_left <- pt(t, df = dia_dof, lower.tail = F )
+# p <- 2 * p_left                         # p value for a two tail test
+print(signif(p_left,2))
+```
+
+p > $\alpha$, so we do not reject the null hypothesis and accept that this sample is from an old growth forest. Yes, the trees are 100 years old.
+
+
+\section{Question 3}
+
+### a. Calculate the 95% CI for the population SD, from the sample of data.
+
+
+```{r}
+rm(list = ls())
+weights <- read.csv('scalereadings.csv')$Weight
+
+samp_n <- length(weights)
+samp_mean <- mean(weights)
+samp_std <- sd(weights)
+samp_var <- var(weights)
+
+samp_dof <- samp_n - 1
+
+pop_sig <- 0.2
+alpha <- 0.05
+
+  
+chisq_l <- qchisq(alpha/2,df = samp_dof,lower.tail = F)
+chisq_u <- qchisq(1-alpha/2,df = samp_dof,lower.tail = F)
+chisqci_l <- (samp_dof * samp_var) / chisq_l
+chisqci_u <- (samp_dof * samp_var) / chisq_u
+
+glue('95% CI for sample STD [{round(sqrt(chisqci_l),3)},{round(sqrt(chisqci_u),3)}]')
+
+
+```
+
+
+
+
+
+### b. Conduct a statistical hypothesis test to detect whether the SD of measurements is equal to the SD promised by the manufacturer, for $\alpha$ = 0.05. Outline the null and alternative hypotheses, the choice of test and whether it is one-tailed or two-tailed, and report the sample SD, the value of the test statistic, the p-value, and whether the null hypothesis is accepted or rejected. Does the scale conform to the manufacturer’s promises of accuracy?
+
+
+$H_0: \text{Sample STD} = 0.2$
+
+$H_A: \text{Sample STD} \neq 0.2$
+
+We will be using a two tailed $\chi^2$ test to determine if our variance is equal to the population.
+
+
+
+
+
+```{r}
+alpha = 0.05
+# define rejection regions
+chi_crit_left <- qchisq(alpha/2,df = samp_dof)
+chi_crit_right <- qchisq(1-alpha/2,df = samp_dof)
+glue('{round(chi_crit_left,2)}, {round(chi_crit_right,2)}')
+#plot the curve with rejection regions
+x <- seq(0,50,length.out = 100)
+plot(
+  x, 
+  y = dchisq(x,df = samp_dof),
+  type = 'l')
+
+## x and y for the whole area
+xReject <- c(seq(0,50,by=0.01))
+yReject <- dchisq(xReject, df = samp_dof)
+
+yReject[xReject > chi_crit_left & xReject < chi_crit_right] <- 0
+
+polygon(c(xReject,xReject[length(xReject)],xReject[1]),
+        c(yReject,0, 0), col='red')
+chi_sq <- (samp_dof * samp_var) / pop_sig^2
+
+# SS <- sum(weights - mean(weights))^2
+# 
+# chi_sq <- SS / pop_sig^2
+
+print(chi_sq)
+abline(v = chi_sq, col = 'black', lwd = 3)
+```
+
+```{r}
+# calculate p-value
+# what is the probability of observing our statistic or more extreme value?
+p_left <- 1 - pchisq(chi_sq,df = samp_dof)
+p_right <- 1 - pchisq(chi_sq, df = samp_dof,lower.tail = F)
+print(p_left)
+print(p_right)
+glue('alpha = 0.05, p-value = {round(2*p_left,3)}')
+```
+
+Our $\chi^{2}$ value falls within our rejection region and our p-vaue is less than our selected $\alpha$. We reject the null hypothesis that the scale variance is similar to the manufacturer reported variance. No, the scale does not conform to manufacturer variance standards.

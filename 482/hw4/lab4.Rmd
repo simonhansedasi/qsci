@@ -1,0 +1,95 @@
+---
+title: "QSCI 482 Lab 4"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+\section{Question 1}
+
+```{r}
+rm(list = ls())
+GoogleTimes <- read.csv('GoogleMapTimes.csv')
+diff <- GoogleTimes$Actual - GoogleTimes$GMapPredicted
+```
+
+```{r}
+samp_mean <- mean(diff)
+samp_var <- var(diff)
+print(samp_var)
+alpha <- 0.05
+power <- 0.90
+beta <- 0.1
+n <- 20
+
+delta <- 1
+for (i in 1:10){
+  t_alpha <- qt(1-alpha/2, df = n-1)
+  t_beta <- qt(1-beta, df = n-1)
+  n <- ceiling(  (samp_var / delta^2) * (t_alpha + t_beta)^2  )
+  print(n)
+}
+library(glue)
+glue('choose n = 9')
+```
+
+
+
+\section{Question 3}
+```{r}
+df <- read.csv('lab4/chromis_data.csv')
+head(df)
+```
+
+```{r}
+scottiD <- df[df$name_combined == 'Chromis scotti', 'meters']
+insolataD <- df[df$name_combined == 'Chromis insolata', 'meters']
+```
+
+```{r}
+scotti_var <- var(scottiD)
+insolata_var <- var(insolataD)
+
+library(glue)
+glue('scotti variance: {round(scotti_var, 3)}')
+glue('insolata variance: {round(insolata_var,3)}')
+```
+
+```{r}
+t.test(scottiD, insolataD,'two.sided',var.equal = TRUE)
+```
+
+```{r}
+n1 <- length(scottiD)
+n2 <- length(insolataD)
+
+X1 <- mean(scottiD)
+X2 <- mean(insolataD)
+
+dof <- n1 + n2 - 2
+
+pooled_var <- ( (n1-1)*scotti_var + (n2-1)*insolata_var ) / dof
+
+s <- sqrt( (pooled_var / n1) + (pooled_var) / n2 )
+
+t_obs <- (X1 - X2) / s
+glue('t_obs = {signif(t_obs,3)}')
+
+t_crit <- qt(0.05/2, df = dof, lower.tail = FALSE)
+glue('t_crit = {signif(t_crit,3)}')
+
+p <- 2 * pt(t_obs,df = dof,lower.tail = FALSE)
+glue('p-value = {signif(p,3)}')
+```
+
+
+```{r}
+north <- c(145,265,19,93)
+south <- c(142,253,5,85)
+
+diffs <- north-south
+t <- (mean(diffs)) / sqrt(var(diffs) / length(diffs))
+print(t)
+```
+
+

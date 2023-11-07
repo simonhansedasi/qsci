@@ -1,0 +1,69 @@
+---
+title: "Untitled"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+weight_change <- c(-1.7, -2.1, -3.6, -0.5)
+
+mean <- mean(weight_change)
+
+mu <- 0
+
+se <- sqrt(var(weight_change) / length(weight_change))
+
+t <- (mean - mu) / se
+print(t)
+
+p_value <- 2*pt(t,df = length(weight_change) - 1)
+print(p_value)
+```
+
+
+```{r}
+skuk_X <- 46
+skuk_n <- 50
+skuk_SD <- 14
+skuk_se <- skuk_SD / sqrt(skuk_n)
+olif_X <- 41
+olif_n <- 20
+olif_SD <- 2.3
+
+
+
+
+
+
+dof_prime <- ((skuk_SD^2)^2 + (olif_SD^2)^2) / (  ((skuk_SD^2)^2 / (skuk_n - 1)) + ((olif_SD^2)^2 / (olif_n - 1)) )
+skuk_t <- qt(skuk_X - olif_X, df = dof_prime)
+skuk_t <- (skuk_X - olif_X) / skuk_se
+skuk_X_95CIu <- skuk_X + (skuk_t*skuk_se)
+print(skuk_X_95CIu)
+skuk_X_95CIu <- skuk_X - (skuk_t*skuk_se)
+print(skuk_X_95CIu)
+```
+
+
+
+
+```{r}
+s1 <- skuk_SD^2
+s2 <- olif_SD^2
+
+ratio <- s1 / s2
+
+v1 <- skuk_n - 1
+v2 <- olif_n - 1
+
+
+F_stat = s1 / s2
+print(F_stat)
+
+
+```

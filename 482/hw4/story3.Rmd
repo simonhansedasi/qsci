@@ -1,0 +1,189 @@
+---
+title: "QSCI 482 Story 3"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question 1}
+
+```{r}
+rm(list = ls())
+library(glue)
+lengths <- read.csv('DaphneHybrids.csv')$Lengths
+samp_n <- length(lengths)
+samp_var <- var(lengths)
+samp_se <- sqrt(samp_var / samp_n)
+samp_dof <- samp_n-1
+alpha <- 0.05
+delta <- 2
+n <- 50
+delta = 3
+for (i in 1:10){
+  t <- qt(1-alpha/2, df = n-1)
+  n <- ceiling(  (samp_var*t^2) / delta^2  )
+}
+glue('choose n = {n} to achieve 95% confidence interval of 3mm')
+```
+
+
+\section{Question 2}
+### a. If we want to detect an increase in shell length from 310 to 320 $\mu m$ with a significance level of 0.05 and power of 0.90, what sample size is needed under the new protocol? 
+
+```{r}
+# H_0: shell_delta >= 10 microns
+# H_A: shell_delta < 10 microns
+# One tailed alpha
+rm(list = ls())
+alpha <- 0.05
+power <- 0.90
+beta <- 1 - power
+delta <- 10     # Want to see an increase from 310 to 320
+df <- read.csv('WhiskeyCreekAfter.csv')
+samp_var <- var(df$ShellLengths)
+samp_n <- length(df$ShellLengths)
+n <- 50
+for (i in {1:10}){
+  t_a <- qt(1-alpha, df = n-1, lower.tail = F)
+  t_b <- qt(1-beta, df = n-1, lower.tail = F)
+  n <- ceiling(  (samp_var / delta^2) * (t_a + t_b)^2  )
+}
+glue('to detect growth of at least 10 microns we need a sample size of {n}')
+
+
+
+
+```
+
+### b. What sample size is needed for the same requirements as in (a), except with a power of 0.99?
+
+```{r}
+# H_0: shell_delta >= 10 microns
+# H_A: shell_delta < 10 microns
+# One tailed alpha
+
+alpha <- 0.05
+power <- 0.99
+beta <- 1 - power
+delta <- 10     # Want to see an increase from 310 to 320
+n <- 50
+for (i in {1:10}){
+  t_a <- qt(1-alpha, df = n-1, lower.tail = F)
+  t_b <- qt(1-beta, df = n-1, lower.tail = F)
+  n <- ceiling(  (samp_var / delta^2) * (t_a + t_b)^2  )
+}
+glue('to detect growth of at least 10 microns with power 0.99 we need a sample
+     size of {n}')
+```
+
+
+### c. What sample size is needed for the same requirements as in (a), except with a significance level of 0.10?
+
+```{r}
+# H_0: shell_delta >= 10 microns
+# H_A: shell_delta < 10 microns
+# One tailed alpha
+
+alpha <- 0.10
+power <- 0.90
+beta <- 1 - power
+delta <- 10     # Want to see an increase from 310 to 320
+n <- 50
+for (i in {1:10}){
+  t_a <- qt(1-alpha, df = n-1, lower.tail = F)
+  t_b <- qt(1-beta, df = n-1, lower.tail = F)
+  n <- ceiling(  (samp_var / delta^2) * (t_a + t_b)^2  )
+}
+glue('to detect growth of at least 10 microns with alpha = 0.10 and power = 0.90
+     we need a sample size of {n}')
+```
+
+
+### d. What sample size is needed for the same requirements as in (a), if we need only detect an increase in shell length from 310 to 330 $\mu m$
+
+```{r}
+# H_0: shell_delta >= 10 microns
+# H_A: shell_delta < 10 microns
+# One tailed alpha
+
+alpha <- 0.05
+power <- 0.90
+beta <- 1 - power
+delta <- 20     # Want to see an increase from 310 to 330
+n <- 50
+
+for (i in {1:10}){
+  t_a <- qt(1-alpha, df = n-1, lower.tail = F)
+  t_b <- qt(1-beta, df = n-1, lower.tail = F)
+  n <- ceiling(  (samp_var / delta^2) * (t_a + t_b)^2  )
+}
+glue('to detect growth of at least 20 microns with alpha = 0.05 and power = 0.90
+     we need a sample size of {n}')
+```
+
+
+
+\section{Question 3}
+### Using the data in Question 2, and the same scenario, with a significance level of 0.05, what is the minimum detectable difference in shell length, that can be detected 90% of the time, if
+
+### a. You take a random sample of the shell lengths of 15 baby oysters?
+```{r}
+alpha <- 0.05
+power <- 0.90
+beta <- 1-power
+samp_n <- 15    # given sample n
+t_a <- qt(1-alpha, df = samp_n -1, lower.tail = F)
+t_b <- qt(1-beta, df = samp_n - 1, lower.tail = F)
+delta <- sqrt(samp_var / samp_n) * (t_a + t_b)
+glue('With a sample size of 15 we can detect a minimum difference of 
+     {signif(delta,3)} microns')
+```
+
+
+### b. You take a random sample of the shell lengths of 500 baby oysters?
+
+```{r}
+alpha <- 0.05
+power <- 0.90
+beta <- 1-power
+samp_n <- 500    # given sample n
+delta <- sqrt(samp_var / samp_n) * (t_a + t_b)
+glue('With a sample size of 500 we can detect a minimu difference of 
+     {signif(delta,3)} microns')
+```
+
+\section{Question 4}
+### Consider the data and scenario in Question 2, with a significance level of 0.05. It turns out the new protocol actually increases shell growth more than expected, resulting in mean shell length increasing from 310 to 345 $\mu m$. What is the power to detect this difference if:
+
+### a. You take a random sample of the shell lengths of 20 baby oysters?
+
+```{r}
+alpha <- 0.05
+delta <- 35
+samp_n <- 20
+se <- sqrt(samp_var / samp_n)
+t_a <- qt(1-alpha, df = samp_n - 1)
+t_b <- (delta / se) - t_a
+power <-1 - pt(t_b,df = samp_n - 1,lower.tail = F)
+glue('estimated power is {signif(power,3)}')
+
+```
+
+### b. You take a random sample of the shell lengths of 40 baby oysters?
+
+
+```{r}
+alpha <- 0.05
+delta <- 35
+samp_n <- 40
+se <- sqrt(samp_var / samp_n)
+t_a <- qt(1-alpha, df = samp_n - 1)
+t_b <- (delta / se) - t_a
+power <-1 - pt(t_b,df = samp_n - 1,lower.tail = F)
+glue('estimated power is {signif(power,3)}')
+
+```
