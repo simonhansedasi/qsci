@@ -1,0 +1,117 @@
+---
+title: "QSCI 482 Lab 6"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(glue)
+library(tidyr)
+
+# update.packages(ask = FALSE, checkBuilt = TRUE)
+# tinytex::tlmgr_update()
+```
+<!-- library(amsmath) -->
+\section{Part 1}
+
+### 1.
+
+\begin{equation}
+F_{\alpha(1),\nu_1 = k-1,\nu_2 = N-k, }
+\end{equation}
+
+### 2. 
+\begin{equation}
+\chi^2 = \sum^{2}_{j=1} \frac{\left(f_{ij} - \hat{f}_{ij}\right)^2}{\hat{f}_{ij}}
+\end{equation}
+
+### 3. 
+\begin{equation}
+ \bar{X} = \frac{\sum^{k}_{i=1}\sum^{n_i}_{j=1}X_{ij}}{N}
+\end{equation}
+
+### 4. 
+\begin{equation}
+\phi = \sqrt{  \frac{n\sum^{k}_{i=1} \left(\mu_i - \mu \right)^2}{k\sigma^2}    }
+\end{equation}
+
+\section{Part 2}
+### 5. 
+```{r}
+df <- read.csv('Pig feed.csv')
+df
+```
+
+### 6. 
+```{r}
+col_means <- colMeans(df,na.rm = T)
+col_means
+```
+
+### 7. 
+```{r}
+xlong <- gather(data = df,key = feed,value = weight,na.rm= T)
+```
+
+### 8.
+
+```{r}
+X <- mean(xlong$weight)
+t_ss <- sum((xlong$weight - X)^2)
+t_dof <- nrow(xlong) - 1
+print(t_ss)
+print(t_dof)
+```
+
+### 9.
+```{r}
+g_ss <- 0
+for (i in colnames(df)){
+  
+  n <- (nrow(xlong[xlong$feed == i,]))
+  g_ss <- g_ss +  (n* (col_means[i] - X)^2)
+
+}
+g_dof <- length(col_means) - 1
+```
+
+### 10. 
+
+```{r}
+alpha <- 0.05
+e_ss <- t_ss - g_ss
+e_dof <- t_dof - g_dof
+
+g_ms <- g_ss / g_dof
+e_ms <- e_ss / e_dof
+
+f <- g_ms / e_ms
+f.crit <- qf(alpha / 2, df1 = g_dof, df2 = e_dof,lower.tail = F)
+
+p.value <- pf(f, df1 = g_dof, df2 = e_dof,lower.tail = F)
+glue('F: {f}\nF_crit: {f.crit}\np-value: {p.value}')
+```
+
+### 11. 
+```{r}
+glue('total SS: {t_ss}\nGroup SS: {g_ss}\nError SS: {e_ss}\ntotal DF: {t_dof}
+Group DF: {g_dof}\nError DF: {e_dof}\nGroups MS: {g_ms}\nError MS: {e_ms}'
+)
+```
+
+
+```{r}
+aov.res <- aov(formula = weight~feed,data = xlong)
+print(aov.res)
+summary(aov.res)
+coefficients(aov.res)
+```
+
+
+
+
+
+
+

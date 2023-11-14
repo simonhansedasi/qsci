@@ -2,47 +2,71 @@
 title: "QSCI 482 Story 5"
 author: "Simon Hans Edasi"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  pdf_document:
+    fig_width: 4
+    fig_height: 3
+
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r}
+
+```{r setup, include=FALSE}
+library(glue)
+
 # quick function to make plotting faster
 t_plot <- function(alpha=0.05, dof = 5,t_obs = 0){
-# define rejection regions
-rej_left <- qt(alpha/2,df = dof)
-rej_right <- qt(alpha/2,df = dof,lower.tail = F)
-#plot the curve with rejection regions
-x <- seq(-4,4,length.out = 100)
-plot(
-x,
-y = dt(x,df = dof),
-type = 'l')
-## x and y for the whole area
-xReject <- c(seq(-4,4,by=0.01))
-yReject <- dt(xReject,df = dof)
-yReject[xReject > rej_left & xReject < rej_right] <- 0
-polygon(c(xReject,xReject[length(xReject)],xReject[1]),
-c(yReject,0, 0), col='red')
-abline(v = t_obs)
+  # define rejection regions
+  rej_left <- qt(alpha/2,df = dof)
+  rej_right <- qt(alpha/2,df = dof,lower.tail = F)
+  #plot the curve with rejection regions
+  x <- seq(-4,4,length.out = 100)
+  plot(
+    x,
+    y = dt(x,df = dof),
+    type = 'l'
+  )
+  ## x and y for the whole area
+  xReject <- c(seq(-4,4,by=0.01))
+  yReject <- dt(xReject,df = dof)
+  yReject[xReject > rej_left & xReject < rej_right] <- 0
+  polygon(c(xReject,xReject[length(xReject)],xReject[1]),
+  c(yReject,0, 0), col='red')
+  abline(v = t_obs)
 }
 
-library(glue)
-```
-Load in the data
-```{r}
+chisq_plot <- function(alpha=0.05, dof = 5,t_obs = 0){
+  # define rejection regions
+  # rej_left <- qchisq(alpha/2,df = dof)
+  rej_right <- qchisq(alpha/2,df = dof,lower.tail = F)
+  #plot the curve with rejection regions
+  x <- seq(0,10,length.out = 100)
+  plot(
+    x,
+    y = dchisq(x,df = dof),
+    type = 'l'
+  )
+  ## x and y for the whole area
+  xReject <- c(seq(0,10,by=0.01))
+  yReject <- dchisq(xReject,df = dof)
+  yReject[xReject < rej_right] <- 0
+  polygon(c(xReject,xReject[length(xReject)],xReject[1]),
+  c(yReject,0, 0), col='red')
+  abline(v = t_obs)
+  abline(v = rej_right,col = 'red', lw = 3)
+}
+
+#Load in the data
 df <- read.csv('bestroute.csv')
-hmin <- df$HighwayMin
-hsec <- df$HighwaySec / 60
+hmin <- df$HighwayMin * 60
+hsec <- df$HighwaySec 
 h <- hmin + hsec
 
-bmin <- df$BackRouteMin
-bsec <- df$BackRouteSec / 60
+bmin <- df$BackRouteMin *60
+bsec <- df$BackRouteSec
 b <- bmin + bsec
 ```
+
 
 \section{Question 1}
 
@@ -66,8 +90,8 @@ t_plot(alpha, dof = dof, t_obs = t)
 glue('degrees of freedom: {dof}\nt_obs: {t}\nt_crit: {t_crit}\np-value: {p_value}')
 ```
 
-We see significantly higher times on the highway than the backroads, leading us to conclude the backroute is faster.
-\clearpage
+We see significantly higher times on the highway than the backroads and conclude the backroute is faster.
+
 
 ### b. Conduct the test the short way around. Your answers should match.
 
@@ -79,42 +103,190 @@ Yay, same values!
 \section{Question 2}
 ### a. Conduct a Wilcoxon paired-sample test (this is non-parametric), the long way around, to determine whether the highway time is significantly difference from the back route time. Report the test statistic, p-value etc.
 
+$H_0: \mu_h = \mu_b$
+
+$H_0: \mu_h \neq \mu_b$
+
+
+```{r}
+diff <- h-b
+# find index of nonzero differences
+r <- which(diff != 0)
+diff <- diff[r]
+h <- h[r]
+b <- b[r]
+absd <- abs(diff)
+ranks <- rank(absd)
+n <- length(diff)
+
+T_pos <- ranks[diff > 0]
+T_p <- sum(T_pos)
+
+T_neg <- ranks[diff < 0]
+T_n <- sum(T_neg)
+
+smaller_T <- min(abs(T_p),abs(T_n))
+left <- psignrank(smaller_T, n)
+p <- 2 * left
+glue('T+: {T_p}\nT-: {T_n}\nleft: {left}\np-value: {p}')
+```
+
 ### b. Conduct the same test but obtain the p-value using the normal approximation (use twice the area for a two-tailed test).
+```{r}
+df <- data.frame(h,b,diff)
+df$absd <- abs(df$diff)
+df$rank <- rank(abs(diff))
+df$sign <- (df$diff / abs(df$diff)) 
+# Get the df index of ranks in ascending rank order
+rank_order <- order(df$rank)
+# Identify df indexes where rank is not a whole number
+repeated_ranks <- rank_order[ranks[ranks != as.integer(ranks)]]
+repeats <- df[repeated_ranks, ]
+# Repeats Of Different Sign
+ros <- (repeats$diff + (repeats$diff * repeats$sign))
+rods <- repeats[ros == 0,]
+# w = number of columns in rods
+w <- dim(rods)[1]
+print(w)
+```
+Okay, we have no repeats of different signs so we don't have to worry about correcting for it. I'm still gonna code it for future use!
+
+```{r}
+rods_correction <- function(rods){
+  t_c <- 0
+  if (w == 0){
+    return(t_c)
+  }
+  if (w != 0){
+    t_vec <- vector()
+    n <- 1
+    for (i in (unique(rods$absd))){
+      t_vec[n] <- nrow(rods[,rods$diff == i])
+      n <- n+1
+    }
+    for (i in 1:length(t_vec)){
+      t_i <- t_vec[i]
+      t_c <- t_c + (t_i^3 - t_i)
+    }
+    t_c <- (t_c / 2)
+    return(t_c)
+  }
+}
+t_c <- rods_correction(rods)
+```
+
+
+```{r}
+mu <- (n * (n+1)) / 4
+sig <- sqrt(  (n*(n+1)*(2*n + 1) - t_c) / 24  )
+Z <- (abs(smaller_T - mu) - 0.5) / sig
+p <- 2*(pnorm(Z,lower.tail = F))
+print(p)
+```
 
 ### c. Conduct a Wilcoxon paired-sample test the short way around in R. If this differs from 2a) or 2b), explain why.
+
+```{r}
+wilcox.test(x = h,y = b,paired = T, alternative = 'two.sided')
+```
+This differs from the answer in 2a because the built in test uses the normal approximation automatically and toggles correction on or off.
+
 
 \section{Question 3}
 
 ### a. Test whether the differences in time are normally distributed using qqplot, histogram, and the Shapiro-Wilk test. What do you conclude about normality?
 
+```{r}
+qqnorm(diff)
+hist(diff)
+shapiro.test(diff)
+```
+All three of these distribution tests show that the differences are not normally distributed.
+
 ### b. Given the answer in 3a), which of the tests used in Q1 or Q2 is appropriate, and what do you conclude about travel time on the two routes? Was your roommate correct or were you correct?
 
+We show that our data is not normally distributed, which means we can not use the t-test as our assumption of normality is violated. We also can not use the normal approximation, as we have too few data points. Therefore, we must use the non-parametric Wilcoxon signed-rank test to determine if there is a difference in travel times and conclude that I am right to take the backroute home.
 
 \section{Question 4}
 
+### a. Run a chi-square goodness-of-fit test the long way around to determine if the distribution of fruit flies among the four categories could be due to random luck, or are due to a preference of fruit flies for some substances over others.
+
+$H_0:$ Fruit fly attraction is independent of substance.
+
+$H_A:$ Fruit fly attraction is dependent on substance.
 ```{r}
 k <- c('banana', 'vinegar','honey','sugarwater')
-Nobserved <- c(23, 18, 5, 10)
-n <- sum(Nobserved)
+obs <- c(23, 18, 5, 10)
+n <- sum(obs)
 K <- length(k)
-musn <- 3000
 preds <- vector()
 for (i in k)
-  preds[i] <- (1/K) * musn
-Npredicted <- (preds)
+  preds[i] <- n/K
 
-fobs <- Nobserved / n 
-fpred <- Npredicted / musn
+chisq.value <- sum((obs - preds)^2 / preds)
+p <- pchisq(abs(chisq.value), df = K-1, lower.tail = F)
+glue('\nChiSQ goodness of fit\nchisq: {chisq.value}\np_value: {p}')
+```
 
-cbind(fobs, fpred)
+### b. Run a direct R test.
+```{r}
+chisq.test(x = obs, p = preds / n)
+```
 
-chisq <- sum(  (fobs - fpred)^2 / fpred  )
-p <- pchisq(abs(chisq), df = K-1, lower.tail = F)
+\section{Question 5}
+## Long way around
+### a. Run a chi-square test with no corrections
 
-glue('\nChiSQ goodness of fit\nchisq: {chisq}\np_value: {p}')
+$H_0:$ Offspring anadromy is independent of maternal anadromy
+
+$H_A:$ Offspring anadromy depends on maternal anadromy
+
+```{r}
+obs <- matrix(c(16,13,5,1),byrow = T,nrow = 2, ncol = 2)
+obs
 ```
 
 ```{r}
-# chisq.test(fobs,fpred)
+alpha <- 0.05
+n <- sum(obs)
+
+Rvec <- rowSums(obs)
+Cvec <- colSums(obs)
+
+chi.stat <- (det(obs)^2 * n) / prod(Rvec * Cvec)
+chi.crit <- qchisq(alpha/2,df = 1,lower.tail = F)
+p_value <- pchisq(chi.stat,df =1,lower.tail = F)
+glue('chi.stat: {chi.stat}\nchi.crit: {chi.crit}\np-value: {p_value}')
 ```
 
+```{r}
+chisq_plot(0.05,1,chi.stat)
+```
+
+### b. Run a chi-square test with the Yates continuity correction
+
+```{r}
+alpha <- 0.05
+n <- sum(obs)
+
+Rvec <- rowSums(obs)
+Cvec <- colSums(obs)
+
+chi.stat <- (  (abs(det(obs)) - (n/2))^2 * n  ) / prod(Rvec * Cvec)
+chi.crit <- qchisq(alpha/2,df = 1,lower.tail = F)
+p_value <- pchisq(chi.stat,df =1,lower.tail = F)
+glue('chi.stat: {chi.stat}\nchi.crit: {chi.crit}\np-value: {p_value}')
+```
+
+### c. Now compare the results of 5a-5b with the built-in chi-square test in R. Which form is used by default in R for a 2x2 contingency table?
+
+```{r}
+chisq.test(obs)
+```
+The built in r function applies the Yates correction by default.
+
+### d. What conclusions can be drawn from these data and the test?
+
+We can conclude that offspring anadromy is independent from maternal anadromy
+
+### e. The data in Q5 can only have a certain number of possible outcomes, given the number of anadromous mothers, and the number of non-anadromous mothers. For example, there were six anadromous mothers, and thus the data for offspring could only be 0-6, 1-5, 2-4, 3-3, 4-2, 5-1, or 6-0 for the offspring. In this question, you will need to explore what it would take to change the result of the test (this is related to the power of the test). If the test was significant, what is the smallest change in the data that would lead to a non- significant result? If the test was not significant, what is the smallest change in the data that would lead to a significant result? What does this tell you about the available sample size compared to the required sample size to reject the null hypothesis?
