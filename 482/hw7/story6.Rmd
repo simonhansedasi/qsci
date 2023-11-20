@@ -55,9 +55,10 @@ f <- g_MS / e_MS
 
 f_crit <- qf(alpha, g_dof, e_dof,lower.tail = F)
 p <- pf(f, g_dof, e_dof,lower.tail = F)
-glue('ANOVA\nGroup SS: {g_ss}\nTotal SS: {tot_ss}\nError SS: {e_ss}
-Group DF: {g_dof}\nTotal DF: {tot_dof}\nError DF: {e_dof}
-F: {f}\nFcrit: {f_crit}\np-value: {p}')
+glue('ANOVA\nTotal SS: {signif(tot_ss,2)}\nGroup SS: {signif(g_ss,2)}
+Error SS: {signif(e_ss,2)}\nTotal DF: {signif(tot_dof,2)}\nGroup DF: {signif(g_dof,2)}
+Error DF: {signif(e_dof,2)}\nGroup MS: {signif(g_MS,2)}\nError MS: {signif(e_MS,2)}
+F: {signif(f,2)}\nFcrit: {signif(f_crit,2)}\np-value: {signif(p,2)}')
 ```
 
 
@@ -65,6 +66,7 @@ F: {f}\nFcrit: {f_crit}\np-value: {p}')
 ```{r}
 aov.res <- aov(Pain~Treatment,Xlong)
 summary(aov.res)
+glue('Groups MS: 14.800\nError MS: 2.948\np-value: 0.014')
 ```
 
 ### 1d. What do you conclude from running this test?
@@ -78,14 +80,12 @@ glue('# of combos = {(k*(k-1)) / 2}')
 ```
 
 ```{r}
-alpha <- 0.05
 # 1: calculate means of each group in ascending order
 gm <- data.frame()
 for (i in seq_along(colnames(df))){
   gm[i,1] <- colnames(df[i])
   gm[i,2] <- mean(df[,i])
 }
-
 colnames(gm)[1] <- 'Treatment'
 colnames(gm)[2] <- 'Mean'
 gm <- gm[order(gm$Mean),]
@@ -111,28 +111,37 @@ for (i in rev(gm$Mean) ){
     n <- n + 1
   }
 }
-
 colnames(gmdiff)[1] <- 'Treatment A'
 colnames(gmdiff)[2] <- 'Treatment B'
 colnames(gmdiff)[3] <- 'MeanDiff'
 
 # 3. Calculate error MS -- already have it from ANOVA
-
 # 4. calculate SE
-gmdiff$se <- sqrt(e_MS / length(df[,1]))
+se <- sqrt(e_MS / length(df[,1]))
+gmdiff$se <- signif(se,2)
 
 # 5. calculate q for each pairwise difference of means
-gmdiff$q <- gmdiff$MeanDiff / gmdiff$se
+q <- gmdiff$MeanDiff / gmdiff$se
+gmdiff$q <- signif(q,2)
 
 # 6. Find critical value 
-gmdiff$qcrit <- qtukey(1-alpha,k,e_dof,lower.tail = F)
+qcrit <- qtukey(1-alpha,k,e_dof,lower.tail = F)
+gmdiff$qcrit <- signif(qcrit,2)
 
 # 7. find p value
 for (i in 1:3){
-  gmdiff[i,'p'] <- ptukey(gmdiff[i,'q'],k,e_dof,lower.tail = F)
+  gmdiff[i,'p'] <- signif(ptukey(q[i],k,e_dof,lower.tail = F),2)
 }
+rownames(gmdiff) <- letters[1:3]
 gmdiff
 ```
+
+It appears groups a (Earphones & Music) and b (Earphones & Audiobook) both stand out with having a significant difference in mean level of pain. We can group them separate from group c (Audiobook & Music).
+
+\begin{equation}
+\underline{\text{a}  \quad \quad \text{b}}  \quad \quad \underline{\text{c}}
+\end{equation}
+
 
 
 ### 1f. Run a Tukey multiple comparison test the short way around.
@@ -151,32 +160,38 @@ Don't give them earphones as the mean pain level is statistically significantly 
 ### 2a. What is the total number of salmon that you need to tag with acoustic tags? Explain your workings, and do this the long way around.
 
 ```{r}
-alpha <- 0.05
-k <- 4
-d <- 0.5
-e_MS <- 6.5
-dp <- 0.9
-stop_difference <- 0.001
+alpha <- 0.05                  # Specified significance
+k <- 4                         # Num groups
+d <- 0.5                       # Detectable difference
+e_MS <- 6.5                    # A priori Error MS 
+dp <- 0.9                      # Desired power 
+stop_difference <- 0.001       # Break loop if calc power is close to dp
 
-n <- 1000
+n <- 1000                      # initial guess for each group n
 for (i in 1:100){
-  N <- n * k
+  N <- n * k                   # find total N for Degrees of Freedom
+                               # calculate phi for NCP
   phi <- sqrt(  (n * d^2) / (2 * k * e_MS)  )
-  ncp <- k * phi^2
   
+  ncp <- k * phi^2             # calculate NCP for alt F dist
+  
+  
+                               # calculate crit and power
   f.crit <- qf(alpha, k-1, N-k,lower.tail = F)
   power <- pf(f.crit,k-1, N-k, ncp = ncp, lower.tail = F)
   
+                               # check if we're close to desired power 
   if (abs(power - dp) <= stop_difference){
     break
   } 
+                               # If we're not close, adjust n for next guess
   else if (power < dp){
-    n <- ceiling(n + (n/2))}
+    n <- ceiling(n + (n/5))}
   else{
-    n <- ceiling(n - (n/2))
+    n <- ceiling(n - (n/5))
   }
 }
-glue('ANOVA power: {power}\nRequired N samples: {N}')
+glue('ANOVA power: {signif(power,2)}\nRequired total N samples: {N}')
 ```
 
 
@@ -186,8 +201,7 @@ glue('ANOVA power: {power}\nRequired N samples: {N}')
 ```{r}
 b <- 100000
 c <- 25
+n_samp <- b / c
 
-t_n <- b / c
-glue('Yes, we can sample {t_n} fish with a budget of ${b} at an individual cost ${c}, 
-     more than enough with our required {N} samples')
+glue('Yes, we can sample {n_samp} fish for {b} and come in ${b-(N*c)} under budget')
 ```
