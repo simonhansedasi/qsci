@@ -1,0 +1,61 @@
+---
+title: "QSCI 482 Story 7"
+author: "Simon Hans Edasi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,out.width='250px', dpi=200)
+library(car)
+
+```
+
+### 1a. Read the data into an R object and use the table() function to check that you have a balanced two-factor ANOVA design.
+
+Balanced design will have same $n$ for each factor.
+```{r}
+df <- read.csv('7 Guineapigdata.csv')
+df$supp <- as.factor(df$supp)
+df$dose <- as.factor(df$dose)
+table(df$supp)
+table(df$dose)
+```
+
+### 1b. For the rest of the assignment (for grading simplicity), choose the dose to be Factor A and the supplement type to be Factor B. Test the underlying assumptions of the two-factor ANOVA, using Levene’s Test (short way around) for homogeneity of variances. Write down your conclusions.
+
+Underlying assumptions:
+ 
+1. Variances are the same
+
+$H_0:$ Variances across factors are equal
+
+$H_A:$ Variances across factors are not equal
+```{r}
+leveneTest(len ~ dose*supp,data = df)
+```
+
+We fail to reject the null hypothesis that variances are equal.
+
+2. Data in each cell comes from a normally distributed population
+
+```{r}
+aov.res <- aov(len ~ dose*supp, data = df)
+plot(aov.res)
+```
+
+Residuals appear normally distributed, we appear to be good here.
+
+### 1c. Run a two-factor ANOVA on the data the short way around. Copy and paste the output table in R that includes the degrees of freedom, mean square, p-values etc. Interpret the resulting p-values in your own words.
+
+```{r}
+summary(aov.res)
+```
+
+### 1d. Provide the plot for standardized residuals, the Q-Q plot, and run a Shapiro-Wilks test (short-way around), to check whether the data are really normally distributed. Paste the plots into this document, and explain your conclusions about whether the data are normally distributed.
+
+```{r}
+
+
+
+```
