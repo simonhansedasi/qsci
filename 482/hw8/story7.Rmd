@@ -7,8 +7,9 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,out.width='250px', dpi=200)
+rm(list =)
 library(car)
-
+library(glue)
 ```
 
 ### 1a. Read the data into an R object and use the table() function to check that you have a balanced two-factor ANOVA design.
@@ -40,22 +41,166 @@ We fail to reject the null hypothesis that variances are equal.
 2. Data in each cell comes from a normally distributed population
 
 ```{r}
-aov.res <- aov(len ~ dose*supp, data = df)
-plot(aov.res)
+d1 <- shapiro.test(df$len[df$dose == 'Dose0.5' & df$supp == 'Pill'])
+d2 <- shapiro.test(df$len[df$dose == 'Dose0.5' & df$supp == 'OrangeJuice'])
+d3 <- shapiro.test(df$len[df$dose == 'Dose1' & df$supp == 'Pill'])
+d4 <- shapiro.test(df$len[df$dose == 'Dose1' & df$supp == 'OrangeJuice'])
+d5 <- shapiro.test(df$len[df$dose == 'Dose2' & df$supp == 'Pill'])
+d6 <- shapiro.test(df$len[df$dose == 'Dose2' & df$supp == 'OrangeJuice'])
+
+glue('p-values\ncell1: {d1[2]}\ncell2: {d2[2]}\ncell3: {d3[2]}\ncell4: {d4[2]}
+cell5: {d5[2]}\ncell6: {d6[2]}')
 ```
 
-Residuals appear normally distributed, we appear to be good here.
+Cells appear normally distributed, we're good here.
 
 ### 1c. Run a two-factor ANOVA on the data the short way around. Copy and paste the output table in R that includes the degrees of freedom, mean square, p-values etc. Interpret the resulting p-values in your own words.
 
+$H_0:$ No effect of dose on tooth length
+
+$H_0:$ No effect of supplement on tooth length
+
+$H_0:$ No interaction effect of dose and supplement on tooth length
 ```{r}
+aov.res <- aov(len ~ dose*supp, data = df)
 summary(aov.res)
 ```
 
+Factor A, B, and AxB all have p-values less than 0.05, which means we should reject all three null hypotheses that both dose and supplement have no effect, and their interactions have no effect. We are left conclude that tooth length is dependent on both the dose size, supplement given, and an interaction between the two factors.
+
+\clearpage
 ### 1d. Provide the plot for standardized residuals, the Q-Q plot, and run a Shapiro-Wilks test (short-way around), to check whether the data are really normally distributed. Paste the plots into this document, and explain your conclusions about whether the data are normally distributed.
 
 ```{r}
-
-
-
+plot(aov.res,1)
+plot(aov.res,2)
+shapiro.test(df$len)
 ```
+Both residuals and Q-Q plots look normal, and the Shapiro-Wilk normality test concludes the data are normally distributed.
+
+
+### 1e. Plot the interaction plot for these data. What do you conclude from this plot?
+
+```{r}
+?interaction.plot()
+interaction.plot(x.factor = df$dose, trace.factor = df$supp, response = df$len,
+                 xlab = 'Dose', ylab = 'Mean Tooth Length', trace.label = 'Supplement')
+```
+
+This interaction plot shows that increasing the dose for either supplement will increase values of mean tooth length. OJ appears to be a better supplement for lower doses but OJ has similar effectiveness as pills at higher dose.
+
+### 1f. Run the two-factor ANOVA the long way around for these data. Report the intermediate steps involving calculating the means (grand mean, means of the levels of each factor, cell means), sums of squares and DF (total, factor A, factor B, interaction, error), the relevant mean squares, F statistics, and p-values. Report your final answers in a table similar to that presented in the lectures.
+
+```{r}
+alpha <- 0.05
+# Find grand mean
+gm <- mean(df$len)
+
+#find total sum of squares
+tss <- sum((df$len - gm)^2)
+
+#total DF
+N <- nrow(df)
+tdf <- N-1
+
+# find cell SS
+doses <- c('Dose0.5','Dose1','Dose2')
+supps <- c('Pill','OrangeJuice')
+cellss <- 0
+a <- length(doses)
+b <- length(supps)
+for (i in doses){
+  for (j in supps){
+    cell_mean = mean(df$len[df$supp == j & df$dose == i])
+    cellss <- cellss + (cell_mean - gm)^2
+  }
+}
+n <- length(df$len[df$supp == 'Pill' & df$dose == 'Dose1'])
+cellss <- n * cellss
+celldf <- a*b - 1
+
+# error SS and df
+ess <- tss - cellss
+edf <- tdf - celldf
+
+# factor A (doses) SS and df
+fass <- 0
+for (i in doses){
+  famean <- mean(df$len[df$dose == i])
+  fass <- fass + (famean - gm)^2
+}
+fass <- b*n*fass
+fadf <- a-1
+
+# factor B (supp) SS and df
+fbss <- 0
+for (i in supps){
+  fbmean <- mean(df$len[df$supp == i])
+  fbss <- fbss + (fbmean - gm)^2
+}
+fbss <- a*n*fbss
+fbdf <- b-1
+
+# Interaction SS and df
+intss <- cellss - fass - fbss
+intdf <- celldf - fadf - fbdf
+
+# MS
+faMS <- fass / fadf
+fbMS <- fbss / fbdf
+intMS <- intss / intdf
+eMS <- ess / edf
+
+# F statistics
+fa <- faMS / eMS
+fb <- fbMS / eMS
+fint <- intMS / eMS
+
+fcrita <- qf(alpha, df1 = fadf, df2 = edf, lower.tail = FALSE)
+fcritb <- qf(alpha, df1 = fbdf, df2 = edf, lower.tail = FALSE)
+fcritint <- qf(alpha, df1 = intdf, df2 = edf, lower.tail = FALSE)
+
+
+
+h1 <- pf(fa, fadf, edf, lower.tail = FALSE)
+h2 <- pf(fb, fbdf, edf, lower.tail = FALSE)
+h3 <- pf(fint, intdf, edf, lower.tail = FALSE)
+print(h1)
+print(h2)
+print(h3)
+```
+
+<!-- \begin{center} -->
+<!-- \begin{tabular}{ c c c } -->
+<!--  cell1 & cell2 & cell3 \\  -->
+<!--  cell4 & cell5 & cell6 \\   -->
+<!--  cell7 & cell8 & cell9     -->
+<!-- \end{tabular} -->
+<!-- \end{center} -->
+
+
+<!-- # ```{r} -->
+<!-- # # Install apaTables package if not installed -->
+<!-- # # install.packages("apaTables") -->
+<!-- #  -->
+<!-- # # Load required libraries -->
+<!-- # library(apaTables) -->
+<!-- #  -->
+<!-- # # Create a sample dataset with two factors (A and B) -->
+<!-- # set.seed(123) -->
+<!-- # data <- data.frame( -->
+<!-- #   A = rep(c("Level1", "Level2", "Level3"), each = 10), -->
+<!-- #   B = rep(c("Factor1", "Factor2"), each = 15), -->
+<!-- #   Response = rnorm(30) -->
+<!-- # ) -->
+<!-- #  -->
+<!-- # # Fit the ANOVA model -->
+<!-- # model <- aov(Response ~ A * B, data = data) -->
+<!-- #  -->
+<!-- # # Create an ANOVA results table in LaTeX format -->
+<!-- # anova_table <- apa.aov.table(model, file = "") -->
+<!-- #  -->
+<!-- # # Print the LaTeX code for the table -->
+<!-- # cat(anova_table, file = "anova_table.tex") -->
+<!-- # ``` -->
+
