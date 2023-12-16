@@ -98,11 +98,9 @@ gm <- mean(df$len)
 
 #find total sum of squares
 tss <- sum((df$len - gm)^2)
-
 #total DF
 N <- nrow(df)
 tdf <- N-1
-
 # find cell SS
 doses <- c('Dose0.5','Dose1','Dose2')
 supps <- c('Pill','OrangeJuice')
@@ -118,11 +116,9 @@ for (i in doses){
 n <- length(df$len[df$supp == 'Pill' & df$dose == 'Dose1'])
 cellss <- n * cellss
 celldf <- a*b - 1
-
 # error SS and df
 ess <- tss - cellss
 edf <- tdf - celldf
-
 # factor A (doses) SS and df
 fass <- 0
 for (i in doses){
@@ -131,7 +127,6 @@ for (i in doses){
 }
 fass <- b*n*fass
 fadf <- a-1
-
 # factor B (supp) SS and df
 fbss <- 0
 for (i in supps){
@@ -140,17 +135,14 @@ for (i in supps){
 }
 fbss <- a*n*fbss
 fbdf <- b-1
-
 # Interaction SS and df
 intss <- cellss - fass - fbss
 intdf <- celldf - fadf - fbdf
-
 # MS
 faMS <- fass / fadf
 fbMS <- fbss / fbdf
 intMS <- intss / intdf
 eMS <- ess / edf
-
 # F statistics
 fa <- faMS / eMS
 fb <- fbMS / eMS
@@ -170,37 +162,4 @@ print(h2)
 print(h3)
 ```
 
-<!-- \begin{center} -->
-<!-- \begin{tabular}{ c c c } -->
-<!--  cell1 & cell2 & cell3 \\  -->
-<!--  cell4 & cell5 & cell6 \\   -->
-<!--  cell7 & cell8 & cell9     -->
-<!-- \end{tabular} -->
-<!-- \end{center} -->
-
-
-<!-- # ```{r} -->
-<!-- # # Install apaTables package if not installed -->
-<!-- # # install.packages("apaTables") -->
-<!-- #  -->
-<!-- # # Load required libraries -->
-<!-- # library(apaTables) -->
-<!-- #  -->
-<!-- # # Create a sample dataset with two factors (A and B) -->
-<!-- # set.seed(123) -->
-<!-- # data <- data.frame( -->
-<!-- #   A = rep(c("Level1", "Level2", "Level3"), each = 10), -->
-<!-- #   B = rep(c("Factor1", "Factor2"), each = 15), -->
-<!-- #   Response = rnorm(30) -->
-<!-- # ) -->
-<!-- #  -->
-<!-- # # Fit the ANOVA model -->
-<!-- # model <- aov(Response ~ A * B, data = data) -->
-<!-- #  -->
-<!-- # # Create an ANOVA results table in LaTeX format -->
-<!-- # anova_table <- apa.aov.table(model, file = "") -->
-<!-- #  -->
-<!-- # # Print the LaTeX code for the table -->
-<!-- # cat(anova_table, file = "anova_table.tex") -->
-<!-- # ``` -->
-
+Please see attached file for ANOVA summary.
